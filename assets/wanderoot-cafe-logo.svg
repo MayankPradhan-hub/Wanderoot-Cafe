@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <!-- Minimalist vintage artisanal cafe emblem and typography for Wanderoot Cafe -->
+  <g fill="none" stroke="#3d271d" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Emblem: Coffee cup nesting inside roots / botanical deodar pine motif -->
+    <circle cx="28" cy="30" r="22" stroke-width="1.8" stroke="#3d271d" />
+    <circle cx="28" cy="30" r="19.5" stroke-width="0.8" stroke="#3d271d" stroke-dasharray="2 2" />
+    <!-- Stylized cup and warm steam -->
+    <path d="M20 28 C20 36 24 38 28 38 C32 38 36 36 36 28 Z" fill="#3d271d" stroke="none" />
+    <path d="M36 30 C38.5 30 39.5 32 38.5 34 C37.5 35.5 36 35 36 35" stroke-width="1.2" />
+    <path d="M19 39 L37 39" stroke-width="1.5" />
+    <!-- Roots emerging below cup -->
+    <path d="M25 39 C24 43 21 46 18 47" stroke-width="1.2" />
+    <path d="M28 39 C28 44 28 47 28 49" stroke-width="1.2" />
+    <path d="M31 39 C32 43 35 46 38 47" stroke-width="1.2" />
+    <!-- Delicate aromatic steam curls -->
+    <path d="M25 25 C24 23 26 21 25 19" stroke-width="1" />
+    <path d="M28 24 C27 22 29 20 28 17" stroke-width="1" />
+    <path d="M31 25 C30 23 32 21 31 19" stroke-width="1" />
+  </g>
+  <!-- Brand Typography -->
+  <text x="62" y="32" font-family="'EB Garamond', Garamond, Georgia, serif" font-size="21" font-weight="700" letter-spacing="1.2" fill="#3d271d">WANDEROOT</text>
+  <text x="63" y="47" font-family="'Cinzel', 'EB Garamond', serif" font-size="9" font-weight="600" letter-spacing="3" fill="#7a533f">CAFE &amp; ROASTERY</text>
+</svg>
