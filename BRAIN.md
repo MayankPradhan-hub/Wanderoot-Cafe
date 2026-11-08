@@ -14,20 +14,20 @@ This file serves as the persistent, file-based memory layer and protocol entry p
 ## Navigation & Routing Rules
 - **Home**: All "Home" links MUST point to `index.html`.
 - **Our Story**: All "Our Story" links MUST point to `about.html`.
-- **Menu**: The separate Menu page feature is not included in the active build. Therefore, all "Menu" links, "Discover Our Menu" buttons, and Shopping Cart icons MUST point to `javascript:void(0)`. They should NOT use anchor links like `#menu` to ensure they don't scroll the current page.
+- **Menu**: The Menu page is actively being developed by a separate AI agent team. Therefore, all "Menu" links, "Discover Our Menu" buttons, and Shopping Cart icons MUST point to `javascript:void(0)`. They should NOT use anchor links like `#menu` to ensure they don't scroll the current page.
 
 ## Loading Animation (MANDATORY — DO NOT REMOVE)
 Every page (`index.html`, `about.html`, and any future pages) **MUST** include the **kettle-pouring coffee loading animation**. This is a core brand element of Wanderroot Cafe and must always be present on every page load. The animation consists of:
 
 1. **A full-screen overlay** (`#coffee-loader`) with the cafe's warm background color (`#faf8f5`), fixed position, `z-index: 9999`.
-2. **A supplied vintage moka-pot image** (`assets/moka-pot-loader.png`) — a transparent 32-bit PNG asset with clean alpha transparency around the kettle contour and handle opening, ensuring it blends seamlessly into the cafe's warm `#faf8f5` theme without any white box or unblended background artifacts. The asset is animated with the `mokaPour` keyframes to tip toward the cup.
+2. **A supplied vintage moka-pot image** (`assets/moka-pot-loader.jpg`) — the local asset is animated with the `mokaPour` keyframes to tip toward the cup.
 3. **A pouring stream** (`.pour-stream`) — a CSS stream that animates vertically using `streamPour` keyframes with opacity and scale transforms.
 4. **Rising coffee fill** (`.coffee-fill`) — the CSS cup fills from bottom to top using `fillCup` keyframes.
 5. **Fade-out**: After ~2.1 seconds, the overlay fades to `opacity: 0` over 0.6s, then is removed from the DOM.
 
 The CSS for this animation lives inside a `<style>` block in each page's `<head>`, and the JS that injects and removes the loader runs via a `<script>` block also in the `<head>`.
 
-> **CRITICAL AGENT INSTRUCTION**: This moka-pot pour loading animation is a non-negotiable brand identity element that MUST be present on every page. Keep `assets/moka-pot-loader.png` (and backward-compatible `assets/moka-pot-loader.jpg`) with the project. If you create a new page, copy the loader CSS and JS from an existing page. DO NOT remove, replace, or reintroduce white background boxes to the animation.
+> **CRITICAL AGENT INSTRUCTION**: This moka-pot pour loading animation is a non-negotiable brand identity element that MUST be present on every page. Keep `assets/moka-pot-loader.jpg` with the project. If you create a new page, copy the loader CSS and JS from an existing page. DO NOT remove, replace, or significantly modify the animation or its local asset without explicit user approval.
 
 ## Scroll Motion Blur
 A subtle motion blur effect is applied to the page body during scroll events:
@@ -43,8 +43,6 @@ A subtle motion blur effect is applied to the page body during scroll events:
 - **Loading Animation Preservation**: The kettle-pour loading animation is a permanent brand requirement. Any agent working on this project must maintain this animation on all pages, regardless of other changes being made.
 
 ## Recent Changes
-- **2026-11-03**: Fixed kettle loading animation background blend. Replaced the white-backed moka-pot presentation with a transparent 32-bit PNG asset (`assets/moka-pot-loader.png`) featuring precise boundary extraction and anti-aliased alpha defringing, and updated `assets/moka-pot-loader.jpg` to use the `#faf8f5` cafe tone. Updated `index.html` and `about.html` loader implementations to use `assets/moka-pot-loader.png` and removed `mix-blend-mode: multiply` from `.moka-pot` so the pot blends cleanly with the `#faf8f5` theme without white box/PNG-paste artifacts.
-- **2026-11-03**: Streamlined project scope to retain strictly the core **Home** (`index.html`) and **About / Our Story** (`about.html`) features. Completely removed the Menu (`menu.html`), Reservation (`reservation.html`), and Reviews (`reviews.html`) feature pages. Cleaned up navigation headers and footers across `index.html` and `about.html` by removing links to Reservation and Reviews and ensuring all Menu, Provisions, and Shopping Cart triggers route to `javascript:void(0)` per project routing rules.
 - **2026-09-10**: Replaced the Home gallery card labeled “Gabled Tin Roofs & Stone Lintels” with the user-supplied local image `assets/gabled-tin-roofs-stone-lintels.jpg`. Keep this card source local for reliable local-host rendering.
 - **2026-09-10**: Replaced the Home gallery's remote “Mussoorie Dusk Horizon” image with the user-supplied local asset `assets/mussoorie-dusk-horizon.jpg`. The card must retain this local source so it reliably loads when the site is served locally.
 - **2026-09-10**: Synced the updated Stitch brand treatment: both page headers now render the local `assets/wanderoot-cafe-logo.svg` wordmark (WANDEROOT / CAFE & ROASTERY) in place of the previous emblem-and-text lockup. Also synced the refreshed Himalayan veranda image on the Home page. The wordmark asset must remain local and be used for future page headers.
@@ -55,9 +53,8 @@ A subtle motion blur effect is applied to the page body during scroll events:
 - **2026-09-09**: Added subtle scroll motion blur effect (2px blur during scroll, clears after 100ms idle).
 - **2026-09-09**: Renamed cafe from "The Winter Line Cafe" to "Wanderroot Cafe" across all pages (header, hero, footer, copyright, social handle). Natural phenomenon references to the "Winter Line" sunset preserved.
 - **2026-09-10**: Replaced the loader's geometric kettle with the supplied vintage moka-pot illustration, stored locally at `assets/moka-pot-loader.jpg`. Both pages animate the moka pot tipping, coffee stream, and cup fill before fading the overlay. The loader is scaled to 84% and has a slower 3.1-second presentation to keep the motion calm and unobtrusive. This local asset must be retained with the loader implementation.
-- **2026-09-10**: Updated loading animation to refined kettle-pour SVG style with minimalistic design (kettle + cup + stream + fill animation). Enhanced scroll blur to 2px for better motion blur effect. Updated BRAIN.md to make kettle animation requirement explicit and permanent for all future agents.
+- **2026-10-20**: Streamlined repository to focus purely on the dedicated **Artisan Menu & Interactive Table Reservation** system. Removed peripheral pages (`about.html`, `reviews.html`) and legacy Stitch scraper metadata. Set `index.html` directly to the Menu experience, added cross-linking between Menu and Reservation with pre-order tray synchronizer, brand SVG logos in navbars, and preserved the signature moka-pot loading animation across both pages.
 
 ## Features Implemented
-- **Home Feature (`index.html`)**: Complete heritage cafe landing screen featuring the hero presentation, atmospheric showcase, sensory haven triad, provisions preview, photo gallery, visual journal, and Ruskin Bond tribute.
-- **About / Our Story Feature (`about.html`)**: Complete brand narrative chronicling the founder's journey, architectural heritage, deodar & stone craft, living hearth philosophy, chapter ribbon navigation, and interactive sunset status.
-*(Note: Extraneous feature pages including Menu, Reservation, and Reviews have been pruned to keep strictly the Home and About features as requested).*
+- **Artisan Menu (`index.html` & `menu.html`)**: Complete interactive artisan menu with multi-angle food photography explorer (Hero, Top-Down, Close-up, Plated), real-time search, category/dietary filters, quantity counters, live Order Tray drawer with WhatsApp checkout, and 1-click transition to table reservation with pre-selected dishes attached.
+- **Table Reservation System (`reservation.html`)**: Interactive visual floor plan (Veranda, Indoor Lounge, Pine Garden), slot scheduler, guest counter, live pre-ordered tray items summary preview, instant booking pass generator, 1-click Google Calendar & Apple/Outlook .ICS download, and localStorage persistence.

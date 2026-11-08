@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderoot Café - Reserve a Table & Interactive Floor Plan</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        /* Coffee Loader — Kettle Pour Animation */
+        #coffee-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #faf8f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+        .loader-stage { position: relative; width: 210px; height: 235px; transform: scale(.84); }
+        .moka-pot { position: absolute; top: 0; right: 0; width: 180px; mix-blend-mode: multiply; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
+        .pour-stream { position: absolute; top: 109px; left: 31px; width: 5px; height: 69px; border-radius: 999px; background: #3d271d; transform-origin: top; opacity: 0; animation: streamPour 1.9s ease-in-out .62s forwards; }
+        .loader-cup { position: absolute; top: 172px; left: 0; width: 74px; height: 46px; overflow: hidden; border: 2px solid #3d271d; border-top: 0; border-radius: 0 0 15px 15px; }
+        .loader-cup::after { content: ''; position: absolute; top: 7px; right: -15px; width: 11px; height: 24px; border: 2px solid #3d271d; border-left: 0; border-radius: 0 13px 13px 0; }
+        .coffee-fill { position: absolute; inset: auto 0 0; height: 100%; background: #3d271d; transform-origin: bottom; transform: scaleY(0); animation: fillCup 1.9s ease-out .75s forwards; }
+        @keyframes mokaPour { 0%, 14% { transform: rotate(0deg); } 30%, 76% { transform: rotate(-16deg) translate(-4px, 3px); } 100% { transform: rotate(0deg); } }
+        @keyframes streamPour { 0% { opacity: 0; transform: scaleY(0); } 14%, 78% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(.7); } }
+        @keyframes fillCup { from { transform: scaleY(0); } to { transform: scaleY(.86); } }
+
+        :root {
+            --bg-creamy: #f8f3ec;
+            --bg-card: #ffffff;
+            --nav-bg: #fffaf3;
+            --brown-dark: #2d1a10;
+            --brown-deep: #3b2416;
+            --brown-medium: #6f4e37;
+            --brown-warm: #a66a35;
+            --brown-gold: #c28d54;
+            --brown-light: #d8b99d;
+            --brown-border: #dfd1c3;
+            --accent-green: #2e7d32;
+            --accent-red: #c62828;
+            --text-muted: #74584c;
+            --shadow-sm: 0 4px 12px rgba(61, 39, 29, 0.06);
+            --shadow-md: 0 8px 24px rgba(61, 39, 29, 0.1);
+            --shadow-lg: 0 16px 36px rgba(45, 26, 16, 0.16);
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--bg-creamy);
+            color: var(--brown-deep);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif-font { font-family: 'EB Garamond', Georgia, serif; }
+
+        nav {
+            background-color: var(--nav-bg);
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--brown-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #4a2c1a;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--brown-deep);
+            font-size: 14.5px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active { color: var(--brown-warm); }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brown-warm);
+            border-radius: 2px;
+        }
+
+        .nav-cta-btn {
+            background-color: var(--brown-warm);
+            color: #ffffff !important;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 10px rgba(166, 106, 53, 0.25);
+        }
+
+        .nav-cta-btn:hover {
+            background-color: var(--brown-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(45, 26, 16, 0.3);
+        }
+
+        .hero {
+            background-color: var(--brown-dark);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero .small-heading {
+            color: var(--brown-light);
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            font-weight: 600;
+            margin: 10px 0 16px;
+            line-height: 1.15;
+        }
+
+        .hero p {
+            color: #eaded3;
+            font-size: 16.5px;
+            max-width: 620px;
+            margin: 0 auto 10px;
+        }
+
+        .reservation-layout-wrapper {
+            max-width: 1200px;
+            margin: 40px auto 70px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 32px;
+        }
+
+        .booking-card {
+            background: white;
+            border: 1px solid var(--brown-border);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-tag {
+            color: var(--brown-warm);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .booking-card h2 {
+            font-size: 32px;
+            color: var(--brown-dark);
+            margin-bottom: 24px;
+            border-bottom: 1px solid #ebdcca;
+            padding-bottom: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            font-size: 13.5px;
+            color: var(--brown-deep);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid #c9b29e;
+            border-radius: 10px;
+            background-color: #fffdf9;
+            font-size: 14.5px;
+            font-family: inherit;
+            color: var(--brown-dark);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--brown-warm);
+            box-shadow: 0 0 0 3px rgba(166, 106, 53, 0.15);
+        }
+
+        .slots-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 16px 0 10px;
+            color: var(--brown-dark);
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .time-slot-btn {
+            background: #faf6f1;
+            border: 1px solid #ddccbc;
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .time-slot-btn .slot-time { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
+        .time-slot-btn .slot-badge { font-size: 10px; color: var(--brown-warm); font-weight: 600; }
+
+        .time-slot-btn:hover { background: #f1e5d8; border-color: var(--brown-warm); }
+        .time-slot-btn.active {
+            background: var(--brown-medium);
+            border-color: var(--brown-medium);
+            color: white;
+            box-shadow: 0 4px 10px rgba(111, 78, 55, 0.25);
+        }
+        .time-slot-btn.active .slot-time, .time-slot-btn.active .slot-badge { color: white; }
+
+        .occasion-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .occasion-pill {
+            background: #faf6f1;
+            border: 1px solid #ebd8c8;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .occasion-pill:hover { border-color: var(--brown-warm); background: #f3e9de; }
+        .occasion-pill.active { background: var(--brown-dark); color: white; border-color: var(--brown-dark); }
+
+        .book-submit-btn {
+            width: 100%;
+            background-color: var(--brown-medium);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .book-submit-btn:hover {
+            background-color: var(--brown-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .floorplan-card {
+            background: white;
+            border: 1px solid var(--brown-border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .floorplan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ebdcca;
+            padding-bottom: 12px;
+        }
+
+        .floorplan-header h3 { font-size: 24px; color: var(--brown-dark); }
+        .legend-bar { display: flex; gap: 14px; font-size: 12px; margin-bottom: 8px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+        .legend-dot.avail { background: #e2f0d9; border: 1px solid #70ad47; }
+        .legend-dot.selected { background: #a66a35; border: 1px solid #6f4e37; }
+        .legend-dot.booked { background: #f2d7d5; border: 1px solid #c0392b; }
+
+        .floor-map {
+            background: #faf6f0;
+            border: 2px dashed #d8c6b5;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+        }
+
+        .zone-block {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #e1d3c5;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .zone-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--brown-medium);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .tables-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; }
+        .table-node {
+            background: #eef7eb;
+            border: 1.5px solid #68a855;
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .table-node:hover { transform: scale(1.05); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .table-node.selected {
+            background: var(--brown-warm) !important;
+            border-color: var(--brown-dark) !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(166, 106, 53, 0.4);
+        }
+        .table-node.selected * { color: white !important; }
+        .table-node.booked { background: #fbf0ee; border-color: #d99a93; cursor: not-allowed; opacity: 0.65; }
+        .table-node.booked * { color: #8e6863 !important; }
+
+        .table-num { font-weight: 700; font-size: 13px; color: var(--brown-dark); }
+        .table-cap { font-size: 11px; color: #6a574b; }
+
+        .selected-table-preview-card {
+            background: #faf2ea;
+            border: 1px solid #ebd0bc;
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .my-bookings-container { max-width: 1200px; margin: 0 auto 60px; padding: 0 20px; }
+        .my-bookings-card {
+            background: white;
+            border: 1px solid var(--brown-border);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .my-bookings-card h3 { font-size: 26px; color: var(--brown-dark); margin-bottom: 16px; }
+
+        .booking-pass-item {
+            background: #fffdf9;
+            border: 1px solid var(--brown-border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .booking-pass-info h4 { font-size: 20px; color: var(--brown-dark); }
+        .booking-pass-meta { font-size: 13.5px; color: #644f42; display: flex; gap: 16px; margin-top: 4px; flex-wrap: wrap; }
+        .pass-actions { display: flex; gap: 10px; align-items: center; }
+        .pass-btn {
+            background: #f3e5d8;
+            border: 1px solid #d8c3b0;
+            color: var(--brown-dark);
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .pass-btn:hover { background: var(--brown-medium); color: white; }
+        .pass-btn.cancel:hover { background: var(--accent-red); border-color: var(--accent-red); color: white; }
+
+        .confirm-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(30, 16, 9, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .confirm-modal-overlay.active { display: flex; }
+
+        .ticket-modal-card {
+            background: white;
+            border-radius: 24px;
+            max-width: 580px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: ticketPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        @keyframes ticketPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .ticket-header {
+            background: var(--brown-dark);
+            color: white;
+            text-align: center;
+            padding: 28px 20px;
+        }
+        .ticket-header .icon-circle {
+            width: 60px; height: 60px;
+            background: var(--brown-warm);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 26px;
+            color: white;
+        }
+        .ticket-header h2 { font-size: 30px; }
+        .ticket-ref { font-family: monospace; font-size: 15px; letter-spacing: 2px; color: var(--brown-light); margin-top: 4px; }
+        .ticket-body { padding: 28px; }
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            background: #faf6f1;
+            border: 1px dashed var(--brown-border);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 22px;
+        }
+        .ticket-field .t-label { font-size: 11px; font-weight: 700; color: #7d6555; text-transform: uppercase; letter-spacing: 1px; }
+        .ticket-field .t-val { font-size: 14.5px; font-weight: 700; color: var(--brown-dark); margin-top: 2px; }
+
+        .app-connect-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .app-btn {
+            padding: 12px;
+            border-radius: 25px;
+            font-size: 13.5px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .app-btn.calendar { background: #4285F4; color: white; }
+        .app-btn.whatsapp { background: #25D366; color: white; }
+        .app-btn.ics { background: #3b2416; color: white; grid-column: 1 / -1; }
+
+        .close-ticket-btn {
+            width: 100%;
+            background: #f1e4d6;
+            color: var(--brown-dark);
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        footer {
+            background-color: #21130c;
+            color: #d6c5b5;
+            text-align: center;
+            padding: 24px 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 860px) {
+            nav { flex-direction: column; gap: 15px; padding: 16px 5%; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px; }
+            .reservation-layout-wrapper { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .app-connect-buttons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo-container">
+            <img src="assets/wanderoot-cafe-logo.svg" alt="Wanderoot Café" height="38" style="vertical-align: middle;" onerror="this.style.display='none'; document.getElementById('resTextLogo').style.display='block';">
+            <div id="resTextLogo" class="logo" style="display: none;">☕ WANDEROOT CAFÉ</div>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-utensils"></i> Menu</a>
+            <a href="reservation.html" class="active"><i class="fa-regular fa-calendar-check"></i> Reservation</a>
+            <a href="index.html" class="nav-cta-btn"><i class="fa-solid fa-mug-saucer"></i> Explore Menu</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="small-heading">ELEVATE YOUR COFFEE & BRUNCH EXPERIENCE</div>
+            <h1>Reserve Your Table & Nook</h1>
+            <p>Select your favorite sunlit veranda chair, cozy fireplace booth, or pine garden patio table. Guaranteed seating with instant confirmation & calendar integration.</p>
+        </div>
+    </section>
+
+    <div class="reservation-layout-wrapper">
+        <div class="booking-card">
+            <div class="section-tag">INSTANT RESERVATION</div>
+            <h2>Table Booking Form</h2>
+
+            <form id="reservationForm" onsubmit="handleReservationSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guestName"><i class="fa-regular fa-user"></i> Full Name *</label>
+                        <input type="text" id="guestName" placeholder="e.g. Maya Sharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guestPhone"><i class="fa-solid fa-phone"></i> Phone / WhatsApp *</label>
+                        <input type="tel" id="guestPhone" placeholder="+91 98765 43210" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guestEmail"><i class="fa-regular fa-envelope"></i> Email Address</label>
+                        <input type="email" id="guestEmail" placeholder="maya@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="guestCount"><i class="fa-solid fa-users"></i> Number of Guests *</label>
+                        <select id="guestCount" required onchange="filterTablesByCapacity()">
+                            <option value="1">1 Guest (Solo Coffee / Work)</option>
+                            <option value="2" selected>2 Guests (Cozy Pair / Date)</option>
+                            <option value="3">3 Guests (Small Group)</option>
+                            <option value="4">4 Guests (Standard Family Table)</option>
+                            <option value="6">5-6 Guests (Large Booth / Patio)</option>
+                            <option value="8">7-10 Guests (Long Veranda Table)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookDate"><i class="fa-regular fa-calendar"></i> Reservation Date *</label>
+                        <input type="date" id="bookDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="seatingZone"><i class="fa-solid fa-couch"></i> Preferred Seating Zone</label>
+                        <select id="seatingZone" onchange="highlightZone(this.value)">
+                            <option value="all">Any Delightful Table</option>
+                            <option value="veranda">Sunlit Greenhouse Veranda (Valley View)</option>
+                            <option value="indoor">Indoor Fireplace & Lounge</option>
+                            <option value="garden">Himalayan Pine Garden Patio (Outdoor)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="slots-title"><i class="fa-regular fa-clock"></i> Select Time Slot *</div>
+                <div class="slots-grid" id="slotsGrid">
+                    <div class="time-slot-btn active" onclick="selectTimeSlot('08:30 AM', this)">
+                        <span class="slot-time">08:30 AM</span>
+                        <span class="slot-badge">Morning Brew</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('10:00 AM', this)">
+                        <span class="slot-time">10:00 AM</span>
+                        <span class="slot-badge">Breakfast</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('11:30 AM', this)">
+                        <span class="slot-time">11:30 AM</span>
+                        <span class="slot-badge">Brunch</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('01:30 PM', this)">
+                        <span class="slot-time">01:30 PM</span>
+                        <span class="slot-badge">Lunch</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('04:00 PM', this)">
+                        <span class="slot-time">04:00 PM</span>
+                        <span class="slot-badge">High Tea</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('05:30 PM', this)">
+                        <span class="slot-time">05:30 PM</span>
+                        <span class="slot-badge">Sunset Line</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('07:30 PM', this)">
+                        <span class="slot-time">07:30 PM</span>
+                        <span class="slot-badge">Dinner</span>
+                    </div>
+                    <div class="time-slot-btn" onclick="selectTimeSlot('09:00 PM', this)">
+                        <span class="slot-time">09:00 PM</span>
+                        <span class="slot-badge">Late Dessert</span>
+                    </div>
+                </div>
+
+                <label><i class="fa-solid fa-champagne-glasses"></i> Occasion (Optional)</label>
+                <div class="occasion-container">
+                    <div class="occasion-pill active" onclick="selectOccasion('Casual Hangout / Coffee', this)">☕ Casual Coffee</div>
+                    <div class="occasion-pill" onclick="selectOccasion('Birthday Celebration', this)">🎂 Birthday</div>
+                    <div class="occasion-pill" onclick="selectOccasion('Romantic Date', this)">🍷 Date Night</div>
+                    <div class="occasion-pill" onclick="selectOccasion('Work & Study Session', this)">💻 Work & Study</div>
+                    <div class="occasion-pill" onclick="selectOccasion('Anniversary', this)">✨ Anniversary</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="specialNotes"><i class="fa-regular fa-comment-dots"></i> Special Requests / Dietary Needs</label>
+                    <textarea id="specialNotes" rows="2" placeholder="e.g. Window side preferred, preparing a birthday dessert candle, high-chair needed..."></textarea>
+                </div>
+
+                <button type="submit" class="book-submit-btn">
+                    <i class="fa-solid fa-circle-check"></i> Confirm Reservation Table
+                </button>
+            </form>
+        </div>
+
+        <div class="floorplan-card">
+            <div class="floorplan-header">
+                <div>
+                    <h3>Interactive Floor Plan</h3>
+                    <p style="font-size: 13px; color: var(--text-muted);">Pick an exact table on the layout</p>
+                </div>
+                <div class="legend-bar">
+                    <div class="legend-item"><span class="legend-dot avail"></span> Available</div>
+                    <div class="legend-item"><span class="legend-dot selected"></span> Selected</div>
+                    <div class="legend-item"><span class="legend-dot booked"></span> Booked</div>
+                </div>
+            </div>
+
+            <div class="floor-map">
+                <div class="zone-block" id="zone-veranda">
+                    <div class="zone-title"><i class="fa-solid fa-sun" style="color: #e67e22;"></i> Sunlit Greenhouse Veranda (Valley View)</div>
+                    <div class="tables-row">
+                        <div class="table-node selected" id="tab-V1" onclick="selectTable('V1', 'Veranda Table 01 (Window View)', 2)">
+                            <div class="table-num">V-01</div>
+                            <div class="table-cap">2 Seats 🪟</div>
+                        </div>
+                        <div class="table-node" id="tab-V2" onclick="selectTable('V2', 'Veranda Table 02 (Valley Panorama)', 2)">
+                            <div class="table-num">V-02</div>
+                            <div class="table-cap">2 Seats 🪟</div>
+                        </div>
+                        <div class="table-node" id="tab-V3" onclick="selectTable('V3', 'Veranda Table 03 (Large Family Table)', 6)">
+                            <div class="table-num">V-03</div>
+                            <div class="table-cap">6 Seats 🌿</div>
+                        </div>
+                        <div class="table-node" id="tab-V4" onclick="selectTable('V4', 'Veranda Table 04 (Corner Nook)', 4)">
+                            <div class="table-num">V-04</div>
+                            <div class="table-cap">4 Seats ☕</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-block" id="zone-indoor">
+                    <div class="zone-title"><i class="fa-solid fa-fire" style="color: #d35400;"></i> Indoor Fireplace & Cozy Lounge</div>
+                    <div class="tables-row">
+                        <div class="table-node" id="tab-F1" onclick="selectTable('F1', 'Fireplace Booth 01', 4)">
+                            <div class="table-num">F-01</div>
+                            <div class="table-cap">4 Seats 🔥</div>
+                        </div>
+                        <div class="table-node booked" title="Reserved by another guest">
+                            <div class="table-num">F-02</div>
+                            <div class="table-cap">Booked 🔒</div>
+                        </div>
+                        <div class="table-node" id="tab-L1" onclick="selectTable('L1', 'Bookshelf Library Lounge', 2)">
+                            <div class="table-num">L-01</div>
+                            <div class="table-cap">2 Seats 📚</div>
+                        </div>
+                        <div class="table-node" id="tab-L2" onclick="selectTable('L2', 'Central Wood Table', 4)">
+                            <div class="table-num">L-02</div>
+                            <div class="table-cap">4 Seats 🪵</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-block" id="zone-garden">
+                    <div class="zone-title"><i class="fa-solid fa-tree" style="color: #27ae60;"></i> Pine Garden Patio (Outdoor Breeze)</div>
+                    <div class="tables-row">
+                        <div class="table-node" id="tab-G1" onclick="selectTable('G1', 'Pine Patio Garden 01', 4)">
+                            <div class="table-num">G-01</div>
+                            <div class="table-cap">4 Seats 🌲</div>
+                        </div>
+                        <div class="table-node" id="tab-G2" onclick="selectTable('G2', 'Pine Patio Garden 02 (Umbrella)', 4)">
+                            <div class="table-num">G-02</div>
+                            <div class="table-cap">4 Seats ☂️</div>
+                        </div>
+                        <div class="table-node" id="tab-G3" onclick="selectTable('G3', 'Garden Gazebo Long Table', 8)">
+                            <div class="table-num">G-03</div>
+                            <div class="table-cap">8 Seats 💐</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="selected-table-preview-card">
+                <div>
+                    <div style="font-size: 11px; font-weight: 700; color: var(--brown-warm);">CURRENT SELECTION:</div>
+                    <h4 id="selectedTableName" style="font-size: 16px; color: var(--brown-dark);">Veranda Table 01 (Window View)</h4>
+                </div>
+                <div style="text-align: right;">
+                    <span class="legend-dot avail" style="display: inline-block; vertical-align: middle;"></span>
+                    <span style="font-size: 13px; font-weight: 600; color: var(--accent-green);">Confirmed Available</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="my-bookings-container">
+        <div class="my-bookings-card">
+            <h3><i class="fa-solid fa-ticket"></i> Your Active Reservations & Passes</h3>
+            <div id="activeBookingsList">
+                <p style="color: var(--text-muted); font-size: 14px;">No upcoming reservations found yet. Fill out the form above to book your table!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKET MODAL -->
+    <div class="confirm-modal-overlay" id="ticketModalOverlay">
+        <div class="ticket-modal-card">
+            <div class="ticket-header">
+                <div class="icon-circle"><i class="fa-solid fa-check"></i></div>
+                <h2>Table Reserved!</h2>
+                <p>We are delighted to welcome you to Wanderoot Café</p>
+                <div class="ticket-ref" id="ticketRefCode">PASS: WND-82910</div>
+            </div>
+
+            <div class="ticket-body">
+                <div class="ticket-grid">
+                    <div class="ticket-field"><div class="t-label">Guest Name</div><div class="t-val" id="tGuestName">Maya Sharma</div></div>
+                    <div class="ticket-field"><div class="t-label">Party Size</div><div class="t-val" id="tPartySize">2 Guests</div></div>
+                    <div class="ticket-field"><div class="t-label">Date & Time</div><div class="t-val" id="tDateTime">Tomorrow, 08:30 AM</div></div>
+                    <div class="ticket-field"><div class="t-label">Assigned Table</div><div class="t-val" id="tTable">Veranda Table 01</div></div>
+                    <div class="ticket-field"><div class="t-label">Occasion</div><div class="t-val" id="tOccasion">Casual Coffee</div></div>
+                    <div class="ticket-field"><div class="t-label">Status</div><div class="t-val" style="color: var(--accent-green);">Confirmed ✓</div></div>
+                </div>
+
+                <div style="font-size: 13px; font-weight: 700; color: var(--brown-medium); margin-bottom: 8px; text-align: center;">CONNECT & SAVE YOUR BOOKING:</div>
+
+                <div class="app-connect-buttons">
+                    <a href="#" id="googleCalBtn" target="_blank" class="app-btn calendar"><i class="fa-brands fa-google"></i> Google Calendar</a>
+                    <a href="#" id="whatsappNotifyBtn" target="_blank" class="app-btn whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp Notify</a>
+                    <button onclick="downloadIcsCalendar()" class="app-btn ics"><i class="fa-solid fa-calendar-arrow-down"></i> Download Apple/Outlook .ICS</button>
+                </div>
+
+                <button class="close-ticket-btn" onclick="closeTicketModal()">Done & View My Bookings</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="bottom-section" style="background-color: var(--brown-dark); color: white; text-align: center; padding: 50px 20px; margin-top: 60px;">
+        <h2 style="font-size: 32px; margin-bottom: 12px; color: #fffaf3; font-family: 'EB Garamond', Georgia, serif;">Craving Our Handcrafted Brews &amp; Delights?</h2>
+        <p style="color: var(--brown-light); max-width: 620px; margin: 0 auto 24px; font-size: 15px;">Explore our artisan coffee selection, cold brews, viennoiserie, and hearty toasts before your arrival.</p>
+        <a href="index.html" class="nav-cta-btn" style="padding: 12px 30px; font-size: 15px;"><i class="fa-solid fa-mug-saucer"></i> Explore Artisan Menu</a>
+    </section>
+
+    <footer style="background-color: #21130c; color: #d6c5b5; padding: 40px 8% 24px; border-top: 1px solid #3b2416;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left;">
+            <div style="max-width: 380px;">
+                <div style="font-family: 'EB Garamond', Georgia, serif; font-size: 22px; font-weight: 700; color: #fffaf3; margin-bottom: 10px;">☕ WANDEROOT CAFÉ &amp; ROASTERY</div>
+                <p style="font-size: 14px; line-height: 1.6; color: #bcaaa4; margin-bottom: 12px;">Artisanal roastery &amp; Himalayan valley bistro in Landour. Freshly roasted single-origin coffees, handcrafted slow-bakes, and scenic veranda seating.</p>
+                <div style="font-size: 13px; color: var(--brown-gold);"><i class="fa-solid fa-location-dot"></i> Sisters Bazaar, Landour, Mussoorie, Uttarakhand</div>
+            </div>
+            <div>
+                <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Navigation</h4>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+                    <a href="index.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
+                    <a href="reservation.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
+                    <a href="index.html#coffee" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
+                    <a href="index.html#bakery" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Hours &amp; Contact</h4>
+                <div style="font-size: 14px; line-height: 1.8; color: #bcaaa4;">
+                    <div><i class="fa-regular fa-clock"></i> Mon – Sun: 7:30 AM – 10:00 PM</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 98765 43210</div>
+                    <div><i class="fa-brands fa-whatsapp"></i> WhatsApp Booking Support</div>
+                </div>
+            </div>
+        </div>
+        <div style="max-width: 1200px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 13px; color: #8d7465;">
+            © 2026 Wanderoot Café &amp; Roastery | Dedicated Artisan Menu &amp; Table Reservation System
+        </div>
+    </footer>
+
+    <script>
+        let selectedTime = "08:30 AM";
+        let selectedOccasionText = "Casual Hangout / Coffee";
+        let selectedTableId = "V1";
+        let selectedTableTitle = "Veranda Table 01 (Window View)";
+        let currentBookingData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Moka-pot coffee loader animation
+            const loader = document.createElement("div");
+            loader.id = "coffee-loader";
+            loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.jpg" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+            document.body.prepend(loader);
+
+            setTimeout(() => {
+                loader.style.opacity = "0";
+                setTimeout(() => loader.remove(), 600);
+            }, 1800);
+
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dateInput = document.getElementById('bookDate');
+            dateInput.value = tomorrow.toISOString().split('T')[0];
+            dateInput.min = new Date().toISOString().split('T')[0];
+            loadSavedBookings();
+        });
+
+        function selectTimeSlot(slot, elem) {
+            selectedTime = slot;
+            document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('active'));
+            elem.classList.add('active');
+        }
+
+        function selectOccasion(occ, elem) {
+            selectedOccasionText = occ;
+            document.querySelectorAll('.occasion-pill').forEach(b => b.classList.remove('active'));
+            elem.classList.add('active');
+        }
+
+        function selectTable(tableId, tableName, capacity) {
+            selectedTableId = tableId;
+            selectedTableTitle = tableName;
+            document.querySelectorAll('.table-node').forEach(t => t.classList.remove('selected'));
+            const target = document.getElementById(`tab-${tableId}`);
+            if (target) target.classList.add('selected');
+            document.getElementById('selectedTableName').textContent = tableName;
+        }
+
+        function highlightZone(zone) {
+            if (zone === 'all') {
+                document.querySelectorAll('.zone-block').forEach(z => z.style.opacity = '1');
+            } else {
+                document.querySelectorAll('.zone-block').forEach(z => z.style.opacity = '0.5');
+                const target = document.getElementById(`zone-${zone}`);
+                if (target) target.style.opacity = '1';
+            }
+        }
+
+        function filterTablesByCapacity() {
+            const count = parseInt(document.getElementById('guestCount').value, 10);
+            if (count <= 2) selectTable('V1', 'Veranda Table 01 (Window View)', 2);
+            else if (count <= 4) selectTable('V4', 'Veranda Table 04 (Corner Nook)', 4);
+            else if (count <= 6) selectTable('V3', 'Veranda Table 03 (Large Family Table)', 6);
+            else selectTable('G3', 'Garden Gazebo Long Table', 8);
+        }
+
+        function handleReservationSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('guestName').value.trim();
+            const phone = document.getElementById('guestPhone').value.trim();
+            const email = document.getElementById('guestEmail').value.trim();
+            const count = document.getElementById('guestCount').value;
+            const date = document.getElementById('bookDate').value;
+            const notes = document.getElementById('specialNotes').value.trim();
+            const refCode = "WND-" + Math.floor(10000 + Math.random() * 90000);
+
+            const booking = {
+                id: refCode, name: name, phone: phone, email: email,
+                guests: count, date: date, time: selectedTime,
+                table: selectedTableTitle, occasion: selectedOccasionText,
+                notes: notes, createdAt: new Date().toISOString()
+            };
+
+            currentBookingData = booking;
+            let bookings = [];
+            const saved = localStorage.getItem('wanderoot_bookings');
+            if (saved) { try { bookings = JSON.parse(saved); } catch(err) { bookings = []; } }
+            bookings.unshift(booking);
+            localStorage.setItem('wanderoot_bookings', JSON.stringify(bookings));
+
+            document.getElementById('ticketRefCode').textContent = `PASS: ${refCode}`;
+            document.getElementById('tGuestName').textContent = name;
+            document.getElementById('tPartySize').textContent = `${count} Guest(s)`;
+            document.getElementById('tDateTime').textContent = `${date} at ${selectedTime}`;
+            document.getElementById('tTable').textContent = selectedTableTitle;
+            document.getElementById('tOccasion').textContent = selectedOccasionText;
+
+            setupGoogleCalendarLink(booking);
+            setupWhatsappNotifyLink(booking);
+            document.getElementById('ticketModalOverlay').classList.add('active');
+            loadSavedBookings();
+        }
+
+        function setupGoogleCalendarLink(b) {
+            const title = encodeURIComponent(`Wanderoot Café Reservation (${b.id})`);
+            const details = encodeURIComponent(`Table: ${b.table}
+Guests: ${b.guests}
+Occasion: ${b.occasion}
+Contact: ${b.phone}
+Notes: ${b.notes}`);
+            const location = encodeURIComponent("Wanderoot Café, Landour & Mussoorie Pines");
+            const dateClean = b.date.replace(/-/g, '');
+            const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dateClean}T120000Z/${dateClean}T140000Z`;
+            document.getElementById('googleCalBtn').href = gCalUrl;
+        }
+
+        function setupWhatsappNotifyLink(b) {
+            let msg = `☕ *WANDEROOT CAFÉ - TABLE RESERVATION CONFIRMATION*%0A--------------------------------%0A`;
+            msg += `*Booking Ref:* ${b.id}%0A*Guest:* ${b.name}%0A*Guests:* ${b.guests}%0A*Date & Time:* ${b.date} at ${b.time}%0A*Table:* ${b.table}%0A*Occasion:* ${b.occasion}%0A`;
+            if (b.notes) msg += `*Notes:* ${b.notes}%0A`;
+            msg += `--------------------------------%0APlease confirm my table at Wanderoot Cafe!`;
+            document.getElementById('whatsappNotifyBtn').href = `https://wa.me/919876543210?text=${msg}`;
+        }
+
+        function downloadIcsCalendar() {
+            if (!currentBookingData) return;
+            const b = currentBookingData;
+            const dateClean = b.date.replace(/-/g, '');
+            const icsContent = [
+                "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Wanderoot Cafe//Table Booking//EN",
+                "BEGIN:VEVENT", `UID:${b.id}@wanderootcafe.com`, `DTSTAMP:${dateClean}T080000Z`,
+                `DTSTART:${dateClean}T120000Z`, `DTEND:${dateClean}T140000Z`,
+                `SUMMARY:Wanderoot Café Reservation - ${b.table}`,
+                `DESCRIPTION:Reservation Reference: ${b.id}\nGuests: ${b.guests}\nTable: ${b.table}`,
+                "LOCATION:Wanderoot Café, Landour", "STATUS:CONFIRMED", "END:VEVENT", "END:VCALENDAR"
+            ].join("\r\n");
+
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', `Wanderoot_Booking_${b.id}.ics`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function loadSavedBookings() {
+            const container = document.getElementById('activeBookingsList');
+            const saved = localStorage.getItem('wanderoot_bookings');
+            if (!saved) return;
+            try {
+                const bookings = JSON.parse(saved);
+                if (bookings.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">No upcoming reservations found.</p>';
+                    return;
+                }
+                container.innerHTML = bookings.map(b => `
+                    <div class="booking-pass-item">
+                        <div class="booking-pass-info">
+                            <h4>${b.table} <span style="font-size: 14px; font-weight: normal; color: var(--brown-warm);">(${b.id})</span></h4>
+                            <div class="booking-pass-meta">
+                                <span><i class="fa-regular fa-user"></i> ${b.name} (${b.guests} Guests)</span>
+                                <span><i class="fa-regular fa-calendar"></i> ${b.date}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${b.time}</span>
+                                <span><i class="fa-solid fa-champagne-glasses"></i> ${b.occasion}</span>
+                            </div>
+                        </div>
+                        <div class="pass-actions">
+                            <button class="pass-btn cancel" onclick="cancelBooking('${b.id}')"><i class="fa-solid fa-trash"></i> Cancel</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch(e) {}
+        }
+
+        function cancelBooking(id) {
+            if (!confirm(`Are you sure you want to cancel reservation ${id}?`)) return;
+            const saved = localStorage.getItem('wanderoot_bookings');
+            if (!saved) return;
+            let bookings = JSON.parse(saved);
+            bookings = bookings.filter(b => b.id !== id);
+            localStorage.setItem('wanderoot_bookings', JSON.stringify(bookings));
+            loadSavedBookings();
+        }
+
+        function closeTicketModal() {
+            document.getElementById('ticketModalOverlay').classList.remove('active');
+            window.scrollTo({ top: document.querySelector('.my-bookings-container').offsetTop - 80, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

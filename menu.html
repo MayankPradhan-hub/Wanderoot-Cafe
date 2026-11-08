@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderoot Café - Artisan Menu & Multi-Angle Food Explorer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        /* Coffee Loader — Kettle Pour Animation */
+        #coffee-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #faf8f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+        .loader-stage { position: relative; width: 210px; height: 235px; transform: scale(.84); }
+        .moka-pot { position: absolute; top: 0; right: 0; width: 180px; mix-blend-mode: multiply; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
+        .pour-stream { position: absolute; top: 109px; left: 31px; width: 5px; height: 69px; border-radius: 999px; background: #3d271d; transform-origin: top; opacity: 0; animation: streamPour 1.9s ease-in-out .62s forwards; }
+        .loader-cup { position: absolute; top: 172px; left: 0; width: 74px; height: 46px; overflow: hidden; border: 2px solid #3d271d; border-top: 0; border-radius: 0 0 15px 15px; }
+        .loader-cup::after { content: ''; position: absolute; top: 7px; right: -15px; width: 11px; height: 24px; border: 2px solid #3d271d; border-left: 0; border-radius: 0 13px 13px 0; }
+        .coffee-fill { position: absolute; inset: auto 0 0; height: 100%; background: #3d271d; transform-origin: bottom; transform: scaleY(0); animation: fillCup 1.9s ease-out .75s forwards; }
+        @keyframes mokaPour { 0%, 14% { transform: rotate(0deg); } 30%, 76% { transform: rotate(-16deg) translate(-4px, 3px); } 100% { transform: rotate(0deg); } }
+        @keyframes streamPour { 0% { opacity: 0; transform: scaleY(0); } 14%, 78% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(.7); } }
+        @keyframes fillCup { from { transform: scaleY(0); } to { transform: scaleY(.86); } }
+
+        :root {
+            --bg-creamy: #f8f3ec;
+            --bg-card: #ffffff;
+            --nav-bg: #fffaf3;
+            --brown-dark: #2d1a10;
+            --brown-deep: #3b2416;
+            --brown-medium: #6f4e37;
+            --brown-warm: #a66a35;
+            --brown-gold: #c28d54;
+            --brown-light: #d8b99d;
+            --brown-border: #dfd1c3;
+            --accent-green: #2e7d32;
+            --accent-red: #c62828;
+            --text-muted: #74584c;
+            --shadow-sm: 0 4px 12px rgba(61, 39, 29, 0.06);
+            --shadow-md: 0 8px 24px rgba(61, 39, 29, 0.1);
+            --shadow-lg: 0 16px 36px rgba(45, 26, 16, 0.16);
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--bg-creamy);
+            color: var(--brown-deep);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'EB Garamond', Georgia, serif;
+        }
+
+        nav {
+            background-color: var(--nav-bg);
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--brown-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #4a2c1a;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--brown-deep);
+            font-size: 14.5px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--brown-warm);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brown-warm);
+            border-radius: 2px;
+        }
+
+        .nav-cta-btn {
+            background-color: var(--brown-warm);
+            color: #ffffff !important;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 10px rgba(166, 106, 53, 0.25);
+        }
+
+        .nav-cta-btn:hover {
+            background-color: var(--brown-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(45, 26, 16, 0.3);
+        }
+
+        .hero {
+            background-color: var(--brown-dark);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero .small-heading {
+            color: var(--brown-light);
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            font-weight: 600;
+            margin: 10px 0 16px;
+            line-height: 1.15;
+        }
+
+        .hero p {
+            color: #eaded3;
+            font-size: 16.5px;
+            max-width: 620px;
+            margin: 0 auto 24px;
+        }
+
+        .menu-control-wrapper {
+            max-width: 1200px;
+            margin: -25px auto 30px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .search-filter-card {
+            background: white;
+            border: 1px solid var(--brown-border);
+            border-radius: 16px;
+            padding: 18px 24px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .dietary-toggles {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .diet-btn {
+            background-color: #fbf7f2;
+            border: 1px solid #e1d3c5;
+            color: var(--brown-deep);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .diet-btn:hover {
+            border-color: var(--brown-warm);
+            background-color: #f4ede3;
+        }
+
+        .diet-btn.active {
+            background-color: var(--brown-medium);
+            color: white;
+            border-color: var(--brown-medium);
+        }
+
+        .category-scroll-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 2px;
+            scrollbar-width: none;
+        }
+
+        .category-scroll-container::-webkit-scrollbar { display: none; }
+
+        .category-pill {
+            background-color: #f7efe6;
+            border: 1px solid #dccbbd;
+            color: var(--brown-deep);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-pill:hover {
+            background-color: #ede0d2;
+            border-color: var(--brown-warm);
+        }
+
+        .category-pill.active {
+            background-color: var(--brown-dark);
+            color: #fffaf3;
+            border-color: var(--brown-dark);
+            box-shadow: 0 4px 10px rgba(45, 26, 16, 0.2);
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 10px auto 60px;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #ecdcca;
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            color: var(--brown-dark);
+        }
+
+        .items-count {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 28px;
+        }
+
+        .menu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--brown-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--brown-warm);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            background-color: #ede3d8;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-card:hover .card-img { transform: scale(1.04); }
+
+        .badge-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(45, 26, 16, 0.85);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-tag.bestseller { background: #b75e18; }
+        .badge-tag.chef { background: #4a2c1a; }
+
+        .diet-icon-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            font-size: 12px;
+        }
+
+        .diet-icon-badge.veg { color: var(--accent-green); }
+        .diet-icon-badge.nonveg { color: var(--accent-red); }
+
+        .view-angles-overlay-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--brown-dark);
+            border: 1px solid var(--brown-border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+        }
+
+        .view-angles-overlay-btn:hover {
+            background: var(--brown-dark);
+            color: white;
+            border-color: var(--brown-dark);
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .item-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .item-title {
+            font-size: 21px;
+            font-weight: 600;
+            color: var(--brown-dark);
+            line-height: 1.25;
+        }
+
+        .item-price {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--brown-warm);
+            white-space: nowrap;
+        }
+
+        .item-description {
+            font-size: 13.5px;
+            color: #5d473a;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .item-meta-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .meta-pill {
+            background: #fbf5ef;
+            border: 1px solid #ebd8c8;
+            color: #74584c;
+            font-size: 11.5px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px dashed var(--brown-border);
+            gap: 12px;
+        }
+
+        .qty-control-group {
+            display: flex;
+            align-items: center;
+            background: #f8f3ec;
+            border: 1px solid var(--brown-border);
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            color: var(--brown-deep);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s ease;
+            padding: 0;
+            margin: 0;
+        }
+
+        .qty-btn:hover { background: #e8d8c8; }
+
+        .qty-number {
+            width: 30px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brown-dark);
+        }
+
+        .view-item-angles-btn {
+            background-color: #f1e4d6;
+            color: var(--brown-dark);
+            border: 1px solid var(--brown-border);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .view-item-angles-btn:hover {
+            background-color: var(--brown-warm);
+            color: white;
+            border-color: var(--brown-warm);
+            transform: translateY(-1px);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(30, 16, 9, 0.78);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-card {
+            background: white;
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            animation: modalSlideUp 0.3s ease forwards;
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(20px) scale(0.97); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: #fff;
+            border: 1px solid var(--brown-border);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            font-size: 18px;
+            color: var(--brown-deep);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--brown-dark);
+            color: white;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+        }
+
+        .modal-gallery-pane {
+            background: #f6efe8;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border-right: 1px solid var(--brown-border);
+        }
+
+        .main-angle-viewport {
+            width: 100%;
+            height: 340px;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .main-angle-viewport img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .angle-view-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(30, 16, 9, 0.8);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+
+        .angle-thumbnails-list {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 4px 0;
+        }
+
+        .angle-thumb-btn {
+            background: white;
+            border: 2px solid var(--brown-border);
+            border-radius: 10px;
+            padding: 4px;
+            cursor: pointer;
+            width: 75px;
+            height: 75px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .angle-thumb-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .angle-thumb-btn.active {
+            border-color: var(--brown-warm);
+            box-shadow: 0 0 0 2px rgba(166, 106, 53, 0.3);
+            transform: scale(1.05);
+        }
+
+        .angle-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.65);
+            color: white;
+            text-align: center;
+            padding: 1px 0;
+        }
+
+        .modal-details-pane {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .modal-category-tag {
+            color: var(--brown-warm);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .modal-item-title {
+            font-size: 28px;
+            color: var(--brown-dark);
+            margin: 6px 0 10px;
+            line-height: 1.2;
+        }
+
+        .modal-price {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--brown-warm);
+            margin-bottom: 14px;
+        }
+
+        .modal-description {
+            font-size: 14.5px;
+            color: #5a4233;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-details-box {
+            background: #faf6f1;
+            border: 1px solid #ebdcca;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .detail-row:last-child { margin-bottom: 0; }
+        .detail-label { color: #7d6555; font-weight: 500; }
+        .detail-value { color: var(--brown-dark); font-weight: 600; }
+
+        .addons-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--brown-dark);
+        }
+
+        .addon-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .addon-item input {
+            accent-color: var(--brown-warm);
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .bottom-section {
+            background-color: #3a2114;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .bottom-section h2 { font-size: 32px; margin-bottom: 12px; }
+
+        .reservation-cta-btn {
+            display: inline-block;
+            margin-top: 18px;
+            background-color: var(--brown-warm);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s ease;
+        }
+
+        .reservation-cta-btn:hover { background-color: #be7d41; }
+
+        footer {
+            background-color: #21130c;
+            color: #d6c5b5;
+            text-align: center;
+            padding: 24px 20px;
+            font-size: 14px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--brown-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            font-size: 14px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        @media (max-width: 860px) {
+            nav { flex-direction: column; gap: 15px; padding: 16px 5%; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px; }
+            .modal-grid { grid-template-columns: 1fr; }
+            .modal-gallery-pane { border-right: none; border-bottom: 1px solid var(--brown-border); }
+            .main-angle-viewport { height: 250px; }
+            .hero h1 { font-size: 34px; }
+            .menu-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html" class="logo-container">
+            <img src="assets/wanderoot-cafe-logo.svg" alt="Wanderoot Café" height="38" style="vertical-align: middle;" onerror="this.style.display='none'; document.getElementById('textLogo').style.display='block';">
+            <div id="textLogo" class="logo" style="display: none;">☕ WANDEROOT CAFÉ</div>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html" class="active"><i class="fa-solid fa-utensils"></i> Menu</a>
+            <a href="reservation.html"><i class="fa-regular fa-calendar-check"></i> Reservation</a>
+            <a href="reservation.html" class="nav-cta-btn"><i class="fa-solid fa-chair"></i> Book Table</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="small-heading">FRESHLY ROASTED & HANDCRAFTED DAILY</div>
+            <h1>Artisan Cafe Menu & Multi-Angle Explorer</h1>
+            <p>From single-origin high-altitude Himalayan brews to slow-fermented French pastries and decadent layered gateaux. Inspect every dish from multiple angles before you savor.</p>
+        </div>
+    </section>
+
+    <div class="menu-control-wrapper">
+        <div class="search-filter-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 14px;">
+                <div style="font-size: 13.5px; font-weight: 700; color: var(--brown-medium); text-transform: uppercase; letter-spacing: 1.5px;">
+                    <i class="fa-solid fa-utensils"></i> Browse Artisan Categories
+                </div>
+                <div class="dietary-toggles">
+                    <button class="diet-btn" data-filter="veg" onclick="toggleDietFilter('veg')"><i class="fa-solid fa-leaf" style="color: #2e7d32;"></i> Veg Only</button>
+                    <button class="diet-btn" data-filter="bestseller" onclick="toggleDietFilter('bestseller')"><i class="fa-solid fa-fire" style="color: #d97706;"></i> Bestsellers</button>
+                    <button class="diet-btn" data-filter="chef" onclick="toggleDietFilter('chef')"><i class="fa-solid fa-crown" style="color: #ca8a04;"></i> Chef's Choice</button>
+                </div>
+            </div>
+
+            <div class="category-scroll-container">
+                <button class="category-pill active" onclick="filterCategory('all', this)"><i class="fa-solid fa-utensils"></i> All Items</button>
+                <button class="category-pill" onclick="filterCategory('coffee', this)"><i class="fa-solid fa-mug-hot"></i> Specialty Coffee</button>
+                <button class="category-pill" onclick="filterCategory('pastries', this)"><i class="fa-solid fa-bread-slice"></i> Croissants & Pastries</button>
+                <button class="category-pill" onclick="filterCategory('cakes', this)"><i class="fa-solid fa-cake-candles"></i> Artisan Cakes & Tarts</button>
+                <button class="category-pill" onclick="filterCategory('savory', this)"><i class="fa-solid fa-egg"></i> Gourmet Savory & Brunch</button>
+                <button class="category-pill" onclick="filterCategory('teas', this)"><i class="fa-solid fa-seedling"></i> Teas, Matcha & Coolers</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="menu-container">
+        <div class="section-header">
+            <div>
+                <h2 id="activeCategoryHeading">All Handcrafted Delights</h2>
+                <span class="items-count" id="itemsCountDisplay">Showing all items</span>
+            </div>
+            <div>
+                <span style="font-size: 13px; color: var(--text-muted);"><i class="fa-solid fa-camera-rotate"></i> Click <strong>"View Angles"</strong> on any item to see multiple views</span>
+            </div>
+        </div>
+
+        <div class="menu-grid" id="menuCardsGrid"></div>
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="angleModalOverlay" onclick="closeModalOnOutsideClick(event)">
+        <div class="modal-card">
+            <button class="modal-close-btn" onclick="closeAngleModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-grid">
+                <div class="modal-gallery-pane">
+                    <div class="main-angle-viewport">
+                        <img id="modalMainImg" src="" alt="Food Preview">
+                        <div class="angle-view-badge" id="modalAngleBadge">📸 Front Hero View</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; font-weight: 600; color: var(--brown-medium); margin-bottom: 6px;">SELECT PERSPECTIVE / ANGLE:</div>
+                        <div class="angle-thumbnails-list" id="modalAngleThumbsList"></div>
+                    </div>
+                </div>
+
+                <div class="modal-details-pane">
+                    <div>
+                        <div class="modal-category-tag" id="modalCategoryTag">SPECIALTY COFFEE</div>
+                        <h3 class="modal-item-title" id="modalItemTitle">Himalayan Honey Cinnamon Latte</h3>
+                        <div class="modal-price" id="modalItemPrice">₹280</div>
+                        <p class="modal-description" id="modalItemDesc">Double espresso brewed with estate Arabica beans, steamed velvet milk, infused with raw Himalayan forest honey and Ceylon cinnamon.</p>
+
+                        <div class="modal-details-box">
+                            <div class="detail-row"><span class="detail-label">Origin:</span><span class="detail-value" id="modalDetailOrigin">Single Origin Arabica</span></div>
+                            <div class="detail-row"><span class="detail-label">Dietary:</span><span class="detail-value" id="modalDetailDiet">100% Vegetarian</span></div>
+                            <div class="detail-row"><span class="detail-label">Serving:</span><span class="detail-value" id="modalDetailServing">Ceramic Mug (300ml)</span></div>
+                        </div>
+
+                        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--brown-border);">
+                            <a href="reservation.html" class="nav-cta-btn" style="width: 100%; justify-content: center; padding: 13px 20px; font-size: 15px;">
+                                <i class="fa-regular fa-calendar-check"></i> Reserve a Table to Savor This Dish
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="bottom-section">
+        <h2>Reserve Your Favorite Nook at Wanderoot</h2>
+        <p>Planning a morning coffee work session, a romantic sunset high tea, or weekend brunch with loved ones?</p>
+        <a href="reservation.html" class="reservation-cta-btn"><i class="fa-regular fa-calendar-days"></i> Reserve a Table Online</a>
+    </section>
+
+    <footer style="background-color: #21130c; color: #d6c5b5; padding: 40px 8% 24px; border-top: 1px solid #3b2416;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left;">
+            <div style="max-width: 380px;">
+                <div style="font-family: 'EB Garamond', Georgia, serif; font-size: 22px; font-weight: 700; color: #fffaf3; margin-bottom: 10px;">☕ WANDEROOT CAFÉ &amp; ROASTERY</div>
+                <p style="font-size: 14px; line-height: 1.6; color: #bcaaa4; margin-bottom: 12px;">Artisanal roastery &amp; Himalayan valley bistro in Landour. Freshly roasted single-origin coffees, handcrafted slow-bakes, and scenic veranda seating.</p>
+                <div style="font-size: 13px; color: var(--brown-gold);"><i class="fa-solid fa-location-dot"></i> Sisters Bazaar, Landour, Mussoorie, Uttarakhand</div>
+            </div>
+            <div>
+                <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Navigation</h4>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+                    <a href="index.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
+                    <a href="reservation.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
+                    <a href="index.html#coffee" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
+                    <a href="index.html#bakery" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Hours &amp; Contact</h4>
+                <div style="font-size: 14px; line-height: 1.8; color: #bcaaa4;">
+                    <div><i class="fa-regular fa-clock"></i> Mon – Sun: 7:30 AM – 10:00 PM</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 98765 43210</div>
+                    <div><i class="fa-brands fa-whatsapp"></i> WhatsApp Order Support</div>
+                </div>
+            </div>
+        </div>
+        <div style="max-width: 1200px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 13px; color: #8d7465;">
+            © 2026 Wanderoot Café &amp; Roastery | Dedicated Artisan Menu &amp; Table Reservation System
+        </div>
+    </footer>
+
+    <script>
+        const MENU_DATA = [
+            {
+                id: "c1",
+                name: "Himalayan Honey Cinnamon Latte",
+                category: "coffee",
+                price: 280,
+                categoryName: "Specialty Coffee",
+                description: "Double shot of single-origin Arabica, velvety steamed whole milk infused with organic Himalayan raw honey and ground Ceylon cinnamon.",
+                origin: "Estate Arabica (Chikmagalur)",
+                diet: "Vegetarian 🌱",
+                serving: "Artisan Ceramic Mug (300ml)",
+                isVeg: true,
+                badge: "bestseller",
+                badgeText: "🔥 Bestseller",
+                angles: [
+                    { label: "Front View", name: "Front Hero View", url: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top View", name: "Overhead Latte Art", url: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Froth & Honey Macro", url: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Setting", name: "Valley Window Setting", url: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "c2",
+                name: "Signature Cascara Cold Brew Tonic",
+                category: "coffee",
+                price: 260,
+                categoryName: "Specialty Coffee",
+                description: "18-hour slow cold brewed coffee steeped with coffee cherry cascara, topped with artisanal elderflower tonic and dehydrated blood orange.",
+                origin: "Monsooned Malabar Beans",
+                diet: "Vegan 🌿",
+                serving: "Highball Glass with Clear Ice",
+                isVeg: true,
+                badge: "chef",
+                badgeText: "⭐ Chef Signature",
+                angles: [
+                    { label: "Front View", name: "Cascading Tonic Layers", url: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top View", name: "Ice & Orange Slice", url: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Carbonation & Crema", url: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "c3",
+                name: "Velvet Flat White",
+                category: "coffee",
+                price: 240,
+                categoryName: "Specialty Coffee",
+                description: "Expertly stretched silky microfoam poured over a concentrated double ristretto shot. Bold yet exceptionally smooth.",
+                origin: "Specialty Grade 100% Arabica",
+                diet: "Vegetarian 🌱",
+                serving: "Tulip Ceramic Cup (220ml)",
+                isVeg: true,
+                badge: null,
+                angles: [
+                    { label: "Hero View", name: "Tulip Microfoam Art", url: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Overhead Symmetry", url: "https://images.unsplash.com/photo-1509785307050-d4066910ec1e?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Side View", name: "Ceramic Texture & Steam", url: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "c4",
+                name: "Dark Chocolate Mocha with Sea Salt",
+                category: "coffee",
+                price: 290,
+                categoryName: "Specialty Coffee",
+                description: "Rich 70% Callebaut dark chocolate melted into espresso, topped with whipped mountain cream and Maldon sea salt flakes.",
+                origin: "Arabica & Belgian Cocoa",
+                diet: "Vegetarian 🌱",
+                serving: "Wide Glass Chalice",
+                isVeg: true,
+                badge: "bestseller",
+                badgeText: "🔥 Top Rated",
+                angles: [
+                    { label: "Front View", name: "Whipped Cream & Ganache", url: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top View", name: "Cocoa & Salt Dusting", url: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Chocolate Drizzle Detail", url: "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "p1",
+                name: "French Almond Frangipane Croissant",
+                category: "pastries",
+                price: 240,
+                categoryName: "Croissants & Pastries",
+                description: "Twice-baked laminated butter croissant filled with rich almond frangipane cream, topped with toasted sliced almonds and powdered sugar.",
+                origin: "French Isigny Butter & California Almonds",
+                diet: "Vegetarian 🌱",
+                serving: "Warmed on Linen Napkin",
+                isVeg: true,
+                badge: "bestseller",
+                badgeText: "🔥 Bakery Favorite",
+                angles: [
+                    { label: "Front View", name: "Golden Crisp Almond Crust", url: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Toasted Flakes Spread", url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Cross-Section", name: "Flaky Honeycomb", url: "https://images.unsplash.com/photo-1623334044303-241021148842?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "p2",
+                name: "Pure Butter Flaky Croissant",
+                category: "pastries",
+                price: 190,
+                categoryName: "Croissants & Pastries",
+                description: "Traditional 72-hour fermented pastry dough folded with pure cultured butter. Light as air with incredible crisp shattering layers.",
+                origin: "Traditional French Recipe",
+                diet: "Vegetarian 🌱",
+                serving: "Served with Berry Jam & Whipped Butter",
+                isVeg: true,
+                badge: null,
+                angles: [
+                    { label: "Hero View", name: "Crescent Golden Glow", url: "https://images.unsplash.com/photo-1530610476181-d83430b64dcd?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Overhead", name: "Layered Texture", url: "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Pull-Apart Flakes", url: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "p3",
+                name: "Pistachio Raspberry Danish",
+                category: "pastries",
+                price: 260,
+                categoryName: "Croissants & Pastries",
+                description: "Puff pastry rosette piped with Sicilian pistachio pastry cream, crowned with fresh mountain raspberries and crushed emerald pistachios.",
+                origin: "Sicilian Pistachio & Fresh Raspberries",
+                diet: "Vegetarian 🌱",
+                serving: "Plated on Ceramic Pastry Board",
+                isVeg: true,
+                badge: "chef",
+                badgeText: "⭐ Patisserie Special",
+                angles: [
+                    { label: "Front View", name: "Berry Crown & Cream", url: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Geometric Pastry Center", url: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Macro", name: "Fresh Raspberry Glaze", url: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "k1",
+                name: "Belgian Dark Chocolate Ganache Cake",
+                category: "cakes",
+                price: 320,
+                categoryName: "Artisan Cakes & Tarts",
+                description: "Three decadent layers of moist dark chocolate sponge layered with 70% Belgian chocolate silk ganache, crowned with edible 24k gold leaf.",
+                origin: "Valrhona & Callebaut Chocolate",
+                diet: "Vegetarian 🌱 (Eggless)",
+                serving: "Single Generous Slice (180g)",
+                isVeg: true,
+                badge: "bestseller",
+                badgeText: "🔥 Top Dessert",
+                angles: [
+                    { label: "Slice Angle", name: "Triple Layer Cross-Section", url: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Mirror Glaze & Gold Leaf", url: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Plated View", name: "Served with Fresh Raspberry", url: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "k2",
+                name: "Wild Berry Basque Burnt Cheesecake",
+                category: "cakes",
+                price: 340,
+                categoryName: "Artisan Cakes & Tarts",
+                description: "Baked at high heat for a caramelized crust with an ultra-creamy, molten center. Topped with house-made blueberry & blackberry compote.",
+                origin: "Philadelphia Cream Cheese & Mountain Berries",
+                diet: "Vegetarian 🌱",
+                serving: "Served at Room Temp with Compote",
+                isVeg: true,
+                badge: "chef",
+                badgeText: "⭐ Chef Signature",
+                angles: [
+                    { label: "Front View", name: "Caramelized Crust & Gooey Core", url: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Wild Berry Compote Pour", url: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Velvety Molten Center", url: "https://images.unsplash.com/photo-1508737027454-e6454ef45afd?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "k3",
+                name: "Classic Italian Tiramisu Classico",
+                category: "cakes",
+                price: 310,
+                categoryName: "Artisan Cakes & Tarts",
+                description: "Espresso-soaked Savoiardi ladyfinger biscuits layered with whipped sweet mascarpone cream and dusted with raw Dutch cocoa powder.",
+                origin: "Italian Mascarpone & Espresso",
+                diet: "Vegetarian 🌱",
+                serving: "Glass Tumbler or Plated Slice",
+                isVeg: true,
+                badge: null,
+                angles: [
+                    { label: "Glass View", name: "Layered Ladyfingers & Cream", url: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top View", name: "Dutch Cocoa Powder Dusting", url: "https://images.unsplash.com/photo-1586040140378-b5634cb4c8fc?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Spoonful Texture", url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "k4",
+                name: "Zesty Meyer Lemon Meringue Tart",
+                category: "cakes",
+                price: 290,
+                categoryName: "Artisan Cakes & Tarts",
+                description: "Crispy sweet sable crust filled with tangy Meyer lemon curd, crowned with towering torched Italian meringue swirls.",
+                origin: "Meyer Lemons & Vanilla Bean",
+                diet: "Vegetarian 🌱",
+                serving: "Individual 4-inch Tart",
+                isVeg: true,
+                badge: null,
+                angles: [
+                    { label: "Front View", name: "Torched Golden Meringue Peaks", url: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Swirling Geometric Peaks", url: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Cut Slice", name: "Vibrant Lemon Curd Interior", url: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "s1",
+                name: "Avocado Sourdough & Poached Eggs",
+                category: "savory",
+                price: 340,
+                categoryName: "Gourmet Savory & Brunch",
+                description: "Handcrafted country sourdough toast topped with smashed Hass avocado, dual free-range poached eggs, crumbled feta, cherry tomatoes and Aleppo chili.",
+                origin: "Wild Yeast Fermented Sourdough",
+                diet: "Contains Farm Eggs 🍳",
+                serving: "Plated with Dressed Microgreens",
+                isVeg: false,
+                badge: "bestseller",
+                badgeText: "🔥 Brunch Star",
+                angles: [
+                    { label: "Front View", name: "Poached Eggs & Smashed Avo", url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Color Burst Plate", url: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Yolk Cut", name: "Golden Yolk Drizzle", url: "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "s2",
+                name: "Truffle Wild Mushroom Brioche Melt",
+                category: "savory",
+                price: 360,
+                categoryName: "Gourmet Savory & Brunch",
+                description: "Sautéed shiitake, button and porcini mushrooms tossed in white truffle oil, melted aged Gruyère & Cheddar inside golden toasted brioche.",
+                origin: "Forest Mushrooms & Aged Gruyère",
+                diet: "Vegetarian 🌱",
+                serving: "Served with House Cornichons",
+                isVeg: true,
+                badge: "chef",
+                badgeText: "⭐ Chef Choice",
+                angles: [
+                    { label: "Front View", name: "Toasted Brioche & Melted Cheese", url: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Golden Grilled Crust", url: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Cheese Pull", name: "Mushroom & Gruyère Stretch", url: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "s3",
+                name: "Smoked Chicken & Basil Pesto Panini",
+                category: "savory",
+                price: 350,
+                categoryName: "Gourmet Savory & Brunch",
+                description: "Hickory smoked pulled chicken breast, house pine-nut basil pesto, buffalo mozzarella and sun-dried tomatoes pressed in crusty ciabatta.",
+                origin: "Fresh Pine Nut Pesto & Ciabatta",
+                diet: "Non-Vegetarian 🍗",
+                serving: "Served with Kettle Truffle Chips",
+                isVeg: false,
+                badge: null,
+                angles: [
+                    { label: "Front View", name: "Grilled Panini Cross-Cut", url: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top View", name: "Crusty Ciabatta Grill Marks", url: "https://images.unsplash.com/photo-1553909489-cd47e09079e0?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Plate Setting", name: "Served with Crisps & Dip", url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "t1",
+                name: "Ceremonial Uji Matcha Latte",
+                category: "teas",
+                price: 270,
+                categoryName: "Teas & Refreshers",
+                description: "First-harvest ceremonial grade Japanese matcha from Uji, Kyoto. Whisked traditionally and paired with silky steamed oat milk.",
+                origin: "Uji, Kyoto, Japan",
+                diet: "Vegan 🌿",
+                serving: "Wide Ceramic Matcha Bowl (320ml)",
+                isVeg: true,
+                badge: "bestseller",
+                badgeText: "🔥 Kyoto Ceremonial",
+                angles: [
+                    { label: "Hero View", name: "Vibrant Emerald Matcha Swirl", url: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Frothy Bamboo Whisk Texture", url: "https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Tea Board", name: "Served with Bamboo Chasen", url: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80" }
+                ]
+            },
+            {
+                id: "t2",
+                name: "Himalayan Saffron & Rose Kahwa",
+                category: "teas",
+                price: 230,
+                categoryName: "Teas & Refreshers",
+                description: "Green tea leaves brewed with Kashmiri saffron threads, whole green cardamom, cinnamon bark, garnished with slivered almonds and dried rose.",
+                origin: "Kashmir Valley & Pampore Saffron",
+                diet: "Vegan 🌿",
+                serving: "Clear Glass Samovar Cup",
+                isVeg: true,
+                badge: "chef",
+                badgeText: "⭐ Mountain Heritage",
+                angles: [
+                    { label: "Front View", name: "Golden Amber Saffron Infusion", url: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Top-Down", name: "Floating Almonds & Rose Petals", url: "https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&w=800&q=80" },
+                    { label: "Close-up", name: "Saffron Threads & Steam", url: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80" }
+                ]
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentDietFilter = null;
+        let currentModalItem = null;
+        let currentModalAngleIndex = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Moka-pot coffee loader animation
+            const loader = document.createElement("div");
+            loader.id = "coffee-loader";
+            loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.jpg" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+            document.body.prepend(loader);
+
+            setTimeout(() => {
+                loader.style.opacity = "0";
+                setTimeout(() => loader.remove(), 600);
+            }, 1800);
+
+            renderMenuItems();
+        });
+
+        function renderMenuItems() {
+            const grid = document.getElementById('menuCardsGrid');
+            const itemsCountDisplay = document.getElementById('itemsCountDisplay');
+            
+            const filtered = MENU_DATA.filter(item => {
+                const matchesCat = (currentCategory === 'all' || item.category === currentCategory);
+                let matchesDiet = true;
+                if (currentDietFilter === 'veg') matchesDiet = item.isVeg === true;
+                if (currentDietFilter === 'bestseller') matchesDiet = item.badge === 'bestseller';
+                if (currentDietFilter === 'chef') matchesDiet = item.badge === 'chef';
+                return matchesCat && matchesDiet;
+            });
+
+            itemsCountDisplay.textContent = `Showing ${filtered.length} item${filtered.length === 1 ? '' : 's'}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted);"><i class="fa-solid fa-mug-hot" style="font-size: 40px; color: var(--brown-light); margin-bottom: 12px;"></i><h3 style="font-size: 22px; color: var(--brown-dark);">No cafe delights found</h3><p style="font-size: 14px; margin-top: 6px;">Try adjusting your category or dietary filter selection.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => {
+                const mainAngle = item.angles[0];
+                const dietIcon = item.isVeg ? '<i class="fa-solid fa-circle" style="font-size: 9px; color: #2e7d32;"></i>' : '<i class="fa-solid fa-play" style="font-size: 9px; color: #c62828; transform: rotate(-90deg);"></i>';
+
+                return `
+                    <div class="menu-card" id="card-${item.id}">
+                        <div class="card-img-wrapper">
+                            <img class="card-img" src="${mainAngle.url}" alt="${item.name}" loading="lazy">
+                            ${item.badgeText ? `<div class="badge-tag ${item.badge}">${item.badgeText}</div>` : ''}
+                            <div class="diet-icon-badge ${item.isVeg ? 'veg' : 'nonveg'}" title="${item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}">
+                                ${dietIcon}
+                            </div>
+                            <button class="view-angles-overlay-btn" onclick="openAngleModal('${item.id}')">
+                                <i class="fa-solid fa-camera-rotate"></i> ${item.angles.length} Angles & Info
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="item-title-row">
+                                <h3 class="item-title">${item.name}</h3>
+                                <span class="item-price">₹${item.price}</span>
+                            </div>
+                            <p class="item-description">${item.description}</p>
+                            <div class="item-meta-tags">
+                                <span class="meta-pill"><i class="fa-solid fa-location-dot"></i> ${item.origin}</span>
+                                <span class="meta-pill"><i class="fa-solid fa-utensils"></i> ${item.diet}</span>
+                            </div>
+                            <div class="card-actions" style="margin-top: 14px;">
+                                <button class="view-item-angles-btn" onclick="openAngleModal('${item.id}')">
+                                    <i class="fa-solid fa-camera-rotate"></i> Explore Views &amp; Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const headings = {
+                'all': 'All Handcrafted Delights',
+                'coffee': 'Specialty Roasted Coffees & Brews',
+                'pastries': 'Fresh Butter Croissants & Viennoiserie',
+                'cakes': 'Artisan Layer Cakes, Tarts & Cheesecakes',
+                'savory': 'Gourmet Savory, Skillets & Brunch',
+                'teas': 'Ceremonial Teas, Matcha & Botanical Coolers'
+            };
+            document.getElementById('activeCategoryHeading').textContent = headings[cat] || 'Cafe Menu';
+            renderMenuItems();
+        }
+
+        function toggleDietFilter(filterType) {
+            const btn = document.querySelector(`.diet-btn[data-filter="${filterType}"]`);
+            if (currentDietFilter === filterType) {
+                currentDietFilter = null;
+                btn.classList.remove('active');
+            } else {
+                document.querySelectorAll('.diet-btn').forEach(b => b.classList.remove('active'));
+                currentDietFilter = filterType;
+                btn.classList.add('active');
+            }
+            renderMenuItems();
+        }
+
+        function openAngleModal(itemId) {
+            const item = MENU_DATA.find(i => i.id === itemId);
+            if (!item) return;
+            currentModalItem = item;
+            currentModalAngleIndex = 0;
+
+            document.getElementById('modalCategoryTag').textContent = item.categoryName;
+            document.getElementById('modalItemTitle').textContent = item.name;
+            document.getElementById('modalItemPrice').textContent = `₹${item.price}`;
+            document.getElementById('modalItemDesc').textContent = item.description;
+            document.getElementById('modalDetailOrigin').textContent = item.origin;
+            document.getElementById('modalDetailDiet').textContent = item.diet;
+            document.getElementById('modalDetailServing').textContent = item.serving;
+
+            updateModalAngleView(0);
+
+            const thumbsList = document.getElementById('modalAngleThumbsList');
+            thumbsList.innerHTML = item.angles.map((angle, idx) => `
+                <button class="angle-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="updateModalAngleView(${idx})">
+                    <img src="${angle.url}" alt="${angle.label}">
+                    <span class="angle-label">${angle.label}</span>
+                </button>
+            `).join('');
+
+            document.getElementById('angleModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateModalAngleView(index) {
+            if (!currentModalItem || !currentModalItem.angles[index]) return;
+            currentModalAngleIndex = index;
+            const angle = currentModalItem.angles[index];
+            const mainImg = document.getElementById('modalMainImg');
+            mainImg.style.opacity = '0.3';
+            setTimeout(() => {
+                mainImg.src = angle.url;
+                mainImg.style.opacity = '1';
+            }, 100);
+            document.getElementById('modalAngleBadge').textContent = `📸 ${angle.name}`;
+            document.querySelectorAll('.angle-thumb-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === index);
+            });
+        }
+
+        function closeAngleModal() {
+            document.getElementById('angleModalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+            currentModalItem = null;
+        }
+
+        function closeModalOnOutsideClick(e) {
+            if (e.target.id === 'angleModalOverlay') closeAngleModal();
+        }
+    </script>
+</body>
+</html>
