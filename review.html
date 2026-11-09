@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wanderoot Café - Reviews</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f3ec;
+    color: #3b2416;
+}
+
+/* NAVIGATION */
+
+nav {
+    background-color: #fffaf3;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d8c6b5;
+}
+
+.logo {
+    font-family: Georgia, serif;
+    font-size: 25px;
+    font-weight: bold;
+    color: #4a2c1a;
+}
+
+nav a {
+    text-decoration: none;
+    color: #3b2416;
+    margin-left: 22px;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #9a673d;
+}
+
+/* TOP BROWN SECTION */
+
+.hero {
+    background-color: #2d1a10;
+    color: white;
+    text-align: center;
+    padding: 65px 20px;
+}
+
+.hero .small-heading {
+    color: #d8b99d;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+    font-size: 44px;
+    margin: 12px 0;
+}
+
+.hero p {
+    color: #eaded3;
+    font-size: 16px;
+}
+
+/* OVERALL RATING */
+
+.rating-section {
+    text-align: center;
+    padding: 40px 20px 25px;
+}
+
+.rating-section h2 {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.big-stars {
+    color: #a66a35;
+    font-size: 32px;
+    letter-spacing: 3px;
+}
+
+/* CUSTOMER REVIEWS */
+
+#reviewList {
+    width: 85%;
+    max-width: 1000px;
+    margin: 15px auto 50px;
+
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+}
+
+.review-card {
+    background-color: white;
+    border: 1px solid #dfd1c3;
+    border-radius: 14px;
+    padding: 25px;
+
+    box-shadow:
+        0 5px 15px rgba(70, 40, 20, 0.08);
+}
+
+.review-card .stars {
+    color: #a66a35;
+    font-size: 21px;
+}
+
+.review-card p {
+    line-height: 1.6;
+}
+
+.review-card h4 {
+    color: #6f4e37;
+}
+
+/* REVIEW FORM AREA */
+
+.form-section {
+    width: 85%;
+    max-width: 700px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.form-section h2 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+}
+
+.form-section .small-heading {
+    color: #9a673d;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.review-form {
+    background-color: white;
+    border: 1px solid #d8c6b5;
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 25px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #c9b29e;
+    border-radius: 7px;
+    background-color: #fffdf9;
+    font-size: 15px;
+}
+
+textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* CLICKABLE STARS */
+
+#ratingStars {
+    font-size: 40px;
+    color: #cfc2b7;
+    cursor: pointer;
+    user-select: none;
+}
+
+#ratingStars span.active {
+    color: #a66a35;
+}
+
+/* BUTTON */
+
+button {
+    margin-top: 22px;
+    background-color: #6f4e37;
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4a2c1a;
+}
+
+/* THANK YOU MESSAGE */
+
+#successMessage {
+    display: none;
+    margin-top: 22px;
+    padding: 18px;
+    background-color: #f5eadf;
+    border: 2px solid #6f4e37;
+    border-radius: 10px;
+    color: #4a2c1a;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* BOTTOM */
+
+.bottom-section {
+    background-color: #3a2114;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.bottom-section h2 {
+    font-family: Georgia, serif;
+}
+
+footer {
+    background-color: #21130c;
+    color: #d6c5b5;
+    text-align: center;
+    padding: 20px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 0 5px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="logo">
+        ☕ WANDEROOT CAFÉ
+    </div>
+
+    <div>
+        <a href="#">Home</a>
+        <a href="#">Menu</a>
+        <a href="#">Gallery</a>
+        <a href="#">Reservation</a>
+        <a href="#">Reviews</a>
+    </div>
+
+</nav>
+
+<!-- TOP SECTION -->
+
+<section class="hero">
+
+    <div class="small-heading">
+        WHAT OUR GUESTS SAY
+    </div>
+
+    <h1>
+        Every Cup Has a Story.
+    </h1>
+
+    <p>
+        Share your experience with us and
+        help us make every visit special.
+    </p>
+
+</section>
+
+<!-- RATING -->
+
+<section class="rating-section">
+
+    <h2>Loved by Our Customers</h2>
+
+    <div class="big-stars">
+        ★★★★★
+    </div>
+
+    <p>
+        4.8 out of 5 based on customer reviews
+    </p>
+
+</section><!-- ==================================
+     CUSTOMER REVIEWS
+================================== -->
+
+<div id="reviewList">
+
+    <!-- REVIEW 1 -->
+
+    <div class="review-card">
+
+        <div class="stars">
+            ★★★★★
+        </div>
+
+        <p>
+            "Amazing coffee and a beautiful atmosphere.
+            The staff were very friendly too!"
+        </p>
+
+        <h4>
+            — Rahul Sharma
+        </h4>
+
+    </div>
+
+
+    <!-- REVIEW 2 -->
+
+    <div class="review-card">
+
+        <div class="stars">
+            ★★★★★
+        </div>
+
+        <p>
+            "I loved the food and the peaceful environment.
+            Definitely coming back again."
+        </p>
+
+        <h4>
+            — Priya
+        </h4>
+
+    </div>
+
+
+    <!-- REVIEW 3 -->
+
+    <div class="review-card">
+
+        <div class="stars">
+            ★★★★☆
+        </div>
+
+        <p>
+            "Great place to spend time with friends.
+            The caramel coffee was excellent."
+        </p>
+
+        <h4>
+            — Aman
+        </h4>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================
+     SHARE YOUR EXPERIENCE
+================================== -->
+
+<section class="form-section">
+
+    <div class="small-heading">
+        YOUR EXPERIENCE MATTERS
+    </div>
+
+    <h2>
+        Share Your Experience
+    </h2>
+
+    <p>
+        Had a great time at Wanderoot Café?
+        <br>
+        We'd love to hear from you.
+    </p>
+
+
+    <div class="review-form">
+
+
+        <!-- CUSTOMER NAME -->
+
+        <label for="customerName">
+            Your Name
+        </label>
+
+        <input
+            type="text"
+            id="customerName"
+            placeholder="Enter your name"
+        >
+
+
+        <!-- STAR RATING -->
+
+        <label>
+            Your Rating
+        </label>
+
+        <div id="ratingStars">
+
+            <span onclick="chooseRating(1)">★</span>
+
+            <span onclick="chooseRating(2)">★</span>
+
+            <span onclick="chooseRating(3)">★</span>
+
+            <span onclick="chooseRating(4)">★</span>
+
+            <span onclick="chooseRating(5)">★</span>
+
+        </div>
+
+
+        <!-- REVIEW -->
+
+        <label for="customerReview">
+            Your Review
+        </label>
+
+        <textarea
+            id="customerReview"
+            placeholder="Tell us about your experience..."
+        ></textarea>
+
+
+        <!-- SUBMIT BUTTON -->
+
+        <button
+            type="button"
+            onclick="addReview()"
+        >
+            Submit Review
+        </button>
+
+
+        <!-- THANK YOU MESSAGE -->
+
+        <div id="successMessage">
+
+            ☕ Thank you! Your review has been added successfully.
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ==================================
+     BOTTOM THANK YOU SECTION
+================================== -->
+
+<section class="bottom-section">
+
+    <h2>
+        ☕ Thank You for Visiting Wanderoot Café
+    </h2>
+
+    <p>
+        Good coffee. Good people. Great moments.
+    </p>
+
+</section>
+
+
+<!-- ==================================
+     FOOTER
+================================== -->
+
+<footer>
+
+    © 2026 Wanderoot Café |
+    Crafted with ☕ for coffee lovers
+
+</footer>
+<!-- ==================================
+     JAVASCRIPT
+================================== -->
+
+<script>
+
+/* Selected star rating */
+var selectedRating = 0;
+
+
+/* ==================================
+   CHOOSE RATING
+================================== */
+
+function chooseRating(number) {
+
+    selectedRating = number;
+
+    var stars =
+        document.querySelectorAll("#ratingStars span");
+
+    for (var i = 0; i < stars.length; i++) {
+
+        if (i < number) {
+            stars[i].classList.add("active");
+        }
+
+        else {
+            stars[i].classList.remove("active");
+        }
+
+    }
+
+}
+
+
+/* ==================================
+   CREATE A REVIEW CARD
+================================== */
+
+function createReviewCard(name, review, rating) {
+
+    var starText = "";
+
+
+    /* Create filled and empty stars */
+
+    for (var i = 1; i <= 5; i++) {
+
+        if (i <= rating) {
+            starText = starText + "★";
+        }
+
+        else {
+            starText = starText + "☆";
+        }
+
+    }
+
+
+    /* Create review card */
+
+    var card =
+        document.createElement("div");
+
+    card.className = "review-card";
+
+
+    /* Create stars */
+
+    var stars =
+        document.createElement("div");
+
+    stars.className = "stars";
+
+    stars.textContent = starText;
+
+
+    /* Create review text */
+
+    var reviewText =
+        document.createElement("p");
+
+    reviewText.textContent =
+        '"' + review + '"';
+
+
+    /* Create customer name */
+
+    var customerName =
+        document.createElement("h4");
+
+    customerName.textContent =
+        "— " + name;
+
+
+    /* Put everything inside card */
+
+    card.appendChild(stars);
+
+    card.appendChild(reviewText);
+
+    card.appendChild(customerName);
+
+
+    return card;
+
+}
+
+
+/* ==================================
+   SUBMIT REVIEW
+================================== */
+
+function addReview() {
+
+
+    /* Get name box */
+
+    var nameBox =
+        document.getElementById("customerName");
+
+
+    /* Get review box */
+
+    var reviewBox =
+        document.getElementById("customerReview");
+
+
+    /* Get entered information */
+
+    var name =
+        nameBox.value.trim();
+
+    var review =
+        reviewBox.value.trim();
+
+
+
+    /* CHECK NAME */
+
+    if (name === "") {
+
+        alert("Please enter your name.");
+
+        return;
+
+    }
+
+
+
+    /* CHECK RATING */
+
+    if (selectedRating === 0) {
+
+        alert("Please select a star rating.");
+
+        return;
+
+    }
+
+
+
+    /* CHECK REVIEW */
+
+    if (review === "") {
+
+        alert("Please write your review.");
+
+        return;
+
+    }
+
+
+
+    /* ==================================
+       CREATE NEW REVIEW
+    ================================== */
+
+    var newReview = {
+
+        name: name,
+
+        review: review,
+
+        rating: selectedRating
+
+    };
+
+
+
+    /* ==================================
+       GET PREVIOUSLY SAVED REVIEWS
+    ================================== */
+
+    var savedReviews = [];
+
+    var oldReviews =
+        localStorage.getItem("wanderootReviews");
+
+
+    if (oldReviews !== null) {
+
+        savedReviews =
+            JSON.parse(oldReviews);
+
+    }
+
+
+
+    /* Add new review */
+
+    savedReviews.unshift(newReview);
+
+
+
+    /* ==================================
+       SAVE REVIEWS
+    ================================== */
+
+    localStorage.setItem(
+
+        "wanderootReviews",
+
+        JSON.stringify(savedReviews)
+
+    );
+
+
+
+    /* ==================================
+       SHOW NEW REVIEW ON PAGE
+    ================================== */
+
+    var card =
+        createReviewCard(
+            name,
+            review,
+            selectedRating
+        );
+
+
+    var reviewList =
+        document.getElementById("reviewList");
+
+
+    reviewList.prepend(card);
+
+
+
+    /* ==================================
+       SHOW THANK YOU MESSAGE
+    ================================== */
+
+    var message =
+        document.getElementById("successMessage");
+
+
+    message.style.display = "block";
+
+
+    message.textContent =
+        "☕ Thank you, " +
+        name +
+        "! Your review has been added successfully.";
+
+
+
+    /* ==================================
+       CLEAR FORM
+    ================================== */
+
+    nameBox.value = "";
+
+    reviewBox.value = "";
+
+
+
+    /* Reset rating */
+
+    selectedRating = 0;
+
+
+    var stars =
+        document.querySelectorAll("#ratingStars span");
+
+
+    for (var i = 0; i < stars.length; i++) {
+
+        stars[i].classList.remove("active");
+
+    }
+
+
+
+    /* ==================================
+       THANK YOU POPUP
+    ================================== */
+
+    alert(
+        "Thank you! Your review has been added successfully."
+    );
+
+}
+
+
+
+/* ==================================
+   LOAD SAVED REVIEWS
+================================== */
+
+function loadSavedReviews() {
+
+
+    var oldReviews =
+        localStorage.getItem("wanderootReviews");
+
+
+    /* If there are no saved reviews */
+
+    if (oldReviews === null) {
+
+        return;
+
+    }
+
+
+    var savedReviews =
+        JSON.parse(oldReviews);
+
+
+    var reviewList =
+        document.getElementById("reviewList");
+
+
+
+    /* Show every saved review */
+
+    for (var i = savedReviews.length - 1; i >= 0; i--) {
+
+
+        var card =
+            createReviewCard(
+
+                savedReviews[i].name,
+
+                savedReviews[i].review,
+
+                savedReviews[i].rating
+
+            );
+
+
+        reviewList.prepend(card);
+
+    }
+
+}
+
+
+
+/* Load saved reviews when page opens */
+
+loadSavedReviews();
+
+
+</script>
+
+
+</body>
+
+</html>
