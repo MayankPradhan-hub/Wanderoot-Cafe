@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Billing - Wanderoot Café</title>
+
+    <!-- Same fonts as the Wanderoot Café website -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        /* SAME WANDEROOT CAFE COLOUR THEME */
+
+        :root {
+            --cream: #f8f3ec;
+            --white: #ffffff;
+            --nav-bg: #fffaf3;
+
+            --dark-brown: #2d1a10;
+            --deep-brown: #3b2416;
+            --medium-brown: #6f4e37;
+            --caramel: #a66a35;
+
+            --light-brown: #d8b99d;
+            --border: #dfd1c3;
+
+            --muted-text: #74584c;
+            --green: #2e7d32;
+            --red: #c62828;
+        }
+
+
+        /* BASIC PAGE SETTINGS */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--deep-brown);
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'EB Garamond', Georgia, serif;
+        }
+
+
+        /* NAVIGATION BAR */
+
+        nav {
+            background-color: var(--nav-bg);
+            padding: 18px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 27px;
+            font-weight: 700;
+
+            color: var(--dark-brown);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--deep-brown);
+
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--caramel);
+        }
+
+        .billing-button {
+            background-color: var(--caramel);
+            color: white !important;
+
+            padding: 8px 18px;
+            border-radius: 25px;
+        }
+
+
+        /* PAGE HEADING */
+
+        .page-header {
+            background-color: var(--dark-brown);
+            color: white;
+
+            text-align: center;
+
+            padding: 50px 20px;
+        }
+
+        .page-header .small-title {
+            color: var(--light-brown);
+
+            font-size: 12px;
+            font-weight: 600;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+        }
+
+        .page-header h1 {
+            font-size: 45px;
+            margin: 7px 0;
+        }
+
+        .page-header p {
+            color: #eaded3;
+            font-size: 15px;
+        }
+
+
+        /* MAIN BILLING AREA */
+
+        .billing-container {
+            max-width: 1100px;
+
+            margin: 40px auto 60px;
+
+            padding: 0 20px;
+
+            display: grid;
+
+            grid-template-columns: 1.3fr 0.7fr;
+
+            gap: 30px;
+        }
+
+
+        /* WHITE CARDS */
+
+        .card {
+            background-color: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            box-shadow: 0 4px 12px rgba(61, 39, 29, 0.06);
+        }
+
+        .card h2 {
+            color: var(--dark-brown);
+
+            font-size: 28px;
+
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: var(--muted-text);
+
+            font-size: 14px;
+
+            margin-bottom: 24px;
+        }
+
+
+        /* CUSTOMER FORM */
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-bottom: 7px;
+        }
+
+        .required {
+            color: var(--red);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 9px;
+
+            background-color: #fffdfb;
+
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+
+            font-size: 15px;
+
+            color: var(--deep-brown);
+
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+
+            min-height: 90px;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--caramel);
+
+            box-shadow: 0 0 0 3px rgba(166, 106, 53, 0.12);
+        }
+
+
+        /* PAYMENT SECTION */
+
+        .payment-heading {
+            margin-top: 30px;
+        }
+
+        .payment-options {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .payment-option {
+            background-color: #fffdfb;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            padding: 18px 10px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .payment-option:hover {
+            border-color: var(--caramel);
+
+            background-color: #fbf7f2;
+        }
+
+        .payment-option.selected {
+            border: 2px solid var(--caramel);
+
+            background-color: #f7efe6;
+        }
+
+        .payment-option i {
+            display: block;
+
+            font-size: 26px;
+
+            color: var(--caramel);
+
+            margin-bottom: 8px;
+        }
+
+        .payment-option span {
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* ORDER SUMMARY */
+
+        .order-summary {
+            height: fit-content;
+        }
+
+        .order-item {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid #eee3d8;
+        }
+
+        .item-name {
+            font-weight: 600;
+        }
+
+        .quantity {
+            color: var(--muted-text);
+
+            font-size: 13px;
+        }
+
+        .price {
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* BILL TOTALS */
+
+        .bill-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-top: 14px;
+
+            font-size: 14px;
+        }
+
+        .total {
+            border-top: 2px solid var(--border);
+
+            padding-top: 16px;
+
+            margin-top: 18px;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            color: var(--dark-brown);
+        }
+
+
+        /* CONFIRM BUTTON */
+
+        .pay-button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            background-color: var(--caramel);
+
+            color: white;
+
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .pay-button:hover {
+            background-color: var(--dark-brown);
+        }
+
+
+        /* SECURITY TEXT */
+
+        .secure-text {
+            text-align: center;
+
+            color: var(--muted-text);
+
+            font-size: 12px;
+
+            margin-top: 12px;
+        }
+
+        .secure-text i {
+            color: var(--green);
+        }
+
+
+        /* SUCCESS MESSAGE */
+
+        .success-message {
+            display: none;
+
+            text-align: center;
+
+            padding: 40px;
+        }
+
+        .success-message i {
+            font-size: 60px;
+
+            color: var(--green);
+
+            margin-bottom: 15px;
+        }
+
+        .success-message h2 {
+            font-size: 32px;
+
+            color: var(--dark-brown);
+        }
+
+        .success-message p {
+            color: var(--muted-text);
+
+            margin-top: 8px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+            background-color: var(--dark-brown);
+
+            color: #eaded3;
+
+            text-align: center;
+
+            padding: 25px 20px;
+
+            font-size: 13px;
+        }
+
+        footer strong {
+            color: white;
+
+            font-family: 'EB Garamond', Georgia, serif;
+
+            font-size: 19px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .billing-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+
+                gap: 0;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a:not(.billing-button) {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION BAR
+========================= -->
+
+<nav>
+
+    <a href="index.html" class="logo">
+        Wanderoot Café
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="menu.html">
+            Menu
+        </a>
+
+        <a href="reservation.html">
+            Reservation
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="review.html">
+            Reviews
+        </a>
+
+        <a href="billing.html"
+           class="billing-button">
+
+            <i class="fa-solid fa-receipt"></i>
+
+            Billing
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     PAGE HEADING
+========================= -->
+
+<section class="page-header">
+
+    <div class="small-title">
+        Wanderoot Café
+    </div>
+
+    <h1>
+        Billing & Payment
+    </h1>
+
+    <p>
+        Just a few simple details and your order is ready.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     MAIN BILLING AREA
+========================= -->
+
+<main class="billing-container">
+
+
+    <!-- CUSTOMER INFORMATION -->
+
+    <section class="card"
+             id="billingForm">
+
+
+        <h2>
+            Your Details
+        </h2>
+
+
+        <p class="description">
+            Please enter your information below.
+        </p>
+
+
+
+        <!-- NAME AND PHONE -->
+
+        <div class="form-row">
+
+
+            <div class="form-group">
+
+                <label for="fullName">
+
+                    Full Name
+
+                    <span class="required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label for="phone">
+
+                    Phone Number
+
+                    <span class="required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    autocomplete="tel"
+                >
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+            <label for="email">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email address"
+                autocomplete="email"
+            >
+
+        </div>
+
+
+
+        <!-- ADDRESS -->
+
+        <div class="form-group">
+
+            <label for="address">
+
+                Billing Address
+
+                <span class="required">
+                    *
+                </span>
+
+            </label>
+
+
+            <textarea
+                id="address"
+                placeholder="Enter your complete address"
+                autocomplete="street-address"
+            ></textarea>
+
+        </div>
+
+
+
+        <!-- PAYMENT METHOD -->
+
+        <h2 class="payment-heading">
+            Payment Method
+        </h2>
+
+
+        <p class="description">
+            Select how you would like to pay.
+        </p>
+
+
+
+        <div class="payment-options">
+
+
+            <!-- UPI -->
+
+            <div
+                class="payment-option"
+                onclick="selectPayment(this, 'UPI')"
+            >
+
+                <i class="fa-solid fa-mobile-screen-button"></i>
+
+                <span>
+                    UPI
+                </span>
+
+            </div>
+
+
+
+            <!-- CARD -->
+
+            <div
+                class="payment-option"
+                onclick="selectPayment(this, 'Card')"
+            >
+
+                <i class="fa-regular fa-credit-card"></i>
+
+                <span>
+                    Card
+                </span>
+
+            </div>
+
+
+
+            <!-- CASH -->
+
+            <div
+                class="payment-option"
+                onclick="selectPayment(this, 'Cash')"
+            >
+
+                <i class="fa-solid fa-money-bill-wave"></i>
+
+                <span>
+                    Cash
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         ORDER SUMMARY
+    ========================= -->
+
+    <aside class="card order-summary">
+
+
+        <h2>
+            Order Summary
+        </h2>
+
+
+        <p class="description">
+            Please check your order before paying.
+        </p>
+
+
+
+        <!-- ITEM 1 -->
+
+        <div class="order-item">
+
+            <div>
+
+                <div class="item-name">
+                    Cappuccino
+                </div>
+
+                <div class="quantity">
+                    Quantity: 1
+                </div>
+
+            </div>
+
+
+            <div class="price">
+                ₹180
+            </div>
+
+        </div>
+
+
+
+        <!-- ITEM 2 -->
+
+        <div class="order-item">
+
+            <div>
+
+                <div class="item-name">
+                    Chocolate Croissant
+                </div>
+
+                <div class="quantity">
+                    Quantity: 1
+                </div>
+
+            </div>
+
+
+            <div class="price">
+                ₹150
+            </div>
+
+        </div>
+
+
+
+        <!-- SUBTOTAL -->
+
+        <div class="bill-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <span>
+                ₹330
+            </span>
+
+        </div>
+
+
+
+        <!-- TAX -->
+
+        <div class="bill-row">
+
+            <span>
+                Taxes
+            </span>
+
+            <span>
+                ₹16.50
+            </span>
+
+        </div>
+
+
+
+        <!-- TOTAL -->
+
+        <div class="bill-row total">
+
+            <span>
+                Total
+            </span>
+
+            <span>
+                ₹346.50
+            </span>
+
+        </div>
+
+
+
+        <!-- CONFIRM BUTTON -->
+
+        <button
+            class="pay-button"
+            onclick="completeOrder()"
+        >
+
+            <i class="fa-solid fa-lock"></i>
+
+            Confirm & Pay ₹346.50
+
+        </button>
+
+
+
+        <div class="secure-text">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            Simple and secure checkout
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         SUCCESS MESSAGE
+    ========================= -->
+
+    <section
+        class="card success-message"
+        id="successMessage"
+    >
+
+
+        <i class="fa-solid fa-circle-check"></i>
+
+
+        <h2>
+            Order Confirmed!
+        </h2>
+
+
+        <p>
+            Thank you for ordering from Wanderoot Café.
+        </p>
+
+
+        <p>
+            Your order has been successfully placed.
+        </p>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <strong>
+        Wanderoot Café
+    </strong>
+
+    <br>
+
+    Made with warmth, coffee and good food.
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+
+    // Stores which payment method the customer selects
+    let selectedPayment = "";
+
+
+    // PAYMENT SELECTION
+
+    function selectPayment(element, method) {
+
+
+        // Find all payment options
+        const options =
+            document.querySelectorAll(".payment-option");
+
+
+        // Remove previous selection
+        options.forEach(function(option) {
+
+            option.classList.remove("selected");
+
+        });
+
+
+        // Highlight new selection
+        element.classList.add("selected");
+
+
+        // Remember selected payment method
+        selectedPayment = method;
+
+    }
+
+
+
+    // CONFIRM ORDER
+
+    function completeOrder() {
+
+
+        // Get information entered by customer
+
+        const name =
+            document
+            .getElementById("fullName")
+            .value
+            .trim();
+
+
+        const phone =
+            document
+            .getElementById("phone")
+            .value
+            .trim();
+
+
+        const address =
+            document
+            .getElementById("address")
+            .value
+            .trim();
+
+
+
+        // CHECK NAME
+
+        if (name === "") {
+
+            alert("Please enter your full name.");
+
+            document
+                .getElementById("fullName")
+                .focus();
+
+            return;
+        }
+
+
+
+        // CHECK PHONE NUMBER
+
+        if (phone === "") {
+
+            alert("Please enter your phone number.");
+
+            document
+                .getElementById("phone")
+                .focus();
+
+            return;
+        }
+
+
+
+        // CHECK ADDRESS
+
+        if (address === "") {
+
+            alert("Please enter your billing address.");
+
+            document
+                .getElementById("address")
+                .focus();
+
+            return;
+        }
+
+
+
+        // CHECK PAYMENT METHOD
+
+        if (selectedPayment === "") {
+
+            alert("Please select a payment method.");
+
+            return;
+        }
+
+
+
+        // HIDE BILLING FORM
+
+        document
+            .getElementById("billingForm")
+            .style
+            .display = "none";
+
+
+
+        // HIDE ORDER SUMMARY
+
+        document
+            .querySelector(".order-summary")
+            .style
+            .display = "none";
+
+
+
+        // SHOW SUCCESS MESSAGE
+
+        const success =
+            document.getElementById("successMessage");
+
+
+        success.style.display = "block";
+
+        success.style.gridColumn = "1 / -1";
+
+
+
+        // Scroll to success message
+
+        success.scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
