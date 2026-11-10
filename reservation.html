@@ -25,7 +25,7 @@
             transition: opacity 0.6s ease;
         }
         .loader-stage { position: relative; width: 210px; height: 235px; transform: scale(.84); }
-        .moka-pot { position: absolute; top: 0; right: 0; width: 180px; mix-blend-mode: multiply; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
+        .moka-pot { position: absolute; top: 0; right: 0; width: 180px; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
         .pour-stream { position: absolute; top: 109px; left: 31px; width: 5px; height: 69px; border-radius: 999px; background: #3d271d; transform-origin: top; opacity: 0; animation: streamPour 1.9s ease-in-out .62s forwards; }
         .loader-cup { position: absolute; top: 172px; left: 0; width: 74px; height: 46px; overflow: hidden; border: 2px solid #3d271d; border-top: 0; border-radius: 0 0 15px 15px; }
         .loader-cup::after { content: ''; position: absolute; top: 7px; right: -15px; width: 11px; height: 24px; border: 2px solid #3d271d; border-left: 0; border-radius: 0 13px 13px 0; }
@@ -589,7 +589,9 @@
 
         <div class="nav-links">
             <a href="index.html"><i class="fa-solid fa-utensils"></i> Menu</a>
+            <a href="about.html"><i class="fa-solid fa-book-open"></i> About</a>
             <a href="reservation.html" class="active"><i class="fa-regular fa-calendar-check"></i> Reservation</a>
+            <a href="review.html"><i class="fa-regular fa-star"></i> Reviews</a>
             <a href="index.html" class="nav-cta-btn"><i class="fa-solid fa-mug-saucer"></i> Explore Menu</a>
         </div>
     </nav>
@@ -858,6 +860,7 @@
                 <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Navigation</h4>
                 <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
                     <a href="index.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
+                    <a href="about.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Our Story / About</a>
                     <a href="reservation.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
                     <a href="index.html#coffee" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
                     <a href="index.html#bakery" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
@@ -888,7 +891,7 @@
             // Moka-pot coffee loader animation
             const loader = document.createElement("div");
             loader.id = "coffee-loader";
-            loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.jpg" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+            loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.png" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
             document.body.prepend(loader);
 
             setTimeout(() => {

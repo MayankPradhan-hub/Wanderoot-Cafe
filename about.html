@@ -1,0 +1,884 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=Literata:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "error-container": "#ffdad6",
+          "on-primary-container": "#ad8d7f",
+          "on-tertiary-container": "#b18c77",
+          "inverse-surface": "#31302d",
+          "tertiary-fixed-dim": "#e8bea8",
+          "on-secondary-fixed": "#2f1500",
+          "tertiary-container": "#402617",
+          "on-secondary": "#ffffff",
+          "on-surface": "#1c1c19",
+          "secondary-fixed-dim": "#f3bb91",
+          "tertiary-fixed": "#ffdbc9",
+          "on-background": "#1c1c19",
+          "on-error-container": "#93000a",
+          "on-secondary-fixed-variant": "#643e1e",
+          "on-surface-variant": "#4f4440",
+          "secondary-fixed": "#ffdcc3",
+          "on-secondary-container": "#7a502e",
+          "surface-container-highest": "#f2eee9",
+          "surface-container-high": "#f5f1eb",
+          "on-tertiary-fixed-variant": "#5d402f",
+          "background": "#ffffff",
+          "error": "#ba1a1a",
+          "inverse-on-surface": "#f3f0eb",
+          "surface-container": "#faf7f2",
+          "surface-container-low": "#fcfbf9",
+          "surface-dim": "#e5e0d8",
+          "primary-container": "#3d271d",
+          "secondary": "#7f5533",
+          "outline": "#81746f",
+          "on-primary": "#ffffff",
+          "surface-container-lowest": "#ffffff",
+          "on-primary-fixed": "#2a170e",
+          "on-tertiary-fixed": "#2c1608",
+          "on-primary-fixed-variant": "#5a4136",
+          "surface-tint": "#74584c",
+          "primary": "#3d271d",
+          "primary-fixed": "#ffdbcc",
+          "tertiary": "#5a3a29",
+          "inverse-primary": "#e3bfb0",
+          "on-tertiary": "#ffffff",
+          "surface-variant": "#f4efe9",
+          "surface": "#ffffff",
+          "outline-variant": "#d8d1ca",
+          "on-error": "#ffffff",
+          "surface-bright": "#ffffff",
+          "secondary-container": "#ffc69b",
+          "primary-fixed-dim": "#e3bfb0"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-sm": "0.75rem",
+          "margin-tablet": "2.5rem",
+          "space-xl": "2rem",
+          "space-2xs": "0.25rem",
+          "space-3xl": "4rem",
+          "gutter-tablet": "1.5rem",
+          "margin-desktop": "4rem",
+          "space-md": "1rem",
+          "container-max": "1200px",
+          "gutter-desktop": "2.5rem",
+          "margin-mobile": "1.25rem",
+          "space-2xl": "3rem",
+          "space-xs": "0.5rem",
+          "gutter-mobile": "1rem",
+          "space-4xl": "6rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-sm": [
+            "EB Garamond"
+          ],
+          "body-lg": [
+            "Literata"
+          ],
+          "body-sm": [
+            "Literata"
+          ],
+          "headline-lg-mobile": [
+            "EB Garamond"
+          ],
+          "display-hero-mobile": [
+            "EB Garamond"
+          ],
+          "label-sm": [
+            "Hanken Grotesk"
+          ],
+          "label-md": [
+            "Hanken Grotesk"
+          ],
+          "headline-lg": [
+            "EB Garamond"
+          ],
+          "body-md": [
+            "Literata"
+          ],
+          "title-editorial": [
+            "EB Garamond"
+          ],
+          "label-lg": [
+            "Hanken Grotesk"
+          ],
+          "display-hero": [
+            "EB Garamond"
+          ],
+          "headline-md": [
+            "EB Garamond"
+          ]
+        },
+        "fontSize": {
+          "headline-sm": [
+            "22px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "600"
+            }
+          ],
+          "body-lg": [
+            "18px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-sm": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg-mobile": [
+            "30px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "500"
+            }
+          ],
+          "display-hero-mobile": [
+            "38px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "400"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.1em",
+              "fontWeight": "500"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "40px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "500"
+            }
+          ],
+          "body-md": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "title-editorial": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.06em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-hero": [
+            "56px",
+            {
+              "lineHeight": "64px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "28px",
+            {
+              "lineHeight": "34px",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      }
+    }
+  }</script>
+<style>
+/* Coffee Loader — Kettle Pour Animation */
+#coffee-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #faf8f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease;
+}
+.loader-stage { position: relative; width: 210px; height: 235px; transform: scale(.84); }
+.moka-pot { position: absolute; top: 0; right: 0; width: 180px; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
+.pour-stream { position: absolute; top: 109px; left: 31px; width: 5px; height: 69px; border-radius: 999px; background: #3d271d; transform-origin: top; opacity: 0; animation: streamPour 1.9s ease-in-out .62s forwards; }
+.loader-cup { position: absolute; top: 172px; left: 0; width: 74px; height: 46px; overflow: hidden; border: 2px solid #3d271d; border-top: 0; border-radius: 0 0 15px 15px; }
+.loader-cup::after { content: ''; position: absolute; top: 7px; right: -15px; width: 11px; height: 24px; border: 2px solid #3d271d; border-left: 0; border-radius: 0 13px 13px 0; }
+.coffee-fill { position: absolute; inset: auto 0 0; height: 100%; background: #3d271d; transform-origin: bottom; transform: scaleY(0); animation: fillCup 1.9s ease-out .75s forwards; }
+@keyframes mokaPour { 0%, 14% { transform: rotate(0deg); } 30%, 76% { transform: rotate(-16deg) translate(-4px, 3px); } 100% { transform: rotate(0deg); } }
+@keyframes streamPour { 0% { opacity: 0; transform: scaleY(0); } 14%, 78% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(.7); } }
+@keyframes fillCup { from { transform: scaleY(0); } to { transform: scaleY(.86); } }
+
+/* Scroll Blur — applied only to page content so navigation stays usable */
+main {
+  transition: filter 0.15s ease-out;
+}
+
+/* Updated Stitch wordmark: replaces the prior emblem + text treatment. */
+header > div > div:first-child {
+  position: relative;
+  width: 240px;
+  height: 60px;
+  flex: 0 0 240px;
+}
+header > div > div:first-child > * { visibility: hidden; }
+header > div > div:first-child::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('assets/wanderoot-cafe-logo.svg') left center / contain no-repeat;
+}
+@media (max-width: 639px) {
+  header > div > div:first-child { width: 190px; flex-basis: 190px; }
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Loader — Kettle Pour Animation
+  const loader = document.createElement("div");
+  loader.id = "coffee-loader";
+  loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.png" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+  document.body.prepend(loader);
+
+  setTimeout(() => {
+    loader.style.opacity = "0";
+    setTimeout(() => loader.remove(), 600);
+  }, 3100);
+
+  // Scroll Blur — velocity-responsive, matching the newer Stitch motion treatment.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const target = document.querySelector('main');
+    let lastY = window.scrollY;
+    let lastTime = performance.now();
+    let currentBlur = 0;
+    let targetBlur = 0;
+    let ticking = false;
+
+    const animateBlur = () => {
+      currentBlur += (targetBlur - currentBlur) * 0.35;
+      targetBlur *= 0.75;
+      if (currentBlur > 0.04) {
+        target.style.filter = `blur(${currentBlur.toFixed(2)}px)`;
+        requestAnimationFrame(animateBlur);
+      } else {
+        target.style.filter = 'none';
+        currentBlur = 0;
+        targetBlur = 0;
+        ticking = false;
+      }
+    };
+
+    window.addEventListener('scroll', () => {
+      const now = performance.now();
+      targetBlur = Math.min(1, Math.abs(window.scrollY - lastY) / Math.max(1, now - lastTime) * 0.45);
+      lastY = window.scrollY;
+      lastTime = now;
+      if (!ticking) {
+        ticking = true;
+        animateBlur();
+      }
+    }, { passive: true });
+  }
+});
+</script>
+</head>
+<body class="bg-background font-body-md text-on-surface min-h-screen selection:bg-secondary-container selection:text-on-secondary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06),0_1px_3px_rgba(61,39,29,0.04)] border-b border-outline-variant/30"><div class="h-20 max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Wanderroot cafe Emblem" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzKxzwlfd_RJALQ8iBvEJ65cQY06KiEwrM8SnJBSWMHccQ-9B9vyxEAvwMdlMunjQRWZteJK7PX3nAgkTWQLuIpPEBfgdUPfaO7sNdk0swOiz0HNAkJy98jFADaqPaZycoefcmXMHCXURwOgw2ibcp8-TfNSVhZqGNL7MZLP0Kn5LOV1rWubMEcwbH9ha3T5l61beJEgSJHPsn3srIy4mAYmHBH_vlHddnf_QwfZKpPisUGiQsA9Jq2g"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-tight tracking-tight">Wanderroot cafe</span><span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase">Landour • Mussoorie • Alt. 7,120 ft</span></div></div><nav class="hidden xl:flex items-center gap-space-lg" data-active-classes="text-primary font-semibold border-b border-secondary"><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors pb-1" data-path="home" href="index.html">Menu</a><a aria-current="page" class="uppercase tracking-wider transition-colors pb-1 text-primary font-semibold border-b border-secondary" data-path="our-story" href="about.html">About</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors pb-1" data-path="reservation" href="reservation.html">Reservation</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors pb-1" data-path="reviews" href="review.html">Reviews</a></nav><div class="flex items-center gap-space-sm"><div class="hidden sm:flex flex-col text-right pr-space-xs"><span class="font-label-sm text-label-sm text-primary font-medium tracking-wide uppercase">Open Daily • 8 AM - 7 PM</span><span class="font-body-sm text-body-sm text-on-surface-variant italic">Cantonment Hearth</span></div><!-- Shopping Bag / Cart Icon Button --><button aria-label="Shopping Cart" class="relative w-9 h-9 rounded-full bg-surface-container hover:bg-surface-variant text-primary flex items-center justify-center transition-colors border border-outline-variant/40"><svg class="w-4 h-4 stroke-current" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" x2="21" y1="6" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg><span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary text-on-secondary font-label-sm text-[9px] flex items-center justify-center font-bold">0</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Sub-Header / Chapter Ribbon Navigation -->
+<section class="w-full bg-surface-container-low border-b border-outline-variant/30 py-space-xs sticky top-20 z-40 shadow-sm backdrop-blur-sm bg-surface-container-low/95">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop flex items-center justify-between overflow-x-auto no-scrollbar gap-space-md">
+<div class="flex items-center gap-space-xs shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]">menu_book</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-medium">Chronicle</span>
+</div>
+<div class="flex items-center gap-space-lg shrink-0 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#prologue">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          Prologue
+        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#chapter-one">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+          I. The Restless Heart
+        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#chapter-two">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+          II. Deodar &amp; Stone
+        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#chapter-three">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+          III. The Living Hearth
+        </a>
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#philosophy">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+          Ethos in Practice
+        </a>
+</div>
+<div class="shrink-0 hidden md:block">
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 italic">Landour Ridge • 7,120 FT</span>
+</div>
+</div>
+</section>
+<!-- Story Header Hero -->
+<section class="relative w-full bg-surface-container-highest overflow-hidden py-space-3xl md:py-space-4xl" id="prologue">
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#3d271d_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-end">
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs bg-white/90 px-space-sm py-1 rounded-full w-fit shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-secondary text-[16px]">history_edu</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold">The Founder's Journey</span>
+</div>
+<h1 class="font-display-hero text-display-hero text-primary tracking-tight leading-[1.08]">
+            Our Story: A Journey to the Queen of Hills
+          </h1>
+<p class="font-title-editorial text-title-editorial italic text-on-surface-variant max-w-2xl leading-relaxed">
+            “The Symbiotic Journey — Where Wandering Finds Rootedness amidst the ancient deodars of Landour.”
+          </p>
+</div>
+<div class="lg:col-span-4 flex flex-col justify-end">
+<div class="p-space-lg bg-white rounded-xl shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06),0_1px_3px_rgba(61,39,29,0.04)] relative border border-outline-variant/20">
+<div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-secondary-container text-[18px]">verified</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary block mb-1">Folio Record No. 42</span>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed">
+              Recorded in the quiet cantonment winter of 2018, overlooking the twilight silhouette of the Doon Valley.
+            </p>
+<div class="mt-space-sm pt-space-xs flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">altitude</span>
+<span>Elevation 2,170m • 30°27'N 78°05'E</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Winter Line Horizon Bar Accent -->
+<div class="w-full h-1.5 bg-gradient-to-r from-tertiary via-secondary to-primary-container opacity-85"></div>
+<!-- Chapter 1: The Call of the Hills (The Founder's 'Wander') -->
+<section class="w-full py-space-3xl md:py-space-4xl bg-white" id="chapter-one">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left: Editorial Content -->
+<div class="lg:col-span-7 flex flex-col gap-space-lg">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-secondary font-semibold">Chapter I</span>
+<span class="h-px bg-outline-variant flex-1 max-w-[100px]"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80 uppercase">The Four Continents</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight">
+            The Restless Heart
+          </h2>
+<div class="relative pl-space-md border-l-2 border-secondary/40">
+<p class="font-title-editorial text-title-editorial italic text-on-surface-variant leading-relaxed">
+              “I wasn't merely searching for exceptional coffee, but for a sanctuary where an adventure feels like a homecoming.”
+            </p>
+</div>
+<div class="font-body-lg text-body-lg text-on-surface space-y-space-md leading-relaxed text-justify">
+<p>
+              For over a decade, I carried a restless heart across four continents. As a traveler and archivist of flavors, I chased the morning light from the misty coffee fincas of Colombia to the ancient tea stalls of Kyoto and Istanbul. Yet with every winding road and every distant horizon, a quiet longing persisted: I wasn't merely searching for exceptional coffee, but for a sanctuary where an adventure feels like a homecoming.
+            </p>
+<p>
+              In crowded metropolitan coffee shops, coffee had become transactional—swift, digital, and detached from the soil that birthed it. I yearned for a place where time slows to the pace of drifting mountain mist, where conversations outlive the afternoon light, and where every pour honors both the wanderer's curiosity and the artisan's patience.
+            </p>
+</div>
+<!-- Interactive Travel Compass / Dispatch Note -->
+<div class="mt-space-md p-space-md bg-surface-container rounded-xl flex items-center gap-space-md shadow-sm border border-outline-variant/30">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary text-[24px]">explore</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-semibold uppercase tracking-wider">Field Log Excerpt — 2016</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                “Met an old roaster in the Andean highlands who told me: Coffee without a place to sit and ponder is simply fuel; with a chair and pine forest air, it is poetry.”
+              </p>
+</div>
+</div>
+</div>
+<!-- Right: Archival Visual Sidebar & Field Card -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg lg:pl-space-md">
+<!-- Photo Container -->
+<div class="relative group rounded-xl overflow-hidden shadow-[0_16px_36px_-4px_rgba(61,39,29,0.10),0_4px_8px_rgba(61,39,29,0.05)] bg-surface-container-high border border-outline-variant/30">
+<img class="w-full h-80 object-cover object-center group-hover:scale-105 transition-transform duration-700" data-alt="Vintage leather-bound travel journals, open compass, antique brass fountain pen, and dried mountain botanicals laid out on a weathered deodar timber tabletop in soft morning window light with warm brown and green tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWUarEVqXrvdfo0Qh__0tKh2zrjE6ifVuEhpKjsKDq9yVVDE2PINoF1KAXC7Yh-WqOkbOAqTrroI8KwCSOmctfnOxpE6BpIbiQkVesXYRi4dmoktqQENN9AV539DPt5jMSGquECjgXClWMen5VNwsURLDGwLSRnTGVXnpps5T7MO33MHmdfIX-rj_tlqWJOBuQbXmC0a01IKfkjNPa9EE4cLExQPSd4w3yna3zKEKuYApqq4b5Ptxg_g">
+<div class="p-space-md bg-white/95 backdrop-blur-sm border-t border-outline-variant/30">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold">Archival Artifact</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Folio 12B</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                The original leather ledger used during the journeys across the Nilgiris and the Andes.
+              </p>
+</div>
+</div>
+<!-- Data Visualization: Wander Path -->
+<div class="p-space-lg bg-surface-container-low rounded-xl shadow-sm flex flex-col gap-space-sm border border-outline-variant/30">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold">The 10-Year Migration</span>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Manizales, COL</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<span>Kyoto, JPN</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+<span>Landour, IND</span>
+</div>
+<!-- Hand-drawn style SVG flightline spark -->
+<svg class="w-full h-12 text-secondary" fill="none" viewBox="0 0 300 40" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 30C50 10 90 35 140 15C190 -5 240 28 295 10" stroke="currentColor" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="5" cy="30" fill="currentColor" r="3"></circle>
+<circle cx="140" cy="15" fill="currentColor" r="3"></circle>
+<circle class="animate-pulse" cx="295" cy="10" fill="currentColor" r="4"></circle>
+</svg>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-right italic">
+              Ending at 7,120 ft above sea level.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Chapter 2: Finding Home in the Himalayas (The 'Rooting') -->
+<section class="w-full py-space-3xl md:py-space-4xl bg-surface-container-low relative" id="chapter-two">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop">
+<!-- Chapter Heading Tag -->
+<div class="flex items-center gap-space-sm mb-space-xl">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-secondary font-semibold">Chapter II</span>
+<span class="h-px bg-outline-variant flex-1 max-w-[100px]"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80 uppercase">The Arrival in Landour</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Mountain Landscape Feature Image -->
+<div class="lg:col-span-6 relative">
+<div class="rounded-xl overflow-hidden shadow-[0_16px_36px_-4px_rgba(61,39,29,0.10),0_4px_8px_rgba(61,39,29,0.05)] bg-surface-container-high border border-outline-variant/30">
+<img class="w-full h-[460px] object-cover" data-alt="Spectacular sunset over the Himalayan mountain ridges of Landour Mussoorie showcasing the famous Winter Line horizon phenomenon with deep violet sky, bright orange and amber radiant band, silhouette deodar trees and distant hills in serene twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVoyd6-_qzbruD_BY-FzE_wmYBVlQlwUvUxPoUjTc1-WA8N9v3WrxAGoXY0PM8pbDLsS1fIeu41goJbwPOxWoJ-v50rigB5bSFmvch8_lR3cedwIuO42yLDJvaxswcy7q1kJWUPUt_mP8TYuzA5JxOb6QgUnoWlpcVCQ5mEhpeDFIR4xGRSMEr1qajZ3Dh54bbf8ryyR5ZKHfazzjF_nnGAAudCZwejbUdGqaT9ssY3OniR-yCfQdReA">
+</div>
+<!-- Floating Badge / Altitude Marker -->
+<div class="absolute -bottom-5 -left-4 md:left-6 bg-white p-space-md rounded-xl shadow-md border-l-4 border-secondary max-w-xs border border-outline-variant/30">
+<div class="flex items-center gap-space-xs text-primary mb-1">
+<span class="material-symbols-outlined text-[20px] text-secondary">wb_twilight</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Optical Marvel</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              The Winter Line is visible only from Landour and parts of the Swiss Alps between October and February.
+            </p>
+</div>
+</div>
+<!-- Narrative Content -->
+<div class="lg:col-span-6 flex flex-col gap-space-md mt-space-lg lg:mt-0">
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight">
+            The Scent of Deodar &amp; An Ancient Rhythm
+          </h2>
+<div class="font-body-lg text-body-lg text-on-surface space-y-space-md leading-relaxed text-justify">
+<p>
+              Then came the winding ascent past Rajpur up into the quiet ridges of Landour. The bustling plains dissolved into an intoxicating air rich with cedar sap, wet slate, and wild pine needles. Here, beneath church bells that have tolled since 1836 and stone cottages nestled in moss, I met Garhwali mountain farmers who spoke of the seasons with reverent intimacy.
+            </p>
+<p>
+              In their kitchens, steaming glasses of spiced chai and earthy mandua flatbread carried centuries of resilience and hospitality. As I stood at twilight near Lal Tibba and witnessed the rare <span class="font-semibold text-secondary">‘Winter Line’</span>—that mythical, glowing band of amber, vermilion, and lavender suspended over the darkening Doon Valley—the restlessness finally quieted. The mountains did not simply welcome me; they anchored me.
+            </p>
+</div>
+<!-- Rustic Stone & Deodar Highlights -->
+<div class="grid grid-cols-2 gap-space-md pt-space-sm">
+<div class="p-space-sm bg-white rounded-lg border border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-1 text-primary font-headline-sm text-headline-sm">
+<span>1836</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Cantonment Heritage</span>
+</div>
+<div class="p-space-sm bg-white rounded-lg border border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-1 text-secondary font-headline-sm text-headline-sm">
+<span>7,120</span>
+<span class="font-label-sm text-label-sm">FT</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Alpine Ridge Air</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Chapter 3: The Birth of the Cafe (Fusing the Concepts) -->
+<section class="w-full py-space-3xl md:py-space-4xl bg-white" id="chapter-three">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop">
+<div class="flex flex-col items-center text-center max-w-3xl mx-auto mb-space-3xl">
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="h-px bg-outline-variant w-12"></span>
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-secondary font-semibold">Chapter III</span>
+<span class="h-px bg-outline-variant w-12"></span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight mb-space-sm">
+          The Duality — Where Paths Cross &amp; Roots Deepen
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          Wanderroot cafe was conceived not as a commercial establishment, but as the living embodiment of this dual spirit.
+        </p>
+</div>
+<!-- Narrative Text Block -->
+<div class="max-w-3xl mx-auto font-body-lg text-body-lg text-on-surface mb-space-3xl leading-relaxed text-justify space-y-space-md">
+<p>
+          We built a home dedicated to the wanderer in all of us—the reader lost in a book, the traveler trekking from afar, the dreamer seeking solace—founded upon deep roots in the Himalayan soil. Every wooden beam of salvaged deodar, every locally carved banister, and every bean ground in our espresso bar bridges these two worlds.
+        </p>
+<p>
+          We bring world-class pour-over craftsmanship to meet indigenous millet grains, foraged rhododendron blossoms, and the untamed warmth of mountain folk. Here, you share your journey while tasting the soul of ours.
+        </p>
+</div>
+<!-- Bento Visual Pair -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-lg items-stretch">
+<!-- Large Card: The Literary Mountain Salon -->
+<div class="md:col-span-7 bg-surface-container rounded-xl overflow-hidden shadow-sm border border-outline-variant/30 flex flex-col group">
+<div class="h-80 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Cozy Landour cafe interior with exposed Garhwali stone walls, rich deodar wooden rafters, tall floor to ceiling bookshelves overflowing with antique books, a roaring fireplace, vintage wooden tables where travelers read by foggy misty mountain windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxIJu0YrnCmCszh-uDQfboX4K0TtVys34DzeLvYH9Pi5ZxITyRJJN14S49voIjR03F_fIJ_Y6NomGq2mr0xRNo-BHqalrjPp_wLO0gy1qntwjGiBwjgVmnirKlfUw-HkbwPzE09WzIUPrhOQSQCUfGmuX_mKR_Ztis2WLh6nce7QVJjabjENndmd-1YBq5236I5Tbn4uevZgA24cheDIPdUv0nHGcyWRLSA7hSel0BG-37lVeQE1-MUg">
+<div class="absolute top-4 left-4 bg-primary text-on-primary font-label-sm text-label-sm px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">
+              The Cantonment Salon
+            </div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 bg-white">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-2xs">Deodar Beams &amp; Stone Hearth</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Handcrafted by fourth-generation local carpenters using timber salvaged from century-old colonial bungalows that had fallen silent along Upper Mall Road.
+              </p>
+</div>
+<div class="mt-space-md flex items-center justify-between pt-space-sm border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Fireplace Lit at Dusk</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant italic">Open for all wanderers</span>
+</div>
+</div>
+</div>
+<!-- Small Card: The Table Reading & Ceramic Pour -->
+<div class="md:col-span-5 bg-surface-container rounded-xl overflow-hidden shadow-sm border border-outline-variant/30 flex flex-col group">
+<div class="h-80 overflow-hidden relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Close-up still life of a steaming handcrafted ceramic mug of pour-over coffee on a weathered rustic timber table beside an open vintage Ruskin Bond novel and brass reading spectacles with soft fog and pine trees visible outside the window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2-On7UY-oHtvABI2-vpfE8HBJ_GUTR61lTj04B0YgdisUHt-lcqgg7rv79lZyT4Ikv72SyvQHKLv35km1_2cGtLSEduTxNNVM6kQ3ndtZRa5D3heBF0o8Z8rLcGRf9cC5fM-pzgXb4t8y3iBIJNTo0yO10ll1-9ySGD7LnbB0kdd555yFxD1qm9ekFui6CthWQNSensBNo-7ViWo53BzP0Vq1a0_OjAc5HyVoFqmaVJF-MnN7OiXI3Q">
+<div class="absolute top-4 left-4 bg-secondary text-on-secondary font-label-sm text-label-sm px-space-sm py-1 rounded-full uppercase tracking-wider shadow-sm">
+              The Reading Nook
+            </div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 bg-white">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-2xs">Pour-Over &amp; Margin Notes</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                Single-origin beans brewed in hand-thrown studio pottery alongside well-thumbed editions of Himalayan lore.
+              </p>
+</div>
+<div class="mt-space-md flex items-center justify-between pt-space-sm border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">No Wi-Fi Policy</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant italic">Unplugged solace</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Quote Pullout Banner (Warm Walnut/Espresso Brown #3D271D replaces forest green) -->
+<section class="w-full bg-[#3D271D] text-white py-space-3xl relative overflow-hidden">
+<div class="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-[#5a3a29]/40 blur-3xl pointer-events-none"></div>
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop relative z-10 text-center">
+<div class="max-w-3xl mx-auto flex flex-col items-center gap-space-md">
+<span class="material-symbols-outlined text-secondary-fixed text-[36px]">format_quote</span>
+<blockquote class="font-display-hero text-headline-lg md:text-display-hero text-white leading-tight font-headline-sm italic">
+          “It is good to have an end to journey toward; but it is the journey that matters, in the end.”
+        </blockquote>
+<div class="flex flex-col items-center">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-secondary-fixed">The Landour Library Inscription</span>
+<span class="font-body-sm text-body-sm text-white/70 italic mt-1">Carved into the lintel above our east-facing window</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Our Philosophy in Practice (The 'Roots' in Action) -->
+<section class="w-full py-space-3xl md:py-space-4xl bg-surface-container-low" id="philosophy">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">nature_people</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold">Living Stewardship</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight">
+            Our Philosophy in Practice
+          </h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          A cafe is not measured by its menu alone, but by the quiet stewardship of its mountains and neighbors.
+        </p>
+</div>
+<!-- 3-Column Pillar Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Pillar 1 -->
+<div class="p-space-xl bg-white rounded-xl shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06),0_1px_3px_rgba(61,39,29,0.04)] border border-outline-variant/30 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-space-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-[26px]">agriculture</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold block mb-1">Pillar 01</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-sm leading-snug">Radical Transparency &amp; Farm Partners</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed text-justify">
+              Our kitchen is a living partnership with the mountain landscape. We believe deeply in farm-to-cup and farm-to-table honesty. We proudly source our beans from Attikan Estate (Biligirirangana Hills) and Baarbara Estate (Chikmagalur), our organic mandua and jhangora millets from women's self-help collectives in Tehri Garhwal, our wild raw honey from Chakrata apiaries, and fresh dairy from Landour Cantonment farms.
+            </p>
+</div>
+<div class="mt-space-lg pt-space-sm border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Provenance</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">100% Single Origin</span>
+</div>
+</div>
+<!-- Pillar 2 -->
+<div class="p-space-xl bg-white rounded-xl shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06),0_1px_3px_rgba(61,39,29,0.04)] border border-outline-variant/30 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-space-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-[26px]">auto_stories</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold block mb-1">Pillar 02</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-sm leading-snug">A Crossroads for Community &amp; Literature</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed text-justify">
+              We are an unhurried crossroads for literary pilgrims drawn to Ruskin Bond's hills, artists painting the evening valley, and local elders whose families have walked these deodar ridges for generations. In an age of endless notifications, we offer deliberate disconnection: no Wi-Fi, handcrafted timber benches, well-stocked reading alcoves, and space for genuine human kinship.
+            </p>
+</div>
+<div class="mt-space-lg pt-space-sm border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Sanctuary Mode</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Wi-Fi Free Haven</span>
+</div>
+</div>
+<!-- Pillar 3 -->
+<div class="p-space-xl bg-white rounded-xl shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06),0_1px_3px_rgba(61,39,29,0.04)] border border-outline-variant/30 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-space-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-[26px]">forest</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold block mb-1">Pillar 03</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-space-sm leading-snug">An Atmosphere of Refuge &amp; Conservation</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed text-justify">
+              Designed with low-impact reclaimed deodar timber, native mountain stone, and energy-efficient wood-burning stoves for sub-zero winter nights. We operate a zero-single-use-plastic space, compost all coffee grounds into local kitchen gardens, and preserve the fragile ecology of the Landour ridge.
+            </p>
+</div>
+<div class="mt-space-lg pt-space-sm border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Footprint</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Zero Single-Use</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Provenance Map / Community Hub -->
+<section class="w-full py-space-3xl bg-white">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop">
+<div class="bg-surface-container rounded-2xl p-space-xl md:p-space-2xl shadow-sm border border-outline-variant/30">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs text-secondary font-label-sm text-label-sm uppercase tracking-widest font-semibold">
+<span class="material-symbols-outlined text-[16px]">pin_drop</span>
+<span>The Ridge Registry</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight">
+              Located in Upper Cantonment, Landour
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Step past the century-old deodars near St. Paul's Church. Take the quiet walking path toward Lal Tibba, away from the hum of the town bazaar.
+            </p>
+<div class="space-y-space-xs font-body-sm text-body-sm text-on-surface">
+<div class="flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">location_on</span>
+<span>Upper Cantonment, Near St. Paul's Church, Landour, Mussoorie, Uttarakhand 248179</span>
+</div>
+<div class="flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">schedule</span>
+<span>Open 8:00 AM – 7:00 PM Daily • Sunset Viewing from 5:15 PM</span>
+</div>
+</div>
+<div class="pt-space-xs flex flex-wrap gap-space-xs">
+<span class="px-space-xs py-1 bg-white rounded text-on-surface font-label-sm text-label-sm border border-outline-variant/30 shadow-2xs">Pedestrian Ridge Walk Only</span>
+<span class="px-space-xs py-1 bg-white rounded text-on-surface font-label-sm text-label-sm border border-outline-variant/30 shadow-2xs">Dog Friendly Veranda</span>
+<span class="px-space-xs py-1 bg-white rounded text-on-surface font-label-sm text-label-sm border border-outline-variant/30 shadow-2xs">Silent Reading Salon</span>
+</div>
+</div>
+<div class="lg:col-span-7">
+<!-- Map View Pipeline -->
+<div class="w-full h-80 rounded-xl overflow-hidden shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06)] relative bg-surface-container-high border border-outline-variant/30" data-location="Upper Cantonment, Landour, Mussoorie, Uttarakhand, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLybjO7pYX7jtg42hGd6XewdcpH1lS5MEwF4RphgA6WplxJuv4ItthAQqiXGwna5tg0I0HYuE5D0TJI7Wt9tBRPsbu8nsCcQNPMAIdzqaycwh2lHWPqXMhHze5ki_L430NXDAzLvZnZ_kcJCz3h-XHvtFx64QVgZpP3r4hs02RCf8yMvbZrSfrdLSqASdLnNLT9Qk_MTe4BplJbyKTBtrHOKc83olxXXVnd9GC-_zbiN_uDIYiY2riqQ'); background-size: cover; background-position: center;">
+<div class="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-space-sm rounded-lg flex items-center justify-between border border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-3 h-3 rounded-full bg-primary animate-ping"></div>
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider">Himalayan Hearth Position</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant italic">30.4578° N, 78.0934° E</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action Section -->
+<section class="w-full py-space-3xl md:py-space-4xl bg-surface-container relative">
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop">
+<div class="text-center max-w-2xl mx-auto mb-space-2xl">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold block mb-space-2xs">The Mountain Hearth Awaits</span>
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight mb-space-sm">
+          Come Find Your Quiet Corner
+        </h2>
+<p class="font-title-editorial text-title-editorial italic text-on-surface-variant">
+          “We have kept a chair by the valley window and a fresh pot on the stove.”
+        </p>
+</div>
+<!-- Action Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Action 1: Navigation -->
+<a class="group p-space-xl bg-white rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-outline-variant/30" href="https://maps.google.com" rel="noopener noreferrer" target="_blank">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors mb-space-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-[24px]">turn_sharp_right</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-space-2xs">Get Google Maps Directions</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Step-by-step pedestrian navigation from Mall Road, Picture Palace, or Char Dukan.
+            </p>
+</div>
+<div class="mt-space-lg flex items-center gap-space-2xs text-secondary font-label-md text-label-md uppercase tracking-wider font-semibold group-hover:translate-x-1 transition-transform">
+<span>Chart Route</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</a>
+<!-- Action 2: Timings & Sunset Hour -->
+<div class="p-space-xl bg-white rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer border border-outline-variant/30" id="sunset-card">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-secondary mb-space-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-[24px]">wb_twilight</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-space-2xs">Cafe Timings &amp; Sunset Hour</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Open daily 8 AM – 7 PM. The Winter Line illuminates between 5:15 PM and 5:50 PM in winter.
+            </p>
+</div>
+<div class="mt-space-lg flex items-center justify-between pt-space-xs border-t border-outline-variant/30">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold" id="sunset-status-pill">Today: Dusk at 5:28 PM</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">info</span>
+</div>
+</div>
+<!-- Action 3: Reading Nook Guide Download -->
+<div class="group p-space-xl bg-white rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer border border-outline-variant/30" id="guide-modal-trigger">
+<div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-secondary group-hover:bg-primary group-hover:text-on-primary transition-colors mb-space-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-[24px]">download</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-space-2xs">Download Reading Nook Guide</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Curated book suggestions, mountain tea pairings, and seating maps for solitary readers.
+            </p>
+</div>
+<div class="mt-space-lg flex items-center gap-space-2xs text-secondary font-label-md text-label-md uppercase tracking-wider font-semibold group-hover:translate-x-1 transition-transform">
+<span>Get Leaflet (PDF)</span>
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+</div>
+</div>
+</div>
+<!-- Quick Modal Dialog for Reading Nook Guide -->
+<div class="hidden fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-space-md" id="guide-modal">
+<div class="bg-white max-w-md w-full p-space-xl rounded-2xl shadow-[0_16px_36px_-4px_rgba(61,39,29,0.14)] border border-outline-variant/30 relative">
+<button class="absolute top-4 right-4 text-on-surface-variant hover:text-on-surface" id="close-modal">
+<span class="material-symbols-outlined">close</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary mb-space-sm">
+<span class="material-symbols-outlined">local_cafe</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Landour Bibliophile Folio</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-md">
+            Enter your dispatch telegraph or scroll to receive the illustrated Landour Literary Map &amp; Winter Harvest Guide.
+          </p>
+<div class="space-y-space-sm">
+<div>
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block mb-1">Your Name or Traveler Alias</label>
+<input class="w-full bg-surface-container-low px-space-sm py-2 rounded border border-outline-variant font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary" placeholder="e.g. Ruskin's Reader" type="text">
+</div>
+<div>
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block mb-1">Dispatch Email</label>
+<input class="w-full bg-surface-container-low px-space-sm py-2 rounded border border-outline-variant font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary" placeholder="wanderer@highlands.org" type="email">
+</div>
+<button class="w-full mt-space-sm bg-primary text-on-primary py-space-sm rounded font-label-md text-label-md uppercase tracking-wider hover:bg-secondary transition-colors shadow-sm" id="download-confirm-btn">
+              Transmit Guide to My Satchel
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<script>
+  (function() {
+    // Reading Nook Guide Modal micro-interaction
+    const trigger = document.getElementById('guide-modal-trigger');
+    const modal = document.getElementById('guide-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const confirmBtn = document.getElementById('download-confirm-btn');
+
+    if (trigger && modal && closeBtn) {
+      trigger.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+        }
+      });
+
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+          confirmBtn.textContent = "Dispatched with Warmth ✓";
+          confirmBtn.classList.remove('bg-primary');
+          confirmBtn.classList.add('bg-secondary');
+          setTimeout(() => {
+            modal.classList.add('hidden');
+            confirmBtn.textContent = "Transmit Guide to My Satchel";
+            confirmBtn.classList.add('bg-primary');
+            confirmBtn.classList.remove('bg-secondary');
+          }, 1400);
+        });
+      }
+    }
+
+    // Dynamic Sunset hour greeting
+    const sunsetPill = document.getElementById('sunset-status-pill');
+    if (sunsetPill) {
+      const now = new Date();
+      const currentHour = now.getHours();
+      if (currentHour >= 16 && currentHour <= 18) {
+        sunsetPill.textContent = "● Winter Line Visible Right Now";
+        sunsetPill.classList.add('text-secondary', 'animate-pulse');
+      } else if (currentHour > 18) {
+        sunsetPill.textContent = "Fireside Salon Lit • Stars Over Doon";
+      } else {
+        sunsetPill.textContent = "Sunset Line Gathering at 5:15 PM";
+      }
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-low mt-space-4xl border-t border-outline-variant/30"><div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-tablet lg:px-margin-desktop py-space-3xl"><div class="grid grid-cols-1 md:grid-cols-12 gap-space-xl"><div class="md:col-span-5 flex flex-col gap-space-sm"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md text-primary">Wanderroot cafe</span></div><p class="font-title-editorial text-title-editorial italic text-on-surface-variant max-w-md">“The mist settles early upon Landour's deodar ridges, and in the dusk before stars, the crimson line kindles across the Doon valley.”</p><div class="font-label-sm text-label-sm text-secondary uppercase tracking-widest pt-space-xs">A Literary &amp; Artisanal Sanctuary • Estd. Mussoorie</div></div><div class="md:col-span-4 flex flex-col gap-space-xs"><span class="font-label-lg text-label-lg uppercase tracking-wider text-primary mb-space-2xs">The Mountain Cantonment</span><p class="font-body-sm text-body-sm text-on-surface-variant">Upper Cantonment, Near St. Paul's Church<br>Landour, Mussoorie, Uttarakhand 248179</p><p class="font-body-sm text-body-sm text-on-surface-variant pt-space-2xs"><span class="font-label-sm text-label-sm text-secondary uppercase">Hours:</span> 8:00 AM – 7:00 PM Daily<br><span class="font-label-sm text-label-sm text-secondary uppercase">Telegraph:</span> +91 135 263 1890</p><div class="pt-space-xs"><a class="inline-flex items-center gap-space-2xs font-label-sm text-label-sm text-secondary hover:text-primary uppercase tracking-wider transition-colors" href="#"><span class="material-symbols-outlined text-[16px]">map</span>View on Google Maps</a></div></div><div class="md:col-span-3 flex flex-col gap-space-sm"><span class="font-label-lg text-label-lg uppercase tracking-wider text-primary">Dispatches &amp; Margins</span><p class="font-body-sm text-body-sm text-on-surface-variant">Follow our journals, seasonal harvest alerts, and Himalayan weather musings.</p><div class="font-label-md text-label-md text-secondary tracking-wide">@WanderootCafe</div><div class="p-space-sm bg-white rounded-xl shadow-[0_4px_16px_-2px_rgba(61,39,29,0.06),0_1px_3px_rgba(61,39,29,0.04)] border border-outline-variant/30"><span class="font-label-sm text-label-sm text-primary font-semibold uppercase tracking-wider block mb-space-2xs">Table Readings &amp; High Tea</span><span class="font-body-sm text-body-sm text-on-surface-variant block">Walk-ins warmly sheltered. Fireside salon reservations via dispatch counter.</span></div></div></div><div class="mt-space-2xl pt-space-md flex flex-col sm:flex-row justify-between items-center gap-space-sm border-t border-outline-variant/20"><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Wanderroot Cafe, Landour. Crafted with deodar pine, brass &amp; letterpress ink.</p><div class="flex items-center gap-space-md"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-widest" data-path="home" href="index.html">Menu</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-widest" data-path="our-story" href="about.html">About</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-widest" data-path="reservation" href="reservation.html">Reservation</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary uppercase tracking-widest" data-path="reviews" href="review.html">Reviews</a></div></div></div></footer></body></html>
