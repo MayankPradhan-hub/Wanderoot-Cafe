@@ -1349,10 +1349,19 @@
                                 <span class="meta-pill"><i class="fa-solid fa-utensils"></i> ${item.diet}</span>
                             </div>
                             <div class="card-actions" style="margin-top: 14px;">
-                                <button class="view-item-angles-btn" onclick="openAngleModal('${item.id}')">
-                                    <i class="fa-solid fa-camera-rotate"></i> Explore Views &amp; Details
-                                </button>
-                            </div>
+<button class="view-item-angles-btn"
+        onclick="openAngleModal('${item.id}')">
+    <i class="fa-solid fa-camera-rotate"></i>
+    Explore Views &amp; Details
+</button>
+
+<button class="view-item-angles-btn"
+        onclick="addToOrder('${item.id}')"
+        style="margin-top: 10px; background-color: #a66a35; color: white;">
+    <i class="fa-solid fa-cart-plus"></i>
+    Add to Order
+</button>
+     
                         </div>
                     </div>
                 `;
@@ -1441,6 +1450,44 @@
         function closeModalOnOutsideClick(e) {
             if (e.target.id === 'angleModalOverlay') closeAngleModal();
         }
+        // SIMPLE ORDER SYSTEM
+function addToOrder(itemId) {
+
+    const item = MENU_DATA.find(menuItem => menuItem.id === itemId);
+
+    if (!item) {
+        return;
+    }
+
+    let order =
+        JSON.parse(localStorage.getItem("wanderootOrder")) || [];
+
+    const existingItem =
+        order.find(orderItem => orderItem.id === item.id);
+
+    if (existingItem) {
+
+        existingItem.quantity += 1;
+
+    } else {
+
+        order.push({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: 1
+        });
+
+    }
+
+    localStorage.setItem(
+        "wanderootOrder",
+        JSON.stringify(order)
+    );
+
+    alert(item.name + " added to your order!");
+}
     </script>
+    
 </body>
 </html>
