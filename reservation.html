@@ -1332,6 +1332,10 @@
             setupWhatsappNotifyLink(booking);
             document.getElementById('ticketModalOverlay').classList.add('active');
             loadSavedBookings();
+            // Go to billing page after successful reservation
+setTimeout(function () {
+    window.location.href = "billing.html";
+}, 2000);
         }
 
         function setupGoogleCalendarLink(b) {
