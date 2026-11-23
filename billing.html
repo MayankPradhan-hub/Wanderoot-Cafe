@@ -898,8 +898,15 @@
 function loadOrder() {
 
     // Get selected food items from Menu page
-    const order =
-        JSON.parse(localStorage.getItem("wanderootOrder")) || [];
+    const cart =
+    JSON.parse(localStorage.getItem("wanderoot_cart")) || {
+        items: [],
+        subtotal: 0,
+        tax: 0,
+        grandTotal: 0
+    };
+
+const order = cart.items || [];
 
     const orderItems =
         document.getElementById("orderItems");
