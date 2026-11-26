@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Billing - Wanderoot Café</title>
+    <title>Wanderoot Café - Billing &amp; Payment</title>
 
-    <!-- Same fonts as the Wanderoot Café website -->
+    <!-- Fonts & icons (same as every Wanderoot Café page) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,69 +18,91 @@
 
     <style>
 
-        /* SAME WANDEROOT CAFE COLOUR THEME */
+
+        /* Coffee Loader — Moka-pot Pour Animation (mandatory brand element) */
+        #coffee-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #faf8f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+        .loader-stage { position: relative; width: 210px; height: 235px; transform: scale(.84); }
+        .moka-pot { position: absolute; top: 0; right: 0; width: 180px; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
+        .pour-stream { position: absolute; top: 109px; left: 31px; width: 5px; height: 69px; border-radius: 999px; background: #3d271d; transform-origin: top; opacity: 0; animation: streamPour 1.9s ease-in-out .62s forwards; }
+        .loader-cup { position: absolute; top: 172px; left: 0; width: 74px; height: 46px; overflow: hidden; border: 2px solid #3d271d; border-top: 0; border-radius: 0 0 15px 15px; }
+        .loader-cup::after { content: ''; position: absolute; top: 7px; right: -15px; width: 11px; height: 24px; border: 2px solid #3d271d; border-left: 0; border-radius: 0 13px 13px 0; }
+        .coffee-fill { position: absolute; inset: auto 0 0; height: 100%; background: #3d271d; transform-origin: bottom; transform: scaleY(0); animation: fillCup 1.9s ease-out .75s forwards; }
+        @keyframes mokaPour { 0%, 14% { transform: rotate(0deg); } 30%, 76% { transform: rotate(-16deg) translate(-4px, 3px); } 100% { transform: rotate(0deg); } }
+        @keyframes streamPour { 0% { opacity: 0; transform: scaleY(0); } 14%, 78% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(.7); } }
+        @keyframes fillCup { from { transform: scaleY(0); } to { transform: scaleY(.86); } }
 
         :root {
-            --cream: #f8f3ec;
-            --white: #ffffff;
+            --bg-creamy: #f8f3ec;
+            --bg-card: #ffffff;
             --nav-bg: #fffaf3;
-
-            --dark-brown: #2d1a10;
-            --deep-brown: #3b2416;
-            --medium-brown: #6f4e37;
-            --caramel: #a66a35;
-
-            --light-brown: #d8b99d;
-            --border: #dfd1c3;
-
-            --muted-text: #74584c;
-            --green: #2e7d32;
-            --red: #c62828;
+            --brown-dark: #2d1a10;
+            --brown-deep: #3b2416;
+            --brown-medium: #6f4e37;
+            --brown-warm: #a66a35;
+            --brown-gold: #c28d54;
+            --brown-light: #d8b99d;
+            --brown-border: #dfd1c3;
+            --accent-green: #2e7d32;
+            --accent-red: #c62828;
+            --text-muted: #74584c;
+            --shadow-sm: 0 4px 12px rgba(61, 39, 29, 0.06);
+            --shadow-md: 0 8px 24px rgba(61, 39, 29, 0.1);
+            --shadow-lg: 0 16px 36px rgba(45, 26, 16, 0.16);
+            --radius-md: 14px;
+            --radius-lg: 20px;
         }
 
-
-        /* BASIC PAGE SETTINGS */
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Plus Jakarta Sans', Arial, sans-serif;
-            background-color: var(--cream);
-            color: var(--deep-brown);
+            background-color: var(--bg-creamy);
+            color: var(--brown-deep);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        h1,
-        h2,
-        h3 {
+        h1, h2, h3, h4, .serif-font {
             font-family: 'EB Garamond', Georgia, serif;
         }
 
-
-        /* NAVIGATION BAR */
-
+        /* ===== Shared navigation bar ===== */
         nav {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
             background-color: var(--nav-bg);
             padding: 18px 8%;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--brown-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
 
-            border-bottom: 1px solid var(--border);
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
         }
 
         .logo {
             font-family: 'EB Garamond', Georgia, serif;
-            font-size: 27px;
+            font-size: 26px;
             font-weight: 700;
-
-            color: var(--dark-brown);
-            text-decoration: none;
+            color: #4a2c1a;
+            letter-spacing: 0.5px;
         }
 
         .nav-links {
@@ -89,59 +111,152 @@
             gap: 22px;
         }
 
-        .nav-links a {
+        nav a {
             text-decoration: none;
-            color: var(--deep-brown);
-
-            font-size: 14px;
+            color: var(--brown-deep);
+            font-size: 14.5px;
             font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
         }
 
-        .nav-links a:hover {
-            color: var(--caramel);
+        nav a:hover, nav a.active {
+            color: var(--brown-warm);
         }
 
-        .billing-button {
-            background-color: var(--caramel);
-            color: white !important;
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brown-warm);
+            border-radius: 2px;
+        }
 
+        .nav-cta-btn {
+            background-color: var(--brown-warm);
+            color: #ffffff !important;
             padding: 8px 18px;
             border-radius: 25px;
-        }
-
-
-        /* PAGE HEADING */
-
-        .page-header {
-            background-color: var(--dark-brown);
-            color: white;
-
-            text-align: center;
-
-            padding: 50px 20px;
-        }
-
-        .page-header .small-title {
-            color: var(--light-brown);
-
-            font-size: 12px;
+            font-size: 13.5px;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 10px rgba(166, 106, 53, 0.25);
+        }
 
+        .nav-cta-btn:hover {
+            background-color: var(--brown-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(45, 26, 16, 0.3);
+        }
+
+        /* Order tray button (drawer on Menu/Reservation, link to Billing elsewhere) */
+        .cart-nav-btn {
+            background-color: #f1e4d6;
+            color: var(--brown-dark);
+            border: 1px solid var(--brown-border);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .cart-nav-btn:hover, nav a.cart-nav-btn:hover {
+            background-color: var(--brown-warm);
+            color: #ffffff;
+            border-color: var(--brown-warm);
+        }
+        nav a.cart-nav-btn { color: var(--brown-dark); }
+        .cart-nav-btn .cart-badge {
+            background-color: var(--brown-dark);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-nav-btn:hover .cart-badge { background-color: #ffffff; color: var(--brown-dark); }
+
+        /* ===== Shared page hero ===== */
+        .hero {
+            background-color: var(--brown-dark);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+        .hero .small-heading {
+            color: var(--brown-light);
+            font-size: 12.5px;
+            font-weight: 600;
             letter-spacing: 3px;
-
             text-transform: uppercase;
+            margin-bottom: 8px;
         }
+        .hero h1 { font-size: 46px; font-weight: 600; margin: 10px 0 16px; line-height: 1.15; }
+        .hero p { color: #eaded3; font-size: 16.5px; max-width: 620px; margin: 0 auto 24px; }
 
-        .page-header h1 {
-            font-size: 45px;
-            margin: 7px 0;
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--brown-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            font-size: 14px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .toast.show { transform: translateY(0); opacity: 1; }
 
-        .page-header p {
-            color: #eaded3;
-            font-size: 15px;
+        /* ===== Shared footer ===== */
+        .site-footer {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: #21130c;
+            color: #d6c5b5;
+            padding: 40px 8% 24px;
+            border-top: 1px solid #3b2416;
+            text-align: left;
+            line-height: 1.6;
         }
-
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+        .footer-brand { max-width: 380px; }
+        .footer-logo { font-family: 'EB Garamond', Georgia, serif; font-size: 22px; font-weight: 700; color: #fffaf3; margin-bottom: 10px; }
+        .footer-brand p { font-size: 14px; line-height: 1.6; color: #bcaaa4; margin-bottom: 12px; }
+        .footer-address { font-size: 13px; color: #c28d54; }
+        .site-footer h4 { font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+        .footer-links { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+        .footer-links a { color: #d6c5b5; text-decoration: none; transition: color 0.2s ease; }
+        .footer-links a:hover, .footer-links a.active { color: #c28d54; }
+        .footer-contact { font-size: 14px; line-height: 1.8; color: #bcaaa4; }
+        .footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 13px; color: #8d7465; }
 
         /* MAIN BILLING AREA */
 
@@ -163,9 +278,9 @@
         /* WHITE CARDS */
 
         .card {
-            background-color: var(--white);
+            background-color: var(--bg-card);
 
-            border: 1px solid var(--border);
+            border: 1px solid var(--brown-border);
 
             border-radius: 14px;
 
@@ -175,7 +290,7 @@
         }
 
         .card h2 {
-            color: var(--dark-brown);
+            color: var(--brown-dark);
 
             font-size: 28px;
 
@@ -183,7 +298,7 @@
         }
 
         .description {
-            color: var(--muted-text);
+            color: var(--text-muted);
 
             font-size: 14px;
 
@@ -215,7 +330,7 @@
         }
 
         .required {
-            color: var(--red);
+            color: var(--accent-red);
         }
 
         input,
@@ -224,7 +339,7 @@
 
             padding: 13px 14px;
 
-            border: 1px solid var(--border);
+            border: 1px solid var(--brown-border);
 
             border-radius: 9px;
 
@@ -234,7 +349,7 @@
 
             font-size: 15px;
 
-            color: var(--deep-brown);
+            color: var(--brown-deep);
 
             outline: none;
         }
@@ -247,7 +362,7 @@
 
         input:focus,
         textarea:focus {
-            border-color: var(--caramel);
+            border-color: var(--brown-warm);
 
             box-shadow: 0 0 0 3px rgba(166, 106, 53, 0.12);
         }
@@ -270,7 +385,7 @@
         .payment-option {
             background-color: #fffdfb;
 
-            border: 1px solid var(--border);
+            border: 1px solid var(--brown-border);
 
             border-radius: 10px;
 
@@ -284,13 +399,13 @@
         }
 
         .payment-option:hover {
-            border-color: var(--caramel);
+            border-color: var(--brown-warm);
 
             background-color: #fbf7f2;
         }
 
         .payment-option.selected {
-            border: 2px solid var(--caramel);
+            border: 2px solid var(--brown-warm);
 
             background-color: #f7efe6;
         }
@@ -300,7 +415,7 @@
 
             font-size: 26px;
 
-            color: var(--caramel);
+            color: var(--brown-warm);
 
             margin-bottom: 8px;
         }
@@ -335,7 +450,7 @@
         }
 
         .quantity {
-            color: var(--muted-text);
+            color: var(--text-muted);
 
             font-size: 13px;
         }
@@ -360,7 +475,7 @@
         }
 
         .total {
-            border-top: 2px solid var(--border);
+            border-top: 2px solid var(--brown-border);
 
             padding-top: 16px;
 
@@ -370,7 +485,7 @@
 
             font-weight: 700;
 
-            color: var(--dark-brown);
+            color: var(--brown-dark);
         }
 
 
@@ -387,7 +502,7 @@
 
             border-radius: 25px;
 
-            background-color: var(--caramel);
+            background-color: var(--brown-warm);
 
             color: white;
 
@@ -403,7 +518,7 @@
         }
 
         .pay-button:hover {
-            background-color: var(--dark-brown);
+            background-color: var(--brown-dark);
         }
 
 
@@ -412,7 +527,7 @@
         .secure-text {
             text-align: center;
 
-            color: var(--muted-text);
+            color: var(--text-muted);
 
             font-size: 12px;
 
@@ -420,7 +535,7 @@
         }
 
         .secure-text i {
-            color: var(--green);
+            color: var(--accent-green);
         }
 
 
@@ -437,7 +552,7 @@
         .success-message i {
             font-size: 60px;
 
-            color: var(--green);
+            color: var(--accent-green);
 
             margin-bottom: 15px;
         }
@@ -445,36 +560,13 @@
         .success-message h2 {
             font-size: 32px;
 
-            color: var(--dark-brown);
+            color: var(--brown-dark);
         }
 
         .success-message p {
-            color: var(--muted-text);
+            color: var(--text-muted);
 
             margin-top: 8px;
-        }
-
-
-        /* FOOTER */
-
-        footer {
-            background-color: var(--dark-brown);
-
-            color: #eaded3;
-
-            text-align: center;
-
-            padding: 25px 20px;
-
-            font-size: 13px;
-        }
-
-        footer strong {
-            color: white;
-
-            font-family: 'EB Garamond', Georgia, serif;
-
-            font-size: 19px;
         }
 
 
@@ -496,71 +588,120 @@
                 grid-template-columns: 1fr;
             }
 
-            .page-header h1 {
-                font-size: 36px;
-            }
-
-            .nav-links {
-                gap: 10px;
-            }
-
-            .nav-links a:not(.billing-button) {
-                display: none;
-            }
         }
 
+
+        /* ===== Shared motion & accessibility ===== */
+        main { transition: filter 0.15s ease-out; }
+        html { scroll-behavior: smooth; }
+        nav a:focus-visible, .footer-links a:focus-visible, .cart-nav-btn:focus-visible {
+            outline: 2px solid var(--brown-warm);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            main { transition: none; }
+        }
+        @media (max-width: 860px) {
+            nav { flex-direction: column; gap: 15px; padding: 16px 5%; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px; }
+            .hero h1 { font-size: 34px; }
+        }
     </style>
 </head>
 
 
 <body>
+<script>
+    /* Wanderoot Café shared shell — identical on every page (BRAIN.md: mandatory brand elements) */
+    (function () {
+        /* 1. Moka-pot pour loader */
+        var loader = document.createElement('div');
+        loader.id = 'coffee-loader';
+        loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.png" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+        document.body.prepend(loader);
+        setTimeout(function () {
+            loader.style.opacity = '0';
+            setTimeout(function () { loader.remove(); }, 600);
+        }, 2100);
 
+        /* 2. Velocity-responsive scroll blur on <main> (nav, drawers and modals stay sharp) */
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            var lastY = window.scrollY, lastTime = performance.now();
+            var currentBlur = 0, targetBlur = 0, ticking = false;
+            var animateBlur = function () {
+                var target = document.querySelector('main');
+                currentBlur += (targetBlur - currentBlur) * 0.35;
+                targetBlur *= 0.75;
+                if (currentBlur > 0.04) {
+                    if (target) target.style.filter = 'blur(' + currentBlur.toFixed(2) + 'px)';
+                    requestAnimationFrame(animateBlur);
+                } else {
+                    if (target) target.style.filter = 'none';
+                    currentBlur = 0; targetBlur = 0; ticking = false;
+                }
+            };
+            window.addEventListener('scroll', function () {
+                var now = performance.now();
+                targetBlur = Math.min(1, Math.abs(window.scrollY - lastY) / Math.max(1, now - lastTime) * 0.45);
+                lastY = window.scrollY; lastTime = now;
+                if (!ticking) { ticking = true; animateBlur(); }
+            }, { passive: true });
+        }
+
+        /* 3. Keep sticky page elements just below the navigation bar */
+        var syncNavHeight = function () {
+            var nav = document.querySelector('nav');
+            if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+        };
+        window.addEventListener('resize', syncNavHeight);
+
+        /* 4. Tray badge on pages that have no order-tray drawer (it links to Billing instead) */
+        document.addEventListener('DOMContentLoaded', function () {
+            syncNavHeight();
+            if (typeof window.updateCartUI === 'function') return;
+            var badge = document.getElementById('cartBadge');
+            if (!badge) return;
+            var paint = function () {
+                var count = 0;
+                try {
+                    var cart = JSON.parse(localStorage.getItem('wanderoot_cart'));
+                    if (cart && Array.isArray(cart.items)) {
+                        cart.items.forEach(function (i) { count += Number(i.quantity) || 0; });
+                    }
+                } catch (e) { count = 0; }
+                badge.textContent = count;
+            };
+            paint();
+            window.addEventListener('storage', paint);
+        });
+    })();
+</script>
 
 <!-- =========================
      NAVIGATION BAR
 ========================= -->
 
 <nav>
-
-    <a href="index.html" class="logo">
-        Wanderoot Café
-    </a>
-
-
-    <div class="nav-links">
-
-        <a href="index.html">
-            Home
+        <a href="index.html" class="logo-container" aria-label="Wanderoot Café — Menu home">
+            <img src="assets/wanderoot-cafe-logo.svg" alt="Wanderoot Café" height="38" style="vertical-align: middle;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="logo" style="display: none;">☕ WANDEROOT CAFÉ</div>
         </a>
 
-        <a href="menu.html">
-            Menu
-        </a>
-
-        <a href="reservation.html">
-            Reservation
-        </a>
-
-        <a href="about.html">
-            About
-        </a>
-
-        <a href="review.html">
-            Reviews
-        </a>
-
-        <a href="billing.html"
-           class="billing-button">
-
-            <i class="fa-solid fa-receipt"></i>
-
-            Billing
-
-        </a>
-
-    </div>
-
-</nav>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-utensils"></i> Menu</a>
+            <a href="about.html"><i class="fa-solid fa-book-open"></i> About</a>
+            <a href="reservation.html"><i class="fa-regular fa-calendar-check"></i> Reservation</a>
+            <a href="billing.html" class="active" aria-current="page"><i class="fa-solid fa-receipt"></i> Billing</a>
+            <a href="review.html"><i class="fa-regular fa-star"></i> Reviews</a>
+            <a href="billing.html" class="cart-nav-btn" id="navCartBtn" aria-label="View your order and billing">
+                <i class="fa-solid fa-bag-shopping"></i> <span>Tray</span>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+            <a href="reservation.html" class="nav-cta-btn"><i class="fa-solid fa-chair"></i> Book Table</a>
+        </div>
+    </nav>
 
 
 
@@ -568,20 +709,14 @@
      PAGE HEADING
 ========================= -->
 
-<section class="page-header">
+<main>
 
-    <div class="small-title">
-        Wanderoot Café
+<section class="hero">
+    <div class="hero-content">
+        <div class="small-heading">Wanderoot Café</div>
+        <h1>Billing &amp; Payment</h1>
+        <p>Just a few simple details and your order is ready.</p>
     </div>
-
-    <h1>
-        Billing & Payment
-    </h1>
-
-    <p>
-        Just a few simple details and your order is ready.
-    </p>
-
 </section>
 
 
@@ -590,7 +725,7 @@
      MAIN BILLING AREA
 ========================= -->
 
-<main class="billing-container">
+<div class="billing-container">
 
 
     <!-- CUSTOMER INFORMATION -->
@@ -856,6 +991,7 @@
     </section>
 
 
+</div>
 </main>
 
 
@@ -864,17 +1000,38 @@
      FOOTER
 ========================= -->
 
-<footer>
-
-    <strong>
-        Wanderoot Café
-    </strong>
-
-    <br>
-
-    Made with warmth, coffee and good food.
-
-</footer>
+<footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">☕ WANDEROOT CAFÉ &amp; ROASTERY</div>
+                <p>Artisanal roastery &amp; Himalayan valley bistro in Landour. Freshly roasted single-origin coffees, handcrafted slow-bakes, and scenic veranda seating.</p>
+                <div class="footer-address"><i class="fa-solid fa-location-dot"></i> Sisters Bazaar, Landour, Mussoorie, Uttarakhand</div>
+            </div>
+            <div>
+                <h4>Navigation</h4>
+                <div class="footer-links">
+                    <a href="index.html"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
+                    <a href="about.html"><i class="fa-solid fa-angle-right"></i> Our Story / About</a>
+                    <a href="reservation.html"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
+                    <a href="billing.html" class="active"><i class="fa-solid fa-angle-right"></i> Billing &amp; Payment</a>
+                    <a href="review.html"><i class="fa-solid fa-angle-right"></i> Guest Reviews</a>
+                    <a href="index.html#coffee"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
+                    <a href="index.html#pastries"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
+                </div>
+            </div>
+            <div>
+                <h4>Hours &amp; Contact</h4>
+                <div class="footer-contact">
+                    <div><i class="fa-regular fa-clock"></i> Mon – Sun: 7:30 AM – 10:00 PM</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 98765 43210</div>
+                    <div><i class="fa-brands fa-whatsapp"></i> WhatsApp Order Support</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Wanderoot Café &amp; Roastery | Artisan Menu, Table Reservations &amp; Guest Stories
+        </div>
+    </footer>
 
 
 
@@ -882,8 +1039,25 @@
      JAVASCRIPT
 ========================= -->
 
+    <!-- Toast Notification -->
+    <div class="toast" id="cafeToast" role="status" aria-live="polite">
+        <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>
+        <span id="toastMsg">Notification message</span>
+    </div>
+
 <script>
 
+    /* Toast notification (same component as Menu & Reservation) */
+    var toastTimeout;
+    function showToast(message) {
+        var toast = document.getElementById('cafeToast');
+        var msg = document.getElementById('toastMsg');
+        if (!toast || !msg) return;
+        msg.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () { toast.classList.remove('show'); }, 2500);
+    }
 
     // Stores which payment method the customer selects
     let selectedPayment = "";
@@ -923,7 +1097,7 @@ const order = cart.items || [];
             <div style="padding: 20px 0; text-align: center;">
                 <p>No food items selected.</p>
 
-                <a href="menu.html"
+                <a href="index.html"
                    style="color: #a66a35; font-weight: 600;">
                     Go to Menu
                 </a>
@@ -1011,6 +1185,14 @@ function selectPayment(element, method) {
 
     function completeOrder() {
 
+        // Nothing in the tray yet
+        var trayCart = null;
+        try { trayCart = JSON.parse(localStorage.getItem("wanderoot_cart")); } catch (e) { trayCart = null; }
+        if (!trayCart || !Array.isArray(trayCart.items) || trayCart.items.length === 0) {
+            showToast("Your tray is empty — add dishes from the menu first.");
+            return;
+        }
+
 
         // Get information entered by customer
 
@@ -1040,7 +1222,7 @@ function selectPayment(element, method) {
 
         if (name === "") {
 
-            alert("Please enter your full name.");
+            showToast("Please enter your full name.");
 
             document
                 .getElementById("fullName")
@@ -1055,7 +1237,7 @@ function selectPayment(element, method) {
 
         if (phone === "") {
 
-            alert("Please enter your phone number.");
+            showToast("Please enter your phone number.");
 
             document
                 .getElementById("phone")
@@ -1070,7 +1252,7 @@ function selectPayment(element, method) {
 
         if (address === "") {
 
-            alert("Please enter your billing address.");
+            showToast("Please enter your billing address.");
 
             document
                 .getElementById("address")
@@ -1085,7 +1267,7 @@ function selectPayment(element, method) {
 
         if (selectedPayment === "") {
 
-            alert("Please select a payment method.");
+            showToast("Please select a payment method.");
 
             return;
         }

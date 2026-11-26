@@ -1,335 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderoot Café - Guest Reviews</title>
 
-<title>Wanderoot Café - Reviews</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<style>
+    <style>
 
-* {
-    box-sizing: border-box;
-}
+        /* Coffee Loader — Moka-pot Pour Animation (mandatory brand element) */
+        #coffee-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: #faf8f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease;
+        }
+        .loader-stage { position: relative; width: 210px; height: 235px; transform: scale(.84); }
+        .moka-pot { position: absolute; top: 0; right: 0; width: 180px; transform-origin: 72% 64%; animation: mokaPour 2.6s cubic-bezier(.45,.05,.25,1) forwards; }
+        .pour-stream { position: absolute; top: 109px; left: 31px; width: 5px; height: 69px; border-radius: 999px; background: #3d271d; transform-origin: top; opacity: 0; animation: streamPour 1.9s ease-in-out .62s forwards; }
+        .loader-cup { position: absolute; top: 172px; left: 0; width: 74px; height: 46px; overflow: hidden; border: 2px solid #3d271d; border-top: 0; border-radius: 0 0 15px 15px; }
+        .loader-cup::after { content: ''; position: absolute; top: 7px; right: -15px; width: 11px; height: 24px; border: 2px solid #3d271d; border-left: 0; border-radius: 0 13px 13px 0; }
+        .coffee-fill { position: absolute; inset: auto 0 0; height: 100%; background: #3d271d; transform-origin: bottom; transform: scaleY(0); animation: fillCup 1.9s ease-out .75s forwards; }
+        @keyframes mokaPour { 0%, 14% { transform: rotate(0deg); } 30%, 76% { transform: rotate(-16deg) translate(-4px, 3px); } 100% { transform: rotate(0deg); } }
+        @keyframes streamPour { 0% { opacity: 0; transform: scaleY(0); } 14%, 78% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(.7); } }
+        @keyframes fillCup { from { transform: scaleY(0); } to { transform: scaleY(.86); } }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f8f3ec;
-    color: #3b2416;
-}
+        :root {
+            --bg-creamy: #f8f3ec;
+            --bg-card: #ffffff;
+            --nav-bg: #fffaf3;
+            --brown-dark: #2d1a10;
+            --brown-deep: #3b2416;
+            --brown-medium: #6f4e37;
+            --brown-warm: #a66a35;
+            --brown-gold: #c28d54;
+            --brown-light: #d8b99d;
+            --brown-border: #dfd1c3;
+            --accent-green: #2e7d32;
+            --accent-red: #c62828;
+            --text-muted: #74584c;
+            --shadow-sm: 0 4px 12px rgba(61, 39, 29, 0.06);
+            --shadow-md: 0 8px 24px rgba(61, 39, 29, 0.1);
+            --shadow-lg: 0 16px 36px rgba(45, 26, 16, 0.16);
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
 
-/* NAVIGATION */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-nav {
-    background-color: #fffaf3;
-    padding: 20px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #d8c6b5;
-}
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--bg-creamy);
+            color: var(--brown-deep);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-.logo {
-    font-family: Georgia, serif;
-    font-size: 25px;
-    font-weight: bold;
-    color: #4a2c1a;
-}
+        h1, h2, h3, h4, .serif-font {
+            font-family: 'EB Garamond', Georgia, serif;
+        }
 
-nav a {
-    text-decoration: none;
-    color: #3b2416;
-    margin-left: 22px;
-    font-size: 14px;
-}
+        /* ===== Shared navigation bar ===== */
+        nav {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: var(--nav-bg);
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--brown-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
 
-nav a:hover {
-    color: #9a673d;
-}
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
 
-/* TOP BROWN SECTION */
+        .logo {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #4a2c1a;
+            letter-spacing: 0.5px;
+        }
 
-.hero {
-    background-color: #2d1a10;
-    color: white;
-    text-align: center;
-    padding: 65px 20px;
-}
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
 
-.hero .small-heading {
-    color: #d8b99d;
-    font-size: 13px;
-    letter-spacing: 2px;
-}
+        nav a {
+            text-decoration: none;
+            color: var(--brown-deep);
+            font-size: 14.5px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
 
-.hero h1 {
-    font-family: Georgia, serif;
-    font-size: 44px;
-    margin: 12px 0;
-}
+        nav a:hover, nav a.active {
+            color: var(--brown-warm);
+        }
 
-.hero p {
-    color: #eaded3;
-    font-size: 16px;
-}
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--brown-warm);
+            border-radius: 2px;
+        }
 
-/* OVERALL RATING */
+        .nav-cta-btn {
+            background-color: var(--brown-warm);
+            color: #ffffff !important;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 10px rgba(166, 106, 53, 0.25);
+        }
 
-.rating-section {
-    text-align: center;
-    padding: 40px 20px 25px;
-}
+        .nav-cta-btn:hover {
+            background-color: var(--brown-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(45, 26, 16, 0.3);
+        }
 
-.rating-section h2 {
-    font-family: Georgia, serif;
-    font-size: 30px;
-    margin-bottom: 10px;
-}
+        /* Order tray button (drawer on Menu/Reservation, link to Billing elsewhere) */
+        .cart-nav-btn {
+            background-color: #f1e4d6;
+            color: var(--brown-dark);
+            border: 1px solid var(--brown-border);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .cart-nav-btn:hover, nav a.cart-nav-btn:hover {
+            background-color: var(--brown-warm);
+            color: #ffffff;
+            border-color: var(--brown-warm);
+        }
+        nav a.cart-nav-btn { color: var(--brown-dark); }
+        .cart-nav-btn .cart-badge {
+            background-color: var(--brown-dark);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-nav-btn:hover .cart-badge { background-color: #ffffff; color: var(--brown-dark); }
 
-.big-stars {
-    color: #a66a35;
-    font-size: 32px;
-    letter-spacing: 3px;
-}
+        /* ===== Shared page hero ===== */
+        .hero {
+            background-color: var(--brown-dark);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+        .hero .small-heading {
+            color: var(--brown-light);
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .hero h1 { font-size: 46px; font-weight: 600; margin: 10px 0 16px; line-height: 1.15; }
+        .hero p { color: #eaded3; font-size: 16.5px; max-width: 620px; margin: 0 auto 24px; }
 
-/* CUSTOMER REVIEWS */
+        .bottom-section {
+            background-color: #3a2114;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .bottom-section h2 { font-size: 32px; margin-bottom: 12px; color: #fffaf3; }
+        .bottom-section p { color: var(--brown-light); max-width: 620px; margin: 0 auto; font-size: 15px; }
 
-#reviewList {
-    width: 85%;
-    max-width: 1000px;
-    margin: 15px auto 50px;
+        .reservation-cta-btn {
+            display: inline-block;
+            margin-top: 18px;
+            background-color: var(--brown-warm);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s ease;
+        }
+        .reservation-cta-btn:hover { background-color: var(--brown-dark); }
 
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit, minmax(250px, 1fr));
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--brown-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            font-size: 14px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
 
-    gap: 20px;
-}
+        /* ===== Shared footer ===== */
+        .site-footer {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: #21130c;
+            color: #d6c5b5;
+            padding: 40px 8% 24px;
+            border-top: 1px solid #3b2416;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+        .footer-brand { max-width: 380px; }
+        .footer-logo { font-family: 'EB Garamond', Georgia, serif; font-size: 22px; font-weight: 700; color: #fffaf3; margin-bottom: 10px; }
+        .footer-brand p { font-size: 14px; line-height: 1.6; color: #bcaaa4; margin-bottom: 12px; }
+        .footer-address { font-size: 13px; color: #c28d54; }
+        .site-footer h4 { font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+        .footer-links { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+        .footer-links a { color: #d6c5b5; text-decoration: none; transition: color 0.2s ease; }
+        .footer-links a:hover, .footer-links a.active { color: #c28d54; }
+        .footer-contact { font-size: 14px; line-height: 1.8; color: #bcaaa4; }
+        .footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 13px; color: #8d7465; }
 
-.review-card {
-    background-color: white;
-    border: 1px solid #dfd1c3;
-    border-radius: 14px;
-    padding: 25px;
+        /* ===== Reviews page ===== */
+        .rating-section { text-align: center; padding: 44px 20px 24px; }
+        .rating-section h2 { font-size: 32px; font-weight: 600; color: var(--brown-dark); margin-bottom: 8px; }
+        .big-stars { color: var(--brown-warm); font-size: 32px; letter-spacing: 3px; line-height: 1.2; }
+        .rating-section p { color: var(--text-muted); font-size: 14.5px; margin-top: 4px; }
 
-    box-shadow:
-        0 5px 15px rgba(70, 40, 20, 0.08);
-}
+        #reviewList {
+            width: 88%;
+            max-width: 1100px;
+            margin: 20px auto 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+        }
+        .review-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--brown-border);
+            border-radius: var(--radius-md);
+            padding: 26px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .review-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .review-card .stars { color: var(--brown-warm); font-size: 20px; letter-spacing: 2px; }
+        .review-card p { line-height: 1.7; margin: 10px 0 14px; }
+        .review-card h4 { color: var(--brown-medium); font-size: 17px; font-weight: 600; }
 
-.review-card .stars {
-    color: #a66a35;
-    font-size: 21px;
-}
+        .form-section { width: 88%; max-width: 700px; margin: 0 auto 60px; text-align: center; }
+        .form-section .small-heading {
+            color: var(--brown-warm);
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .form-section h2 { font-size: 34px; font-weight: 600; color: var(--brown-dark); margin-bottom: 8px; }
+        .form-section > p { color: var(--text-muted); font-size: 15px; }
 
-.review-card p {
-    line-height: 1.6;
-}
+        .review-form {
+            background-color: var(--bg-card);
+            border: 1px solid var(--brown-border);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            margin-top: 24px;
+            text-align: left;
+            box-shadow: var(--shadow-sm);
+        }
+        .review-form label { display: block; font-size: 14px; font-weight: 600; margin: 16px 0 7px; }
+        .review-form label:first-child { margin-top: 0; }
+        .review-form input, .review-form textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--brown-border);
+            border-radius: 9px;
+            background-color: #fffdfb;
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            font-size: 15px;
+            color: var(--brown-deep);
+            outline: none;
+        }
+        .review-form textarea { height: 120px; resize: vertical; }
+        .review-form input:focus, .review-form textarea:focus {
+            border-color: var(--brown-warm);
+            box-shadow: 0 0 0 3px rgba(166, 106, 53, 0.12);
+        }
 
-.review-card h4 {
-    color: #6f4e37;
-}
+        #ratingStars { display: flex; gap: 4px; }
+        .star-btn {
+            background: none;
+            border: none;
+            font-size: 38px;
+            line-height: 1;
+            color: #cfc2b7;
+            cursor: pointer;
+            padding: 0 2px;
+            transition: color 0.15s ease, transform 0.15s ease;
+        }
+        .star-btn:hover { transform: scale(1.12); }
+        .star-btn.active { color: var(--brown-warm); }
+        .star-btn:focus-visible { outline: 2px solid var(--brown-warm); outline-offset: 2px; border-radius: 6px; }
 
-/* REVIEW FORM AREA */
+        .submit-review-btn {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background-color: var(--brown-warm);
+            color: white;
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .submit-review-btn:hover { background-color: var(--brown-dark); }
 
-.form-section {
-    width: 85%;
-    max-width: 700px;
-    margin: 60px auto;
-    text-align: center;
-}
+        #successMessage {
+            display: none;
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #f7efe6;
+            border: 1px solid var(--brown-warm);
+            border-radius: 10px;
+            color: var(--brown-dark);
+            text-align: center;
+            font-weight: 600;
+        }
+        @media (max-width: 860px) { .rating-section h2 { font-size: 28px; } .form-section h2 { font-size: 30px; } }
 
-.form-section h2 {
-    font-family: Georgia, serif;
-    font-size: 32px;
-}
-
-.form-section .small-heading {
-    color: #9a673d;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-.review-form {
-    background-color: white;
-    border: 1px solid #d8c6b5;
-    border-radius: 15px;
-    padding: 30px;
-    margin-top: 25px;
-    text-align: left;
-}
-
-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-input,
-textarea {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #c9b29e;
-    border-radius: 7px;
-    background-color: #fffdf9;
-    font-size: 15px;
-}
-
-textarea {
-    height: 120px;
-    resize: vertical;
-}
-
-/* CLICKABLE STARS */
-
-#ratingStars {
-    font-size: 40px;
-    color: #cfc2b7;
-    cursor: pointer;
-    user-select: none;
-}
-
-#ratingStars span.active {
-    color: #a66a35;
-}
-
-/* BUTTON */
-
-button {
-    margin-top: 22px;
-    background-color: #6f4e37;
-    color: white;
-    border: none;
-    padding: 14px 30px;
-    border-radius: 25px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #4a2c1a;
-}
-
-/* THANK YOU MESSAGE */
-
-#successMessage {
-    display: none;
-    margin-top: 22px;
-    padding: 18px;
-    background-color: #f5eadf;
-    border: 2px solid #6f4e37;
-    border-radius: 10px;
-    color: #4a2c1a;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* BOTTOM */
-
-.bottom-section {
-    background-color: #3a2114;
-    color: white;
-    text-align: center;
-    padding: 50px 20px;
-}
-
-.bottom-section h2 {
-    font-family: Georgia, serif;
-}
-
-footer {
-    background-color: #21130c;
-    color: #d6c5b5;
-    text-align: center;
-    padding: 20px;
-}
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-
-    nav {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    nav a {
-        margin: 0 5px;
-    }
-
-    .hero h1 {
-        font-size: 32px;
-    }
-
-}
-
-</style>
-
+        /* ===== Shared motion & accessibility ===== */
+        main { transition: filter 0.15s ease-out; }
+        html { scroll-behavior: smooth; }
+        nav a:focus-visible, .footer-links a:focus-visible, .cart-nav-btn:focus-visible {
+            outline: 2px solid var(--brown-warm);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            main { transition: none; }
+        }
+        @media (max-width: 860px) {
+            nav { flex-direction: column; gap: 15px; padding: 16px 5%; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 14px; }
+            .hero h1 { font-size: 34px; }
+        }
+    </style>
 </head>
 
 <body>
+<script>
+    /* Wanderoot Café shared shell — identical on every page (BRAIN.md: mandatory brand elements) */
+    (function () {
+        /* 1. Moka-pot pour loader */
+        var loader = document.createElement('div');
+        loader.id = 'coffee-loader';
+        loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.png" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+        document.body.prepend(loader);
+        setTimeout(function () {
+            loader.style.opacity = '0';
+            setTimeout(function () { loader.remove(); }, 600);
+        }, 2100);
 
-<!-- NAVIGATION -->
+        /* 2. Velocity-responsive scroll blur on <main> (nav, drawers and modals stay sharp) */
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            var lastY = window.scrollY, lastTime = performance.now();
+            var currentBlur = 0, targetBlur = 0, ticking = false;
+            var animateBlur = function () {
+                var target = document.querySelector('main');
+                currentBlur += (targetBlur - currentBlur) * 0.35;
+                targetBlur *= 0.75;
+                if (currentBlur > 0.04) {
+                    if (target) target.style.filter = 'blur(' + currentBlur.toFixed(2) + 'px)';
+                    requestAnimationFrame(animateBlur);
+                } else {
+                    if (target) target.style.filter = 'none';
+                    currentBlur = 0; targetBlur = 0; ticking = false;
+                }
+            };
+            window.addEventListener('scroll', function () {
+                var now = performance.now();
+                targetBlur = Math.min(1, Math.abs(window.scrollY - lastY) / Math.max(1, now - lastTime) * 0.45);
+                lastY = window.scrollY; lastTime = now;
+                if (!ticking) { ticking = true; animateBlur(); }
+            }, { passive: true });
+        }
 
-<nav>
+        /* 3. Keep sticky page elements just below the navigation bar */
+        var syncNavHeight = function () {
+            var nav = document.querySelector('nav');
+            if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+        };
+        window.addEventListener('resize', syncNavHeight);
 
-    <div class="logo">
-        ☕ WANDEROOT CAFÉ
-    </div>
+        /* 4. Tray badge on pages that have no order-tray drawer (it links to Billing instead) */
+        document.addEventListener('DOMContentLoaded', function () {
+            syncNavHeight();
+            if (typeof window.updateCartUI === 'function') return;
+            var badge = document.getElementById('cartBadge');
+            if (!badge) return;
+            var paint = function () {
+                var count = 0;
+                try {
+                    var cart = JSON.parse(localStorage.getItem('wanderoot_cart'));
+                    if (cart && Array.isArray(cart.items)) {
+                        cart.items.forEach(function (i) { count += Number(i.quantity) || 0; });
+                    }
+                } catch (e) { count = 0; }
+                badge.textContent = count;
+            };
+            paint();
+            window.addEventListener('storage', paint);
+        });
+    })();
+</script>
 
-    <div>
-        <a href="index.html">Menu</a>
-        <a href="about.html">About</a>
-        <a href="reservation.html">Reservation</a>
-        <a href="review.html" class="active">Reviews</a>
-    </div>
+    <nav>
+        <a href="index.html" class="logo-container" aria-label="Wanderoot Café — Menu home">
+            <img src="assets/wanderoot-cafe-logo.svg" alt="Wanderoot Café" height="38" style="vertical-align: middle;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="logo" style="display: none;">☕ WANDEROOT CAFÉ</div>
+        </a>
 
-</nav>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-utensils"></i> Menu</a>
+            <a href="about.html"><i class="fa-solid fa-book-open"></i> About</a>
+            <a href="reservation.html"><i class="fa-regular fa-calendar-check"></i> Reservation</a>
+            <a href="billing.html"><i class="fa-solid fa-receipt"></i> Billing</a>
+            <a href="review.html" class="active" aria-current="page"><i class="fa-regular fa-star"></i> Reviews</a>
+            <a href="billing.html" class="cart-nav-btn" id="navCartBtn" aria-label="View your order and billing">
+                <i class="fa-solid fa-bag-shopping"></i> <span>Tray</span>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+            <a href="reservation.html" class="nav-cta-btn"><i class="fa-solid fa-chair"></i> Book Table</a>
+        </div>
+    </nav>
 
-<!-- TOP SECTION -->
+    <main>
 
-<section class="hero">
+    <!-- TOP SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="small-heading">What Our Guests Say</div>
+            <h1>Every Cup Has a Story.</h1>
+            <p>Share your experience with us and help us make every visit special.</p>
+        </div>
+    </section>
 
-    <div class="small-heading">
-        WHAT OUR GUESTS SAY
-    </div>
+    <!-- RATING -->
+    <section class="rating-section">
+        <h2>Loved by Our Customers</h2>
+        <div class="big-stars" aria-label="4.8 out of 5 stars">★★★★★</div>
+        <p>4.8 out of 5 based on customer reviews</p>
+    </section>
 
-    <h1>
-        Every Cup Has a Story.
-    </h1>
-
-    <p>
-        Share your experience with us and
-        help us make every visit special.
-    </p>
-
-</section>
-
-<!-- RATING -->
-
-<section class="rating-section">
-
-    <h2>Loved by Our Customers</h2>
-
-    <div class="big-stars">
-        ★★★★★
-    </div>
-
-    <p>
-        4.8 out of 5 based on customer reviews
-    </p>
-
-</section><!-- ==================================
-     CUSTOMER REVIEWS
-================================== -->
-
-<div id="reviewList">
-
-    <!-- REVIEW 1 -->
+    <!-- CUSTOMER REVIEWS -->
+    <div id="reviewList">
 
     <div class="review-card">
 
@@ -348,9 +531,6 @@ footer {
 
     </div>
 
-
-    <!-- REVIEW 2 -->
-
     <div class="review-card">
 
         <div class="stars">
@@ -367,9 +547,6 @@ footer {
         </h4>
 
     </div>
-
-
-    <!-- REVIEW 3 -->
 
     <div class="review-card">
 
@@ -388,499 +565,179 @@ footer {
 
     </div>
 
-</div>
-
-
-<!-- ==================================
-     SHARE YOUR EXPERIENCE
-================================== -->
-
-<section class="form-section">
-
-    <div class="small-heading">
-        YOUR EXPERIENCE MATTERS
     </div>
 
-    <h2>
-        Share Your Experience
-    </h2>
+    <!-- SHARE YOUR EXPERIENCE -->
+    <section class="form-section">
+        <div class="small-heading">Your Experience Matters</div>
+        <h2>Share Your Experience</h2>
+        <p>Had a great time at Wanderoot Café?<br>We'd love to hear from you.</p>
 
-    <p>
-        Had a great time at Wanderoot Café?
-        <br>
-        We'd love to hear from you.
-    </p>
+        <div class="review-form">
+            <label for="customerName">Your Name</label>
+            <input type="text" id="customerName" placeholder="Enter your name" autocomplete="name">
 
+            <label id="ratingLabel">Your Rating</label>
+            <div id="ratingStars" role="group" aria-labelledby="ratingLabel">
+                <button type="button" class="star-btn" aria-label="1 star" onclick="chooseRating(1)">★</button>
+                <button type="button" class="star-btn" aria-label="2 stars" onclick="chooseRating(2)">★</button>
+                <button type="button" class="star-btn" aria-label="3 stars" onclick="chooseRating(3)">★</button>
+                <button type="button" class="star-btn" aria-label="4 stars" onclick="chooseRating(4)">★</button>
+                <button type="button" class="star-btn" aria-label="5 stars" onclick="chooseRating(5)">★</button>
+            </div>
 
-    <div class="review-form">
+            <label for="customerReview">Your Review</label>
+            <textarea id="customerReview" placeholder="Tell us about your experience..."></textarea>
 
+            <button type="button" class="submit-review-btn" onclick="addReview()">
+                <i class="fa-solid fa-paper-plane"></i> Submit Review
+            </button>
 
-        <!-- CUSTOMER NAME -->
-
-        <label for="customerName">
-            Your Name
-        </label>
-
-        <input
-            type="text"
-            id="customerName"
-            placeholder="Enter your name"
-        >
-
-
-        <!-- STAR RATING -->
-
-        <label>
-            Your Rating
-        </label>
-
-        <div id="ratingStars">
-
-            <span onclick="chooseRating(1)">★</span>
-
-            <span onclick="chooseRating(2)">★</span>
-
-            <span onclick="chooseRating(3)">★</span>
-
-            <span onclick="chooseRating(4)">★</span>
-
-            <span onclick="chooseRating(5)">★</span>
-
+            <div id="successMessage" role="status">☕ Thank you! Your review has been added successfully.</div>
         </div>
+    </section>
 
+    <!-- BOTTOM THANK YOU SECTION -->
+    <section class="bottom-section">
+        <h2>☕ Thank You for Visiting Wanderoot Café</h2>
+        <p>Good coffee. Good people. Great moments.</p>
+        <a href="reservation.html" class="reservation-cta-btn"><i class="fa-regular fa-calendar-days"></i> Reserve a Table Online</a>
+    </section>
 
-        <!-- REVIEW -->
+    </main>
 
-        <label for="customerReview">
-            Your Review
-        </label>
-
-        <textarea
-            id="customerReview"
-            placeholder="Tell us about your experience..."
-        ></textarea>
-
-
-        <!-- SUBMIT BUTTON -->
-
-        <button
-            type="button"
-            onclick="addReview()"
-        >
-            Submit Review
-        </button>
-
-
-        <!-- THANK YOU MESSAGE -->
-
-        <div id="successMessage">
-
-            ☕ Thank you! Your review has been added successfully.
-
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">☕ WANDEROOT CAFÉ &amp; ROASTERY</div>
+                <p>Artisanal roastery &amp; Himalayan valley bistro in Landour. Freshly roasted single-origin coffees, handcrafted slow-bakes, and scenic veranda seating.</p>
+                <div class="footer-address"><i class="fa-solid fa-location-dot"></i> Sisters Bazaar, Landour, Mussoorie, Uttarakhand</div>
+            </div>
+            <div>
+                <h4>Navigation</h4>
+                <div class="footer-links">
+                    <a href="index.html"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
+                    <a href="about.html"><i class="fa-solid fa-angle-right"></i> Our Story / About</a>
+                    <a href="reservation.html"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
+                    <a href="billing.html"><i class="fa-solid fa-angle-right"></i> Billing &amp; Payment</a>
+                    <a href="review.html" class="active"><i class="fa-solid fa-angle-right"></i> Guest Reviews</a>
+                    <a href="index.html#coffee"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
+                    <a href="index.html#pastries"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
+                </div>
+            </div>
+            <div>
+                <h4>Hours &amp; Contact</h4>
+                <div class="footer-contact">
+                    <div><i class="fa-regular fa-clock"></i> Mon – Sun: 7:30 AM – 10:00 PM</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 98765 43210</div>
+                    <div><i class="fa-brands fa-whatsapp"></i> WhatsApp Order Support</div>
+                </div>
+            </div>
         </div>
+        <div class="footer-bottom">
+            © 2026 Wanderoot Café &amp; Roastery | Artisan Menu, Table Reservations &amp; Guest Stories
+        </div>
+    </footer>
 
-
+    <!-- Toast Notification -->
+    <div class="toast" id="cafeToast" role="status" aria-live="polite">
+        <i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>
+        <span id="toastMsg">Notification message</span>
     </div>
 
-</section>
+    <script>
 
+    /* Toast notification (same component as Menu & Reservation) */
+    var toastTimeout;
+    function showToast(message) {
+        var toast = document.getElementById('cafeToast');
+        var msg = document.getElementById('toastMsg');
+        if (!toast || !msg) return;
+        msg.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () { toast.classList.remove('show'); }, 2500);
+    }
 
-<!-- ==================================
-     BOTTOM THANK YOU SECTION
-================================== -->
+        var REVIEW_STORAGE_KEY = "wanderootReviews";
+        var selectedRating = 0;
 
-<section class="bottom-section">
-
-    <h2>
-        ☕ Thank You for Visiting Wanderoot Café
-    </h2>
-
-    <p>
-        Good coffee. Good people. Great moments.
-    </p>
-
-</section>
-
-
-<!-- ==================================
-     FOOTER
-================================== -->
-
-<footer>
-
-    © 2026 Wanderoot Café |
-    Crafted with ☕ for coffee lovers
-
-</footer>
-<!-- ==================================
-     JAVASCRIPT
-================================== -->
-
-<script>
-
-/* Selected star rating */
-var selectedRating = 0;
-
-
-/* ==================================
-   CHOOSE RATING
-================================== */
-
-function chooseRating(number) {
-
-    selectedRating = number;
-
-    var stars =
-        document.querySelectorAll("#ratingStars span");
-
-    for (var i = 0; i < stars.length; i++) {
-
-        if (i < number) {
-            stars[i].classList.add("active");
+        function readSavedReviews() {
+            try {
+                var saved = JSON.parse(localStorage.getItem(REVIEW_STORAGE_KEY));
+                return Array.isArray(saved) ? saved : [];
+            } catch (e) {
+                return [];
+            }
         }
 
-        else {
-            stars[i].classList.remove("active");
+        function chooseRating(number) {
+            selectedRating = number;
+            var stars = document.querySelectorAll("#ratingStars .star-btn");
+            for (var i = 0; i < stars.length; i++) {
+                stars[i].classList.toggle("active", i < number);
+            }
         }
 
-    }
+        function createReviewCard(name, review, rating) {
+            var starText = "";
+            for (var i = 1; i <= 5; i++) {
+                starText += i <= rating ? "★" : "☆";
+            }
+            var card = document.createElement("div");
+            card.className = "review-card";
 
-}
+            var stars = document.createElement("div");
+            stars.className = "stars";
+            stars.textContent = starText;
 
+            var reviewText = document.createElement("p");
+            reviewText.textContent = '"' + review + '"';
 
-/* ==================================
-   CREATE A REVIEW CARD
-================================== */
+            var customerName = document.createElement("h4");
+            customerName.textContent = "— " + name;
 
-function createReviewCard(name, review, rating) {
-
-    var starText = "";
-
-
-    /* Create filled and empty stars */
-
-    for (var i = 1; i <= 5; i++) {
-
-        if (i <= rating) {
-            starText = starText + "★";
+            card.appendChild(stars);
+            card.appendChild(reviewText);
+            card.appendChild(customerName);
+            return card;
         }
 
-        else {
-            starText = starText + "☆";
+        function addReview() {
+            var nameBox = document.getElementById("customerName");
+            var reviewBox = document.getElementById("customerReview");
+            var name = nameBox.value.trim();
+            var review = reviewBox.value.trim();
+
+            if (name === "") { showToast("Please enter your name."); nameBox.focus(); return; }
+            if (selectedRating === 0) { showToast("Please select a star rating."); return; }
+            if (review === "") { showToast("Please write your review."); reviewBox.focus(); return; }
+
+            var savedReviews = readSavedReviews();
+            savedReviews.unshift({ name: name, review: review, rating: selectedRating });
+            try { localStorage.setItem(REVIEW_STORAGE_KEY, JSON.stringify(savedReviews)); } catch (e) {}
+
+            document.getElementById("reviewList").prepend(createReviewCard(name, review, selectedRating));
+
+            var message = document.getElementById("successMessage");
+            message.style.display = "block";
+            message.textContent = "☕ Thank you, " + name + "! Your review has been added successfully.";
+            showToast("Thank you! Your review has been added.");
+
+            nameBox.value = "";
+            reviewBox.value = "";
+            chooseRating(0);
         }
 
-    }
-
-
-    /* Create review card */
-
-    var card =
-        document.createElement("div");
-
-    card.className = "review-card";
-
-
-    /* Create stars */
-
-    var stars =
-        document.createElement("div");
-
-    stars.className = "stars";
-
-    stars.textContent = starText;
-
-
-    /* Create review text */
-
-    var reviewText =
-        document.createElement("p");
-
-    reviewText.textContent =
-        '"' + review + '"';
-
-
-    /* Create customer name */
-
-    var customerName =
-        document.createElement("h4");
-
-    customerName.textContent =
-        "— " + name;
-
-
-    /* Put everything inside card */
-
-    card.appendChild(stars);
-
-    card.appendChild(reviewText);
-
-    card.appendChild(customerName);
-
-
-    return card;
-
-}
-
-
-/* ==================================
-   SUBMIT REVIEW
-================================== */
-
-function addReview() {
-
-
-    /* Get name box */
-
-    var nameBox =
-        document.getElementById("customerName");
-
-
-    /* Get review box */
-
-    var reviewBox =
-        document.getElementById("customerReview");
-
-
-    /* Get entered information */
-
-    var name =
-        nameBox.value.trim();
-
-    var review =
-        reviewBox.value.trim();
-
-
-
-    /* CHECK NAME */
-
-    if (name === "") {
-
-        alert("Please enter your name.");
-
-        return;
-
-    }
-
-
-
-    /* CHECK RATING */
-
-    if (selectedRating === 0) {
-
-        alert("Please select a star rating.");
-
-        return;
-
-    }
-
-
-
-    /* CHECK REVIEW */
-
-    if (review === "") {
-
-        alert("Please write your review.");
-
-        return;
-
-    }
-
-
-
-    /* ==================================
-       CREATE NEW REVIEW
-    ================================== */
-
-    var newReview = {
-
-        name: name,
-
-        review: review,
-
-        rating: selectedRating
-
-    };
-
-
-
-    /* ==================================
-       GET PREVIOUSLY SAVED REVIEWS
-    ================================== */
-
-    var savedReviews = [];
-
-    var oldReviews =
-        localStorage.getItem("wanderootReviews");
-
-
-    if (oldReviews !== null) {
-
-        savedReviews =
-            JSON.parse(oldReviews);
-
-    }
-
-
-
-    /* Add new review */
-
-    savedReviews.unshift(newReview);
-
-
-
-    /* ==================================
-       SAVE REVIEWS
-    ================================== */
-
-    localStorage.setItem(
-
-        "wanderootReviews",
-
-        JSON.stringify(savedReviews)
-
-    );
-
-
-
-    /* ==================================
-       SHOW NEW REVIEW ON PAGE
-    ================================== */
-
-    var card =
-        createReviewCard(
-            name,
-            review,
-            selectedRating
-        );
-
-
-    var reviewList =
-        document.getElementById("reviewList");
-
-
-    reviewList.prepend(card);
-
-
-
-    /* ==================================
-       SHOW THANK YOU MESSAGE
-    ================================== */
-
-    var message =
-        document.getElementById("successMessage");
-
-
-    message.style.display = "block";
-
-
-    message.textContent =
-        "☕ Thank you, " +
-        name +
-        "! Your review has been added successfully.";
-
-
-
-    /* ==================================
-       CLEAR FORM
-    ================================== */
-
-    nameBox.value = "";
-
-    reviewBox.value = "";
-
-
-
-    /* Reset rating */
-
-    selectedRating = 0;
-
-
-    var stars =
-        document.querySelectorAll("#ratingStars span");
-
-
-    for (var i = 0; i < stars.length; i++) {
-
-        stars[i].classList.remove("active");
-
-    }
-
-
-
-    /* ==================================
-       THANK YOU POPUP
-    ================================== */
-
-    alert(
-        "Thank you! Your review has been added successfully."
-    );
-
-}
-
-
-
-/* ==================================
-   LOAD SAVED REVIEWS
-================================== */
-
-function loadSavedReviews() {
-
-
-    var oldReviews =
-        localStorage.getItem("wanderootReviews");
-
-
-    /* If there are no saved reviews */
-
-    if (oldReviews === null) {
-
-        return;
-
-    }
-
-
-    var savedReviews =
-        JSON.parse(oldReviews);
-
-
-    var reviewList =
-        document.getElementById("reviewList");
-
-
-
-    /* Show every saved review */
-
-    for (var i = savedReviews.length - 1; i >= 0; i--) {
-
-
-        var card =
-            createReviewCard(
-
-                savedReviews[i].name,
-
-                savedReviews[i].review,
-
-                savedReviews[i].rating
-
-            );
-
-
-        reviewList.prepend(card);
-
-    }
-
-}
-
-
-
-/* Load saved reviews when page opens */
-
-loadSavedReviews();
-
-
-</script>
-
-
+        function loadSavedReviews() {
+            var savedReviews = readSavedReviews();
+            var reviewList = document.getElementById("reviewList");
+            for (var i = savedReviews.length - 1; i >= 0; i--) {
+                reviewList.prepend(createReviewCard(savedReviews[i].name, savedReviews[i].review, savedReviews[i].rating));
+            }
+        }
+
+        loadSavedReviews();
+    </script>
 </body>
-
 </html>

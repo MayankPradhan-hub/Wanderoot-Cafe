@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderoot Café - Artisan Menu & Multi-Angle Food Explorer</title>
+    <title>Wanderoot Café - Artisan Menu &amp; Multi-Angle Food Explorer</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1208,21 +1208,122 @@
             .menu-grid { grid-template-columns: 1fr; }
             .cart-drawer { max-width: 100%; }
         }
+
+        /* ===== Shared footer ===== */
+        .site-footer {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background-color: #21130c;
+            color: #d6c5b5;
+            padding: 40px 8% 24px;
+            border-top: 1px solid #3b2416;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+        .footer-brand { max-width: 380px; }
+        .footer-logo { font-family: 'EB Garamond', Georgia, serif; font-size: 22px; font-weight: 700; color: #fffaf3; margin-bottom: 10px; }
+        .footer-brand p { font-size: 14px; line-height: 1.6; color: #bcaaa4; margin-bottom: 12px; }
+        .footer-address { font-size: 13px; color: #c28d54; }
+        .site-footer h4 { font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+        .footer-links { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+        .footer-links a { color: #d6c5b5; text-decoration: none; transition: color 0.2s ease; }
+        .footer-links a:hover, .footer-links a.active { color: #c28d54; }
+        .footer-contact { font-size: 14px; line-height: 1.8; color: #bcaaa4; }
+        .footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 13px; color: #8d7465; }
+
+        /* ===== Shared motion & accessibility ===== */
+        main { transition: filter 0.15s ease-out; }
+        html { scroll-behavior: smooth; }
+        nav a:focus-visible, .footer-links a:focus-visible, .cart-nav-btn:focus-visible {
+            outline: 2px solid var(--brown-warm);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            main { transition: none; }
+        }
     </style>
 </head>
 
 <body>
+<script>
+    /* Wanderoot Café shared shell — identical on every page (BRAIN.md: mandatory brand elements) */
+    (function () {
+        /* 1. Moka-pot pour loader */
+        var loader = document.createElement('div');
+        loader.id = 'coffee-loader';
+        loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.png" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
+        document.body.prepend(loader);
+        setTimeout(function () {
+            loader.style.opacity = '0';
+            setTimeout(function () { loader.remove(); }, 600);
+        }, 2100);
+
+        /* 2. Velocity-responsive scroll blur on <main> (nav, drawers and modals stay sharp) */
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            var lastY = window.scrollY, lastTime = performance.now();
+            var currentBlur = 0, targetBlur = 0, ticking = false;
+            var animateBlur = function () {
+                var target = document.querySelector('main');
+                currentBlur += (targetBlur - currentBlur) * 0.35;
+                targetBlur *= 0.75;
+                if (currentBlur > 0.04) {
+                    if (target) target.style.filter = 'blur(' + currentBlur.toFixed(2) + 'px)';
+                    requestAnimationFrame(animateBlur);
+                } else {
+                    if (target) target.style.filter = 'none';
+                    currentBlur = 0; targetBlur = 0; ticking = false;
+                }
+            };
+            window.addEventListener('scroll', function () {
+                var now = performance.now();
+                targetBlur = Math.min(1, Math.abs(window.scrollY - lastY) / Math.max(1, now - lastTime) * 0.45);
+                lastY = window.scrollY; lastTime = now;
+                if (!ticking) { ticking = true; animateBlur(); }
+            }, { passive: true });
+        }
+
+        /* 3. Keep sticky page elements just below the navigation bar */
+        var syncNavHeight = function () {
+            var nav = document.querySelector('nav');
+            if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+        };
+        window.addEventListener('resize', syncNavHeight);
+
+        /* 4. Tray badge on pages that have no order-tray drawer (it links to Billing instead) */
+        document.addEventListener('DOMContentLoaded', function () {
+            syncNavHeight();
+            if (typeof window.updateCartUI === 'function') return;
+            var badge = document.getElementById('cartBadge');
+            if (!badge) return;
+            var paint = function () {
+                var count = 0;
+                try {
+                    var cart = JSON.parse(localStorage.getItem('wanderoot_cart'));
+                    if (cart && Array.isArray(cart.items)) {
+                        cart.items.forEach(function (i) { count += Number(i.quantity) || 0; });
+                    }
+                } catch (e) { count = 0; }
+                badge.textContent = count;
+            };
+            paint();
+            window.addEventListener('storage', paint);
+        });
+    })();
+</script>
+
     <nav>
-        <a href="index.html" class="logo-container">
-            <img src="assets/wanderoot-cafe-logo.svg" alt="Wanderoot Café" height="38" style="vertical-align: middle;" onerror="this.style.display='none'; document.getElementById('textLogo').style.display='block';">
-            <div id="textLogo" class="logo" style="display: none;">☕ WANDEROOT CAFÉ</div>
+        <a href="index.html" class="logo-container" aria-label="Wanderoot Café — Menu home">
+            <img src="assets/wanderoot-cafe-logo.svg" alt="Wanderoot Café" height="38" style="vertical-align: middle;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="logo" style="display: none;">☕ WANDEROOT CAFÉ</div>
         </a>
 
         <div class="nav-links">
-            <a href="index.html" class="active"><i class="fa-solid fa-utensils"></i> Menu</a>
+            <a href="index.html" class="active" aria-current="page"><i class="fa-solid fa-utensils"></i> Menu</a>
             <a href="about.html"><i class="fa-solid fa-book-open"></i> About</a>
             <a href="reservation.html"><i class="fa-regular fa-calendar-check"></i> Reservation</a>
-            <a href="billing.html">Billing</a>
+            <a href="billing.html"><i class="fa-solid fa-receipt"></i> Billing</a>
             <a href="review.html"><i class="fa-regular fa-star"></i> Reviews</a>
             <button class="cart-nav-btn" id="navCartBtn" onclick="toggleCartDrawer()" aria-label="View Order Tray">
                 <i class="fa-solid fa-bag-shopping"></i> <span>Tray</span>
@@ -1232,6 +1333,7 @@
         </div>
     </nav>
 
+    <main>
     <section class="hero">
         <div class="hero-content">
             <div class="small-heading">FRESHLY ROASTED & HANDCRAFTED DAILY</div>
@@ -1270,7 +1372,7 @@
         </div>
     </div>
 
-    <main class="menu-container">
+    <div class="menu-container">
         <div class="section-header">
             <div>
                 <h2 id="activeCategoryHeading">All Handcrafted Delights</h2>
@@ -1282,7 +1384,48 @@
         </div>
 
         <div class="menu-grid" id="menuCardsGrid"></div>
+    </div>
+
+    <section class="bottom-section">
+        <h2>Reserve Your Favorite Nook at Wanderoot Café</h2>
+        <p>Planning a morning coffee work session, a romantic sunset high tea, or weekend brunch with loved ones?</p>
+        <a href="reservation.html" class="reservation-cta-btn"><i class="fa-regular fa-calendar-days"></i> Reserve a Table Online</a>
+    </section>
+
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">☕ WANDEROOT CAFÉ &amp; ROASTERY</div>
+                <p>Artisanal roastery &amp; Himalayan valley bistro in Landour. Freshly roasted single-origin coffees, handcrafted slow-bakes, and scenic veranda seating.</p>
+                <div class="footer-address"><i class="fa-solid fa-location-dot"></i> Sisters Bazaar, Landour, Mussoorie, Uttarakhand</div>
+            </div>
+            <div>
+                <h4>Navigation</h4>
+                <div class="footer-links">
+                    <a href="index.html" class="active"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
+                    <a href="about.html"><i class="fa-solid fa-angle-right"></i> Our Story / About</a>
+                    <a href="reservation.html"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
+                    <a href="billing.html"><i class="fa-solid fa-angle-right"></i> Billing &amp; Payment</a>
+                    <a href="review.html"><i class="fa-solid fa-angle-right"></i> Guest Reviews</a>
+                    <a href="index.html#coffee"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
+                    <a href="index.html#pastries"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
+                </div>
+            </div>
+            <div>
+                <h4>Hours &amp; Contact</h4>
+                <div class="footer-contact">
+                    <div><i class="fa-regular fa-clock"></i> Mon – Sun: 7:30 AM – 10:00 PM</div>
+                    <div><i class="fa-solid fa-phone"></i> +91 98765 43210</div>
+                    <div><i class="fa-brands fa-whatsapp"></i> WhatsApp Order Support</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Wanderoot Café &amp; Roastery | Artisan Menu, Table Reservations &amp; Guest Stories
+        </div>
+    </footer>
 
     <!-- MODAL -->
     <div class="modal-overlay" id="angleModalOverlay" onclick="closeModalOnOutsideClick(event)">
@@ -1328,43 +1471,6 @@
             </div>
         </div>
     </div>
-
-    <section class="bottom-section">
-        <h2>Reserve Your Favorite Nook at Wanderoot</h2>
-        <p>Planning a morning coffee work session, a romantic sunset high tea, or weekend brunch with loved ones?</p>
-        <a href="reservation.html" class="reservation-cta-btn"><i class="fa-regular fa-calendar-days"></i> Reserve a Table Online</a>
-    </section>
-
-    <footer style="background-color: #21130c; color: #d6c5b5; padding: 40px 8% 24px; border-top: 1px solid #3b2416;">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; text-align: left;">
-            <div style="max-width: 380px;">
-                <div style="font-family: 'EB Garamond', Georgia, serif; font-size: 22px; font-weight: 700; color: #fffaf3; margin-bottom: 10px;">☕ WANDEROOT CAFÉ &amp; ROASTERY</div>
-                <p style="font-size: 14px; line-height: 1.6; color: #bcaaa4; margin-bottom: 12px;">Artisanal roastery &amp; Himalayan valley bistro in Landour. Freshly roasted single-origin coffees, handcrafted slow-bakes, and scenic veranda seating.</p>
-                <div style="font-size: 13px; color: var(--brown-gold);"><i class="fa-solid fa-location-dot"></i> Sisters Bazaar, Landour, Mussoorie, Uttarakhand</div>
-            </div>
-            <div>
-                <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Navigation</h4>
-                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
-                    <a href="index.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Artisan Menu</a>
-                    <a href="about.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Our Story / About</a>
-                    <a href="reservation.html" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Table Reservation</a>
-                    <a href="index.html#coffee" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Specialty Coffee</a>
-                    <a href="index.html#bakery" style="color: #d6c5b5; text-decoration: none;"><i class="fa-solid fa-angle-right"></i> Bakery &amp; Pastries</a>
-                </div>
-            </div>
-            <div>
-                <h4 style="font-family: 'EB Garamond', Georgia, serif; color: #fffaf3; font-size: 18px; margin-bottom: 12px;">Hours &amp; Contact</h4>
-                <div style="font-size: 14px; line-height: 1.8; color: #bcaaa4;">
-                    <div><i class="fa-regular fa-clock"></i> Mon – Sun: 7:30 AM – 10:00 PM</div>
-                    <div><i class="fa-solid fa-phone"></i> +91 98765 43210</div>
-                    <div><i class="fa-brands fa-whatsapp"></i> WhatsApp Order Support</div>
-                </div>
-            </div>
-        </div>
-        <div style="max-width: 1200px; margin: 30px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 13px; color: #8d7465;">
-            © 2026 Wanderoot Café &amp; Roastery | Dedicated Artisan Menu &amp; Table Reservation System
-        </div>
-    </footer>
 
     <!-- ORDER TRAY / CART DRAWER -->
     <div class="cart-drawer-overlay" id="cartDrawerOverlay" onclick="closeCartDrawer()"></div>
@@ -1993,28 +2099,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Moka-pot coffee loader animation (permanent brand identity)
-            const loader = document.createElement("div");
-            loader.id = "coffee-loader";
-            loader.innerHTML = '<div class="loader-stage" role="img" aria-label="A vintage moka pot pouring coffee into a cup"><img class="moka-pot" src="assets/moka-pot-loader.png" alt=""/><span class="pour-stream"></span><span class="loader-cup"><span class="coffee-fill"></span></span></div>';
-            document.body.prepend(loader);
-
-            setTimeout(() => {
-                loader.style.opacity = "0";
-                setTimeout(() => loader.remove(), 600);
-            }, 1800);
-
-            // Velocity-responsive scroll blur scoped to main
-            let scrollTimeout;
-            window.addEventListener('scroll', () => {
-                const main = document.querySelector('main');
-                if (main) main.style.filter = 'blur(1px)';
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    if (main) main.style.filter = 'none';
-                }, 100);
-            });
-
             // Cross-tab storage synchronizer
             window.addEventListener('storage', (e) => {
                 if (e.key === CART_STORAGE_KEY) {
@@ -2026,6 +2110,16 @@
 
             renderMenuItems();
             updateCartUI();
+
+            // Deep links such as index.html#coffee or index.html#pastries pre-select that category
+            const applyHashCategory = () => {
+                const key = window.location.hash.replace('#', '');
+                if (!key) return;
+                const pill = document.querySelector(`.category-pill[onclick^="filterCategory('${key}'"]`);
+                if (pill) pill.click();
+            };
+            applyHashCategory();
+            window.addEventListener('hashchange', applyHashCategory);
         });
 
         function renderMenuItems() {

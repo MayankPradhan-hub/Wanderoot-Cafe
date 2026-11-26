@@ -1,6 +1,6 @@
-# Wanderoot Café — Menu & Table Reservation System
+# Wanderoot Café — Menu, Reservation, Billing & Reviews
 
-A standalone, artisanal web platform designed specifically for **Menu Browsing** and **Interactive Table Reservations** for Wanderoot Café & Roastery, Landour, Mussoorie.
+A standalone, artisanal web platform for **Menu Browsing**, **Interactive Table Reservations**, **Billing** and **Guest Reviews** for Wanderoot Café & Roastery, Landour, Mussoorie.
 
 ---
 
@@ -27,8 +27,15 @@ A standalone, artisanal web platform designed specifically for **Menu Browsing**
 - **Calendar & Notification Sync**: 1-click export to **Google Calendar**, **Apple/Outlook (.ICS)**, and direct **WhatsApp** reservation notification.
 - **Active Bookings Manager**: View and manage upcoming table reservations saved securely in browser storage.
 
-### 3. Signature Brand Identity
-- **Vintage Moka-Pot Pour Animation**: Branded kettle-pouring coffee loading animation on page load (`assets/moka-pot-loader.jpg`).
+### 3. Our Story, Billing & Guest Reviews
+- **Our Story (`about.html`)**: The founder's journey, architecture and the Winter Line sunset status.
+- **Billing (`billing.html`)**: Order summary from your tray, customer details, payment method selection and confirmation.
+- **Guest Reviews (`review.html`)**: Read guest stories and add your own star rating and review (saved in your browser).
+
+### 4. Signature Brand Identity (identical on every page)
+- **Vintage Moka-Pot Pour Animation**: Branded coffee-pouring loading animation on every page load (`assets/moka-pot-loader.png`).
+- **Scroll Motion Blur**: A subtle, velocity-responsive blur on page content while scrolling (disabled for visitors who prefer reduced motion).
+- **One Navigation & Footer**: Menu · About · Reservation · Billing · Reviews on every page.
 - **Official Brand Typography**: Custom styling with `EB Garamond` serif and `Plus Jakarta Sans`.
 
 ---
@@ -40,11 +47,15 @@ A standalone, artisanal web platform designed specifically for **Menu Browsing**
 ├── assets/
 │   ├── gabled-tin-roofs-stone-lintels.jpg
 │   ├── moka-pot-loader.jpg
+│   ├── moka-pot-loader.png
 │   ├── mussoorie-dusk-horizon.jpg
 │   └── wanderoot-cafe-logo.svg
 ├── index.html         # Main entry point (Artisan Menu)
-├── menu.html          # Synchronized Menu page
+├── menu.html          # Mirror of index.html (keep in sync)
+├── about.html         # Our Story
 ├── reservation.html   # Interactive Table Reservation System
+├── billing.html       # Billing & Payment
+├── review.html        # Guest Reviews
 ├── BRAIN.md           # Project architecture and design memory
 ├── README.md          # Documentation
 └── .gitignore
